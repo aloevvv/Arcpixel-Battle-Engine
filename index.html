@@ -5215,16 +5215,7 @@ if (willHideBattleBlackout) {
   const DROP_CHANCE = 0.30;
 //bolts
   const boltDroppers = new Set([
-    'Sniperbot',
-    'Puncherbot',
-    'Partybot',
-    'Mousebot',
-    'Drunkard',
-    'Partyguard',
-    'Partyblocker',
-    'Partygoers',
-    'Attictank',
-    'Atticsniper'
+    'Sniperbot'
   ]);
 
   let bonusBolts = 0;
@@ -5234,13 +5225,10 @@ if (willHideBattleBlackout) {
     const currentBolts = inventory.get('bolts') || 0;
     inventory.set('bolts', currentBolts + 1 + bonusBolts);
   }
+  
 //gears
   const normalGearDroppers = new Set([
-    'Sniperbot',
-    'Puncherbot',
-    'Partybot',
-    'Mousebot',
-    'Drunkard'
+    'Sniperbot'
   ]);
     
   if (normalGearDroppers.has(enemy.type) && Math.random() < 0.03) {
@@ -5251,10 +5239,8 @@ if (willHideBattleBlackout) {
     const currentHpI = inventory.get('gear_hp_gear_1') || 0;
     inventory.set('gear_hp_gear_1', currentHpI + 1);
   }
-//other shit
-if (enemy.type === 'Partyblocker') {
-  gameFlags.carpass = true;
-}    
+//other
+
    if (equippedGears.includes('vampire_gear')) {
   let healedHp = playerStats.currentHp + 0.1 * playerStats.maxHp;
   healedHp = Math.min(playerStats.maxHp, Math.max(0, healedHp));
@@ -5263,37 +5249,11 @@ if (enemy.type === 'Partyblocker') {
   updateHp(playerStats.currentHp);
 }
     
-    if (enemy.type === "CritBoss") {
-    setTimeout(() => {
-        showDialog([
-            { speaker: "Deadshot", text: "Argh...", style: 'unit' },
-            { speaker: "Deadshot", text: "I feel weak... but cleared.", style: 'unit' },
-            { speaker: "Deadshot", text: "Normal.", style: 'unit' },
-            { speaker: "Deadshot", text: "8-Bit, I am so sorry for my betrayal.", style: 'unit' },
-            { speaker: "Deadshot", text: "I wish things hadn't come to this, but they had.", style: 'unit' },
-            { speaker: "Deadshot", text: "It was nice to meet you, but I fear this is the end.", style: 'unit' },
-            { speaker: "Deadshot", text: "I understand if you decide to finish me off.", style: 'unit' },
-            { speaker: "Deadshot", text: "You cannot trust me again.", style: 'unit' },
-            { speaker: "8-Bit", text: "I...", style: 'dialog' }
-        ]);
-    }, 1000);
-}
 
   
   achievementsMap['kill_enemies'].progress++;
   achievementsMap['kill_enemies2'].progress++;
   achievementsMap['kill_enemies3'].progress++;
-  if (enemy.type === 'OldBot') achievementsMap['old_man_killer'].progress = 1;
-  if (enemy.type === 'BossBot' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_bossbot'].progress = 1;
-  if (enemy.type === 'IceBoss' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_icebot'].progress = 1;
-  if (enemy.type === 'LifeStealBoss' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_lifestealboss'].progress = 1;
-  if (enemy.type === 'CritBoss' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_critboss'].progress = 1;
-  if (enemy.type === 'CaveBoss' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_caveboss'].progress = 1;
-  if (enemy.type === 'MountainBoss' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_mountainboss'].progress = 1;
-  if (enemy.type === 'GhostBoss' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_ghostboss'].progress = 1;
-  if (enemy.type === 'SecondStageBossStage2' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_factoryboss'].progress = 1;
-  if (enemy.type === 'IslandBoss' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_islandboss'].progress = 1;
-  if (enemy.type === 'FinalBossStage3' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_finaleboss'].progress = 1;
   if (enemy.type === 'Dummy') achievementsMap['kill_tutorial_dummy'].progress = 1;
   checkAchievements();
 
@@ -5322,7 +5282,6 @@ if (enemy.weakened) {
   enemy.stunned = false;
   enemy.poisoned = false;
 
-  // if no enemies remain, either end the battle round (endBattle('win') will check rounds) or spawn next round is handled in endBattle
   if (activeEnemies.length === 0) {
     endBattle('win');
   } else {
@@ -5331,7 +5290,7 @@ if (enemy.weakened) {
     drawPartyStatus();
   }
 }
-    
+    // you can ignore this it doesnt really work
 function healAllyAfterBattle() {
   if (activeAlly && activeAlly.currentHp > 0) {
     const healAmount = Math.ceil(activeAlly.maxHp * 0.33);
@@ -5544,7 +5503,6 @@ setInterval(() => {
   battleRounds = currentRoundEncounters.length;
   currentRoundIndex = 0;
 
-  // Spawn first round
   spawnRound(currentRoundIndex);
   
   if (equippedAllyId && unlockedAllies.has(equippedAllyId)) {
@@ -5580,32 +5538,12 @@ setInterval(() => {
   drawBattleUI();
   drawPlayerBattleStatus();
 
-  if (activeEnemies.length > 0 && activeEnemies[0].type === 'OldBot') {
-    showBattleDialog([
-      { speaker: 'Old Bot', text: "My old cane will break your frame!", style: 'npc' },
-      { speaker: '8-Bit', text: "Oh, you're one to talk, old man." }
-    ]);
-  }
   
   if (activeEnemies.length > 0 && activeEnemies[0].type === 'Dummy') {
     showBattleDialog([
-      { speaker: '8-Bit', text: "Oh damn, it's been a while since I've brawled." },
-      { speaker: '8-Bit', text: "There's an attack button I think I gotta press." }
+      { speaker: '8-Bit', text: "intro enemy text." }
     ]);
   }
-      if (activeEnemies.length > 0 && activeEnemies[0].type === 'Partyblocker') {
-    showBattleDialog([
-      { speaker: 'Bot', text: "Yeah, we're strong and we're gonna kick your ass!", style: 'npc' }
-    ]);
-  }
-  if (activeEnemies.length > 0 && activeEnemies[0].type === 'Partyguard') {
-    showBattleDialog([
-      { speaker: 'Bodyguard', text: "You shall not pass, brawler!", style: 'npc' },
-      { speaker: '8-Bit', text: "Excuse me? You're the intruder here, not me, man.", style: 'dialog' },
-      { speaker: 'Bodyguard', text: "Enough chat. The party must not be stopped.", style: 'npc' }
-    ]);
-  }
-}
 
   function performEnemyAction(enemy) {
   if (!inBattle || isGameOver || enemy.currentHp <= 0) return;
