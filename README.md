@@ -7,4 +7,4 @@ I built my own engine for my fangame, 8-Bit's Adventure, but I decided, why not 
 <br>Inventory: inventory.set, drawEquipsUI(),
 <br>Special Items: x
 <br>Overworld: x
-<br>Dialogue: showDialog(), showBattleDialog(),
+<br>Dialogue: showDialog(), showBattleDialog(), showDialogWithOptions
