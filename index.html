@@ -1037,6 +1037,7 @@ canvas.focus();
 canvas.addEventListener('click', () => canvas.focus());
 
 const devMode = false;
+  
 // Player and game variables
 let isGameOver = false;
 let x = 150, y = 50;
@@ -1056,10 +1057,10 @@ const playerSprites = {
   right: new Image()
 };
 
-playerSprites.down.src = '8bit.png';
-playerSprites.up.src = '8bitup.png';
-playerSprites.left.src = '8bitleft.png';
-playerSprites.right.src = '8bitright.png';
+playerSprites.down.src = 'herodown.png';
+playerSprites.up.src = 'heroup.png';
+playerSprites.left.src = 'heroleft.png';
+playerSprites.right.src = 'heroright.png';
 
 let currentFacing = 'down';
 
@@ -1069,21 +1070,8 @@ const hpText = document.getElementById('hp-text');
 let selectedEnemyIndex = 0;
 let allyTargetMode = 'Current';
 let gameFlags = {
-  firsthit: false,
-  isPowered: false,
-  arcadegatetalk: false,
-  arcadegate2: false,
-  arcadeoldbottalk: false,
-  arcadeoldbotNO: false,
-  arcadeoldbottea: false,
-  carpass: false,
-  atticlever: false,
-  birthdaybottalk: false,
-  birthdaybotkilled: false,
-  birthdaybotspared: false,
-  louRecruited: false,
-  interactedWithDeadBody: false,
-  lightsFixed: false
+  flag1: false,
+  flag2: false
 };
 
 let goodPoints = 0;
@@ -1102,19 +1090,9 @@ let _battleDialogPausedState = null;
 
 const zoneSprites = {
   fail: new Image (),
-  robot: new Image(),
-  bodyguard: new Image(),
-  partygoers: new Image(),
-  puncher: new Image(),
-  mouse: new Image(),
-  bossrobot: new Image()
+  robot: new Image()
 };
 zoneSprites.fail.src = 'fail.png';
-  zoneSprites.bodyguard.src = 'bodyguard.png';
-  zoneSprites.partygoers.src = 'partygoers.png';
-  zoneSprites.puncher.src = 'puncher.png';
-  zoneSprites.mouse.src = 'mouse.png';
-zoneSprites.bossrobot.src = 'bossrobot.png';
 zoneSprites.robot.src = 'robot.png';
 
 function drawBreathing() {
@@ -1144,20 +1122,10 @@ function drawBreathing() {
 }
 
 
-
-let darkTimerMs = 0;
-let darkTimerLimitMs = 30000;
-let darkTimerTickInterval = null;
-const darkTimerTickMs = 100;
-let darkTimerActive = false;
-
 let sliding = false;
 let slidingDirection = { dx: 0, dy: 0 };
 let slidingIntervalId = null;
 const SLIDE_STEP_MS = 120; 
-
-
-
 
 let _typingInterval = null;
 let _isTyping = false;
@@ -1216,7 +1184,7 @@ let equippedGears = [null, null, null];
   v8:    { name: "V8 Armor", hpBonus: 0.20, passiveHealPercent: 0, desc: "+ 20% HP" },
   saloon:{ name: "Saloon Armor", hpBonus: 0.40, passiveHealPercent: 0.02, desc: "+ 40% HP, heals 1% per sec" },
   haunted:{name: "Haunted Armor", hpBonus: 0.30, passiveHealPercent: 0, blockChance: 0.15, desc: "+ 30% HP, 30% chance to block" },
-  virus: { name: "Virus Armor", hpBonus: 0.50, passiveHealPercent: 0, desc: "FORBIDDEN TO WEAR, TURN BACK 8-BIT, THERE IS STILL GOOD INSIDE YOU" }
+  virus: { name: "Virus Armor", hpBonus: 0.50, passiveHealPercent: 0, desc: "Corrupted Armor" }
 };
 
 const weaponTypes = {
@@ -1224,7 +1192,7 @@ const weaponTypes = {
   v8:    { name: "V8 Weapon", dmgBonus: 0.20, desc: "+ 20% Damage" },
   saloon:{ name: "Saloon Weapon", dmgBonus: 0.15, desc: "+ 15% Damage" },
   haunted:{name: "Haunted Weapon", dmgBonus: 0.25, desc: "+ 25% Damage" },
-  virus: { name: "Virus Weapon", dmgBonus: 0.50, desc: "DO NOT EQUIP, 8-BIT, THE EVIL IS CORRUPTING YOU" }
+  virus: { name: "Corrupted Weapon", dmgBonus: 0.50, desc: "Corrupted Weapon" }
 };
 
 let equippedArmor = null; 
@@ -1297,20 +1265,8 @@ inventory.set("extra_life", 0);
 inventory.set("damage_potion", 0);
 inventory.set("stamina_potion", 0);
 inventory.set("anti_virus", 0);
-inventory.set("driftwood", 0);
 
-inventory.set("bolts", 5);
-inventory.set("water", 0);
-inventory.set("boiled_water", 0);
-inventory.set("water_1", 0);
-inventory.set("tealeaf", 0);
-inventory.set("seed_tealeaf", 0);
-inventory.set("seed_spice", 0);
-inventory.set("honey", 0);
-inventory.set("spice", 0);
-inventory.set("b_tea", 0);
-inventory.set("h_tea", 0);
-inventory.set("s_tea", 0);
+inventory.set("bolts", 0); // currency, change to coins or any other
   
 inventory.set("hammer", 0);
 inventory.set("laser_cutter", 0);
@@ -1377,7 +1333,6 @@ let playerStats = {
   xpToNextLevel: 10,
   currentStamina: 50,
   maxStamina: 200,
-
   baseMaxHp: 16,
   baseDamage: 2
 };
@@ -1436,12 +1391,7 @@ const enemyTypes = {
 };
 
   const speakerConfigs = {
-  '8-Bit': { speed: 30, pitch: 1.0, frequency: 2, sound: 'blip.wav' },
-  'New': { speed: 30, pitch: 1.0, frequency: 2, sound: 'blub2.mp3' },
-  'Birthday Bot': { speed: 30, pitch: 1.7, frequency: 3, sound: 'blip.wav' },
-  'BossRobot': { speed: 30, pitch: 0.6, frequency: 2, sound: 'blip.wav' }, 
-  'Bodyguard': { speed: 30, pitch: 0.7, frequency: 1, sound: 'blip.wav' },
-  'Guard': { speed: 40, pitch: 0.6, frequency: 1, sound: 'blip.wav' },
+  'Hero': { speed: 30, pitch: 1.0, frequency: 2, sound: 'blip.wav' },
   'default': { speed: 30, pitch: 1.0, frequency: 2, sound: 'blip.wav' }
 };
 
