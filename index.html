@@ -666,35 +666,6 @@
   display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #333;
 }
 
-.tp-target {
-  position: absolute;
-  width: 64px;
-  height: 64px;
-  border-radius: 8px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor: pointer;
-  user-select: none;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.6);
-  transition: transform 0.08s ease;
-}
-    #slapjack-overlay .item-use-button { font-family: "Press Start 2P", sans-serif; padding:6px 8px; border:2px solid white; background:#333; color:white; cursor:pointer; }
-#slapjack-overlay .item-use-button:disabled { opacity:0.5; pointer-events:none; }
-
-.tp-target:active { transform: scale(0.92); }
-.tp-target.normal { background: radial-gradient(circle at 30% 30%, #fff, #ffcccc 30%, #dd3333 60%); border:2px solid #fff; }
-.tp-target.golden { background: radial-gradient(circle at 30% 30%, #fff9d6, #ffd24d 40%, #ffb400 70%); border:2px solid #fff2a8; width:72px; height:72px; }
-.tp-target-label { font-size:12px; color:#000; font-weight:bold; text-shadow:1px 1px 0 rgba(255,255,255,0.2); pointer-events:none; }
-
-    #battle-blackout {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 2500; 
-  background: black;
-  pointer-events: none;
-}
     *{
   cursor: url("cursor2.png") 6 0, auto;
 }
@@ -1028,9 +999,6 @@ a:hover,
   <div id="ach-popup-desc" style="font-size: 8px; line-height: 1.4; opacity: 0.8;"></div>
 </div>
 
-
-  
-<div id="battle-blackout" style="display:none; position:fixed; inset:0; z-index:2500; background:black; pointer-events:none;"></div>
   
 <div id="mobile-controls" style="display:none; position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); width: 220px; user-select:none; z-index: 3000;">
 
@@ -1190,19 +1158,7 @@ const SLIDE_STEP_MS = 120;
 
 
 
-const progressiveDarkEl = document.getElementById('battle-blackout') || (() => {
-  const el = document.createElement('div');
-  el.id = 'battle-blackout';
-  el.style.position = 'fixed';
-  el.style.inset = '0';
-  el.style.zIndex = '2500';
-  el.style.background = 'black';
-  el.style.pointerEvents = 'none';
-  el.style.display = 'none';
-  document.body.appendChild(el);
-  return el;
-})();
-  
+
 let _typingInterval = null;
 let _isTyping = false;
 let _fullTextToDisplay = "";
@@ -2732,45 +2688,6 @@ if (inBattle) {
     updateStamina(playerStats.currentStamina + 100);
     drawPlayerBattleStatus();
     
-} else if (itemName === 'driftwood') {
-    if (!IslandBossPresent()) {
-      showTemporaryText("This driftwood seems useless here.");
-      return;
-    }
-    if (!window._raft) window._raft = { maxHp: 12, hp: 12 };
-    if (window._raft.hp >= window._raft.maxHp) {
-      showTemporaryText("Your raft is already at full health.");
-    } else {
-      window._raft.hp = Math.min(window._raft.maxHp, window._raft.hp + 1);
-      showTemporaryText(`You repair the raft with driftwood. Raft HP +1 (${window._raft.hp}/${window._raft.maxHp})`);
-      drawPlayerBattleStatus();
-      drawBattleUI();
-    }
-  } else if (itemName === 'anti_virus') {
-    const boss = activeEnemies.find(e => e.type === "CritBoss");
-    if (boss && (boss.currentHp / boss.maxHp) <= 0.25) {
-        inBattle = false;
-        if (enemyAttackIntervalId) clearInterval(enemyAttackIntervalId);
-        if (boss._drainInterval) clearInterval(boss._drainInterval);
-        
-        document.getElementById('battle-overlay').style.display = 'none';
-        goodPoints += 1;
-
-        showDialog([
-          { speaker: boss.name, text: "I... I feel normal again.", style: 'unit' }
-        ], null, {
-          onComplete: () => {
-            gainXP(boss.xpReward);
-            if (defeatedZone) removeZone(defeatedZone);
-            activeEnemies = [];
-            draw();
-          }
-        });
-        return;
-    } else {
-        return;
-    }
-    
   } else if (itemName === 'extra_life') {
     if (extraLifeTimerId) {
       clearTimeout(extraLifeTimerId);
@@ -2793,38 +2710,6 @@ if (inBattle) {
   drawPartyStatus();
   drawPlayerBattleStatus();
 }
-
-function updateProgressiveDarknessUI() {
-  if (!progressiveDarkEl) return;
-  const frac = Math.min(1, Math.max(0, darkTimerMs / darkTimerLimitMs));
-  progressiveDarkEl.style.display = frac > 0 ? 'block' : 'none';
-  progressiveDarkEl.style.opacity = String(Math.min(0.95, frac * 0.95));
-
-  if (!document.getElementById('dark-timer-hud')) {
-    const hud = document.createElement('div');
-    hud.id = 'dark-timer-hud';
-    hud.style.position = 'fixed';
-    hud.style.top = '6px';
-    hud.style.left = '50%';
-    hud.style.transform = 'translateX(-50%)';
-    hud.style.zIndex = '4000';
-    hud.style.color = '#fff';
-    hud.style.fontFamily = "'Press Start 2P', sans-serif";
-    hud.style.fontSize = '12px';
-    hud.style.background = 'rgba(0,0,0,0.5)';
-    hud.style.padding = '6px 10px';
-    hud.style.border = '2px solid rgba(255,255,255,0.06)';
-    hud.style.borderRadius = '6px';
-    document.body.appendChild(hud);
-  }
-  const hud = document.getElementById('dark-timer-hud');
-  if (hud) {
-    const secondsLeft = Math.max(0, Math.ceil((darkTimerLimitMs - darkTimerMs) / 1000));
-    hud.textContent = `Dark Timer: ${secondsLeft}s`;
-    hud.style.opacity = frac > 0 ? '1' : '0';
-  }
-}
-
 
 function drawBattleUI() {
   const battleOverlay = document.getElementById('battle-overlay');
@@ -3029,34 +2914,8 @@ function drawPlayerBattleStatus() {
       targetDiv.appendChild(btn);
     });
     playerBattleStatusDiv.appendChild(targetDiv);
-  }
-  
-  if (window._raft) {
-    const raftContainer = document.createElement('div');
-    raftContainer.className = 'hp-bar-container';
-    raftContainer.style.width = '100%';
-    raftContainer.style.height = '12px';
-    raftContainer.style.position = 'relative';
-    raftContainer.style.marginTop = '6px';
-
-    const raftBar = document.createElement('div');
-    raftBar.className = 'hp-bar';
-    const raftPercent = (window._raft.hp / window._raft.maxHp) * 100;
-    raftBar.style.width = `${Math.max(0, raftPercent)}%`;
-    raftBar.style.height = '100%';
-    raftBar.style.backgroundColor = '#8B5A2B';
-
-    const raftText = document.createElement('div');
-    raftText.className = 'hp-text';
-    raftText.style.fontSize = '0.7em';
-    raftText.textContent = `Raft: ${window._raft.hp}/${window._raft.maxHp}`;
-
-    raftContainer.appendChild(raftBar);
-    raftContainer.appendChild(raftText);
-    playerBattleStatusDiv.appendChild(raftContainer);
-  }
+  }  
 }
-
 
 
 
@@ -4048,64 +3907,6 @@ handleEnemyDeath = function(enemy, idx) {
   return res;
 };
   
-function IslandBossPresent() {
-  return activeEnemies && activeEnemies.some(e => e && e.type === 'IslandBoss');
-}
-
-function islandBossBehavior(enemy, target) {
-  if (enemy.shieldActive || enemy.stunned) return;
-
-  // ensure raft exists for this fight; if not, initialize safe default
-  if (!window._raft) window._raft = { maxHp: 12, hp: 12 };
-
-  // per-action cooldown so boss doesn't attack every tick (tune ms)
-  if (!enemy._lastAction) enemy._lastAction = 0;
-  const now = Date.now();
-  if (now - enemy._lastAction < 800) return; // boss acts at most ~once per 800ms
-  enemy._lastAction = now;
-
-  // choose target (50/50 preference for ally if present)
-  let chosen = playerStats;
-  if (activeAlly && activeAlly.currentHp > 0 && Math.random() < 0.5) chosen = activeAlly;
-
-  // Attack landing logic only reduces raft when it damages the player (not ally)
-  const isPiercing = Math.random() < 0.25; // 25% piercing
-  const baseDamage = Math.max(0, Number(enemy.damage) || 0);
-
-  if (chosen === playerStats) {
-    // damage player
-    playerTakeDamage(baseDamage);
-    // drain raft HP: 1 normal, 2 piercing
-    const drain = isPiercing ? 2 : 1;
-    window._raft.hp = Math.max(0, window._raft.hp - drain);
-    showTemporaryText(`${enemy.name} attacks your raft and you for ${baseDamage} damage! Raft -${drain}.`);
-    // piercing special message
-    if (isPiercing) showTemporaryText(`${enemy.name} pierced through the raft!`);
-    drawPlayerBattleStatus();
-    drawBattleUI();
-
-    // raft destroyed => player dies immediately
-    if (window._raft.hp <= 0) {
-      showTemporaryText('Your raft breaks apart — you are lost to the sea!');
-      // Force player death/instant lose
-      playerStats.currentHp = 0;
-      updateHp(0);
-      endBattle('lose');
-      return;
-    }
-  } else {
-    // hit ally only, does not drain raft
-    activeAlly.currentHp = Math.max(0, activeAlly.currentHp - baseDamage);
-    showTemporaryText(`${enemy.name} hits ${activeAlly.name} for ${baseDamage} damage!`);
-    if (activeAlly.currentHp === 0) {
-      showTemporaryText(`${activeAlly.name} has been defeated!`);
-      clearInterval(activeAlly.attackTimerId);
-      activeAlly.attackTimerId = null;
-    }
-    drawPartyStatus();
-    drawBattleUI();
-  }
-}
 
   function factoryBehavior(enemy, target) {
   // one-time init
@@ -4466,81 +4267,6 @@ function critBossBehavior(enemy, target) {
 }
 
 
-  const battleBlackoutEl = document.getElementById('battle-blackout');
-
-function showBattleBlackout() {
-  if (!battleBlackoutEl) return;
-  battleBlackoutEl.style.display = 'block';
-}
-
-function hideBattleBlackout() {
-  if (!battleBlackoutEl) return;
-  battleBlackoutEl.style.display = 'none';
-}
-// this is the defunct endbattle idk why i have 2 of em why doesnt the game crash idk
-function endBattle(outcome) {
-  inBattle = false;
-  document.getElementById('battle-overlay').style.display = 'none';
-
-  if (staminaRegenIntervalId) { clearInterval(staminaRegenIntervalId); staminaRegenIntervalId = null; }
-  if (enemyAttackIntervalId) { clearInterval(enemyAttackIntervalId); enemyAttackIntervalId = null; }
-
-  if (outcome === 'win') {
-    let totalXp = activeEnemies.reduce((sum, enemy) => sum + (enemy.xpReward || 0), 0);
-
-    for (const enemy of activeEnemies) {
-      if (enemy.type === "SecondStageBossStage1" && enemy.currentHp <= 0) {
-        // Remove stage 1 enemy and spawn stage 2 boss
-        activeEnemies = activeEnemies.filter(e => e !== enemy);
-
-        const stage2Base = enemyTypes[enemyTypes.SecondStageBossStage1.secondStageType];
-        const stage2Stats = scaleEnemyStats(stage2Base);
-        const stage2Enemy = {
-          type: "SecondStageBossStage2",
-          name: stage2Stats.name,
-          maxHp: stage2Stats.maxHp,
-          currentHp: stage2Stats.maxHp,
-          damage: stage2Stats.damage,
-          xpReward: stage2Stats.xpReward,
-          shieldActive: false,
-          shieldCooldownEnd: 0,
-          rocketActive: false,
-          rocketTicksLeft: 0,
-          stunned: false,
-          poisoned: false
-        };
-
-        activeEnemies.push(stage2Enemy);
-        showTemporaryText(`${stage2Enemy.name} emerges!`);
-        inBattle = true;
-        drawBattleUI();
-        drawPlayerBattleStatus();
-        return; 
-      }
-    }
-
-    if (activeEnemies.length === 0) {
-      gainXP(totalXp);
-      playerStats.currentHp = playerStats.maxHp;
-      updateHp(playerStats.currentHp);
-      if (defeatedZone) removeZone(defeatedZone);
-      activeEnemies = [];
-      defeatedZone = null;
-      draw();
-      document.getElementById('player-battle-status').innerHTML = '';
-      return;
-    }
-  } else if (outcome === 'lose') {
-    showGameOver();
-  }
-}
-
-  function oldBotBehavior(enemy, target) {
-    applyStatusEffect(playerStats, 'weaken', 99999);
-    normalAttack(enemy, target);
-}
-
-
 function smokeBehavior(enemy, target) {
     const now = Date.now();
     if (!enemy._lastFogAt) enemy._lastFogAt = 0;
@@ -4553,7 +4279,7 @@ function smokeBehavior(enemy, target) {
     normalAttack(enemy, target);
 }
 
-// Healer: heals all allies every 3 seconds
+// Healer
 function healerBehavior(enemy) {
   if (!enemy.lastHealTime) enemy.lastHealTime = 0;
   const now = Date.now();
@@ -4563,7 +4289,7 @@ function healerBehavior(enemy) {
 
     activeEnemies.forEach(ally => {
       if (ally.currentHp < ally.maxHp) {
-        const healAmount = Math.floor(ally.maxHp * 0.15); // Heals 15% max HP
+        const healAmount = Math.floor(ally.maxHp * 0.15);
         ally.currentHp += healAmount;
         if (ally.currentHp > ally.maxHp) ally.currentHp = ally.maxHp;
       }
@@ -4583,120 +4309,6 @@ function healerBehavior(enemy) {
   sheepLifetimeMs: 3000,         // sheep exist for 3s then are "eaten"
   sheepHealPercent: 0.05         // heal boss for 5% of its maxHp when a sheep is eaten
 };
-  
-// Take enemy turn actions
-function takeTurn() {
-  if (!inBattle) return;
-
-
-  activeEnemies.forEach(enemy => {
-    if (!enemy.stunned) {
-      let target = playerStats;
-      if (activeAlly && activeAlly.currentHp > 0) {
-        target = (Math.random() < 0.5) ? playerStats : activeAlly;
-      }
-
-      const behavior = enemyTypes[enemy.type]?.behavior || 'normalAttack';
-if (behavior === 'normalAttack') {
-  normalAttack(enemy, target);
-} else if (behavior === 'sniperAttack') {
-  sniperAttack(enemy, target);
-} else if (behavior === 'oldBotBehavior') {
-  oldBotBehavior(enemy, target);
-} else if (behavior === 'sandBehavior') {
-  sandBehavior(enemy, target);
-} else if (behavior === 'smokeBehavior') {
-  smokeBehavior(enemy, target);
-} else if (behavior === 'caveBossBehavior') {
-  caveBossBehavior(enemy, target);
-} else if (behavior === 'bossBehavior') {
-  bossBehavior(enemy, target);
-} else if (behavior === 'summonerBehavior') {
-  summonerBehavior(enemy, target);
-} else if (behavior === 'secondStageBossBehavior') {
-  secondStageBossBehavior(enemy, target);
-} else if (behavior === 'factoryBehavior') {
-  factoryBehavior(enemy, target);
-} else if (behavior === 'lifeCoreBehavior') {
-  lifeCoreBehavior(enemy, target);
-} else if (behavior === 'iceBossBehavior') {
-  iceBossBehavior(enemy, target);
-} else if (behavior === 'lifeStealBossBehavior') {
-  lifeStealBossBehavior(enemy, target);
-} else if (behavior === 'critBossBehavior') {
-  critBossBehavior(enemy, target);
-} else if (behavior === 'islandBossBehavior') {
-  islandBossBehavior(enemy, target);
-} else if (behavior === 'mountainBossBehavior') {
-  mountainBossBehavior(enemy, target);
-} else if (behavior === 'ghostBossBehavior') {
-  ghostBossBehavior(enemy, target);
-} else if (behavior === 'finalBossStage1Behavior') {
-  finalBossStage1Behavior(enemy, target);
-} else if (behavior === 'finalBossStage2Behavior') {
-  finalBossStage2Behavior(enemy, target);
-} else if (behavior === 'finalBossStage3Behavior') {
-  finalBossStage3Behavior(enemy, target);
-} else if (behavior === 'shadowOrbBehavior') {
-  shadowOrbBehavior(enemy, target);
-} else if (behavior === 'lightOrbBehavior') {
-  lightOrbBehavior(enemy, target);
-} else if (behavior === 'healerBehavior') {
-  healerBehavior(enemy, target);
-}
-    }
-  if (!canGoBelow1Hp() && playerStats.currentHp <= 1) {
-    playerStats.currentHp = 1;
-  }
-  updateHp(playerStats.currentHp);
-  drawBattleUI();
-  drawPlayerBattleStatus();
-  drawPartyStatus();
-
-  if (playerStats.currentHp <= 0) {
-    endBattle('lose');
-    hideBattleBlackout();
-  }
-    });
-}
-
-function startDarkTimer() {
-  if (darkTimerActive) return;
-  darkTimerActive = true;
-  darkTimerMs = 0;
-  updateProgressiveDarknessUI();
-  if (darkTimerTickInterval) clearInterval(darkTimerTickInterval);
-  darkTimerTickInterval = setInterval(() => {
-    if (!inBattle) { stopDarkTimer(); return; }
-    darkTimerMs += darkTimerTickMs;
-    updateProgressiveDarknessUI();
-    if (darkTimerMs >= darkTimerLimitMs) {
-      clearInterval(darkTimerTickInterval);
-      darkTimerTickInterval = null;
-      showTemporaryText('The darkness consumes you...');
-      playerStats.currentHp = 0;
-      updateHp(0);
-      stopDarkTimer();
-      endBattle('lose');
-    }
-  }, darkTimerTickMs);
-}
-
-function stopDarkTimer() {
-  darkTimerActive = false;
-  darkTimerMs = 0;
-  if (darkTimerTickInterval) { clearInterval(darkTimerTickInterval); darkTimerTickInterval = null; }
-  updateProgressiveDarknessUI();
-  const hud = document.getElementById('dark-timer-hud');
-  if (hud) hud.style.opacity = '0';
-}
-
-function reduceDarkTimer(ms) {
-  if (!darkTimerActive) return;
-  darkTimerMs = Math.max(0, darkTimerMs - ms);
-  updateProgressiveDarknessUI();
-  showTemporaryText(`Dark Timer reduced by ${Math.round(ms/1000)}s!`);
-}
 
   function toggleAutofire(on) {
   const btn = document.getElementById('attack-button');
@@ -5359,23 +4971,6 @@ function spawnRound(roundIdx) {
   const built = encounter.map(enemyData => {
     if (!enemyData) return null;
 
-    if (enemyData.type === 'GhostBoss') {
-      const baseStats = enemyTypes['GhostBoss'] || {};
-      const ghost = {
-        ...enemyData,
-        type: 'GhostBoss',
-        name: baseStats.name || 'The Maestro',
-        maxHp: Math.max(1, Math.floor((baseStats.maxHp || 450) * mult.enemyHp)),
-        currentHp: Math.max(1, Math.floor((baseStats.maxHp || 450) * mult.enemyHp)),
-        damage: Math.max(0, Math.floor((baseStats.damage || 3) * mult.enemyDmg)),
-        xpReward: baseStats.xpReward || 180,
-        shieldActive: false, stunned: false, poisoned: false,
-        _isHidden: true, _hiddenInIndex: Math.floor(Math.random() * 3), _hostTrainSpawned: false
-      };
-      window._lastGhostRef = ghost;
-      return null; 
-    }
-
     const baseStats = enemyTypes[enemyData.type] || {};
     const finalMaxHp = Math.max(1, Math.floor((baseStats.maxHp || 10) * mult.enemyHp));
     const finalDamage = Math.max(0, Math.floor((baseStats.damage || 1) * mult.enemyDmg));
@@ -5398,34 +4993,22 @@ function spawnRound(roundIdx) {
     };
 
     newEnemy.attackTimerId = setInterval(() => {
-      enemy.attackTime = enemy.attackSpeed;
       if (typeof performEnemyAction === 'function') {
         performEnemyAction(newEnemy);
       }
-    }, newEnemy.attackTime);
+    }, newEnemy.attackSpeed);
 
     return newEnemy;
   });
 
   activeEnemies = built.filter(Boolean);
 
-  if (window._lastGhostRef && window._lastGhostRef._isHidden && !window._lastGhostRef._hostTrainSpawned) {
-    spawnGhostTrains(window._lastGhostRef);
-    window._lastGhostRef._hostTrainSpawned = true;
-  }
-  if (IslandBossPresent()) {
-
-  window._raft = { maxHp: 12, hp: 12 };
-} else {
-
-  window._raft = null;
-}
-
   selectedEnemyIndex = 0;
   drawBattleUI();
   drawPlayerBattleStatus();
   startAbilityRegen();
 }
+
   // Unlock an ally and update UI/save state
 function unlockAlly(allyId) {
   if (!allyId) return;
