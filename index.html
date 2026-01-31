@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>YOUR GAME TITLE HERE</title>
+  <title>8Bit’s Adventure</title>
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -103,31 +103,6 @@
       border: 2px solid red;
       background-color: #555;
     }
-    #cps-counter {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  font-family: 'Press Start 2P', sans-serif;
-  font-size: 12px;
-  color: white;
-  background: rgba(0,0,0,0.4);
-  padding: 4px 6px;
-  border-radius: 4px;
-  z-index: 9999;
-}
-    #playtime-counter {
-  position: absolute;
-  top: 30px;
-  left: 10px;
-  font-family: 'Press Start 2P', sans-serif;
-  font-size: 12px;
-  color: white;
-  background: rgba(0,0,0,0.4);
-  padding: 4px 6px;
-  border-radius: 4px;
-  z-index: 9999;
-}
-
     #battle-controls button {
       font-family: "Press Start 2P", sans-serif;
       padding: 10px 20px;
@@ -223,21 +198,135 @@
   50% { transform: translateX(-50%) scale(1.3); }
   100% { transform: translateX(-50%) scale(1); }
 }
-    #splatter-container {
-  z-index: 9999;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+  #tea-ui {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 480px;
+  height: 400px;
+  background: #001a33;
+  border: 4px solid white;
+  z-index: 5000;
+  color: white;
+  display: none;
+  flex-direction: row;
+  padding: 20px;
+  gap: 20px;
 }
-.splatter {
-  position: absolute;
-  width: 400px;
-  height: 350px;
-  opacity: 1;
-  transition: opacity 6s linear;
+
+#tea-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tea-slot {
+  width: 150px;
+  height: 40px;
+  background: #002591;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+#tea-inventory-list {
+  flex-grow: 1;
+  border-left: 2px solid white;
+  padding-left: 10px;
+  overflow-y: auto;
+}
+
+#tea-inventory-list div {
+  background: #333;
+  padding: 8px;
+  margin-bottom: 5px;
+  border: 2px solid #999;
+  cursor: pointer;
+}
+
+
+#boil-ui {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 480px;
+  height: 300px;
+  background: #001a33;
+  border: 4px solid white;
+  z-index: 5000;
+  color: white;
+  display: none;
+  flex-direction: column;
+  padding: 20px;
+}
+
+#boil-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  flex-grow: 1;
+}
+
+
+#kettle {
+  width:120px;
+  height:80px;
+  background:#333;
+  border:3px solid #777;
+  position:relative;
+}
+
+.steam {
+  width:10px;
+  height:10px;
+  background:#666;
+  position:absolute;
+  animation:steamRise 1.2s infinite;
+}
+
+.s1 { left:20px; top:-10px; animation-delay:0s; }
+.s2 { left:50px; top:-10px; animation-delay:0.3s; }
+.s3 { left:80px; top:-10px; animation-delay:0.6s; }
+
+@keyframes steamRise {
+  0% { opacity:0; transform:translateY(0); }
+  50% { opacity:1; transform:translateY(-10px); }
+  100% { opacity:0; transform:translateY(-20px); }
+}
+
+#boil-bar {
+  width:300px;
+  height:20px;
+  background:#222;
+  border:2px solid #999;
+  position:relative;
+}
+
+#green-zone {
+  position:absolute;
+  left:140px;
+  width:20px;
+  height:100%;
+  background:#00ff00;
+}
+
+#red-progress {
+  position:absolute;
+  left:0;
+  top:0;
+  height:100%;
+  width:0;
+  background:#ff0000;
+}
+
+#boil-instructions {
+  font-size:14px;
+  opacity:0.8;
 }
     .attack-bar-container {
   width: 100%;
@@ -283,6 +372,21 @@
   30%, 50%, 70% { transform: translate3d(-5px, 0, 0); }
   40%, 60% { transform: translate3d(5px, 0, 0); }
 }
+    #demo-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 200px;
+  background: black;
+  color: white; 
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
     #victory-banner {
   position: fixed;
   top: 50%;
@@ -355,7 +459,7 @@
   border-color: #888 !important;
   box-shadow: none !important;
 }
-    .enemy-target.snow {
+.enemy-target.snow {
   position: relative;
   overflow: visible;
 }
@@ -398,6 +502,7 @@
     0 100%
   );
 }
+
     .burn-rocket-hud {
   box-shadow: 0 0 15px 5px orange !important;
   border: 2px solid orange !important;
@@ -575,6 +680,27 @@
   display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #333;
 }
 
+.tp-target {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.6);
+  transition: transform 0.08s ease;
+}
+    #slapjack-overlay .item-use-button { font-family: "Press Start 2P", sans-serif; padding:6px 8px; border:2px solid white; background:#333; color:white; cursor:pointer; }
+#slapjack-overlay .item-use-button:disabled { opacity:0.5; pointer-events:none; }
+
+.tp-target:active { transform: scale(0.92); }
+.tp-target.normal { background: radial-gradient(circle at 30% 30%, #fff, #ffcccc 30%, #dd3333 60%); border:2px solid #fff; }
+.tp-target.golden { background: radial-gradient(circle at 30% 30%, #fff9d6, #ffd24d 40%, #ffb400 70%); border:2px solid #fff2a8; width:72px; height:72px; }
+.tp-target-label { font-size:12px; color:#000; font-weight:bold; text-shadow:1px 1px 0 rgba(255,255,255,0.2); pointer-events:none; }
+
     #battle-blackout {
   display: none;
   position: fixed;
@@ -636,7 +762,7 @@ a:hover,
 
 <div id="title-screen" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#001a33;z-index:3000;">
   <div style="text-align:center;color:white;">
-    <h1 style="font-family:'Press Start 2P',sans-serif;margin-bottom:20px;">YOUR GAME TITLE</h1>
+    <h1 style="font-family:'Press Start 2P',sans-serif;margin-bottom:20px;">8-Bit's Adventure</h1>
     
     <button id="play-button" style="font-family:'Press Start 2P',sans-serif;padding:12px 20px;font-size:14px;cursor:pointer;">Play</button>
     <br><br>
@@ -657,6 +783,23 @@ a:hover,
   </p>
 </div>
 
+
+  <div id="prologue-overlay" style="
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: 4000;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+">
+  <img id="prologue-image" src="" alt="Prologue" style="max-width: 90vw; max-height: 80vh; border: 4px solid white; border-radius: 8px;" />
+  <button id="prologue-next" style="margin-top: 20px; font-family: 'Press Start 2P', sans-serif; padding: 10px 20px; cursor: pointer;">Next</button>
+</div>
+
+
   <canvas id="game" width="640" height="480" tabindex="0"></canvas>
 
   <div id="game-hud">
@@ -674,7 +817,7 @@ a:hover,
     <p> </p>
     <div id="hp-bar-container">
       <div id="hp-bar"></div>
-      <div id="hp-text">10/10</div>
+      <div id="hp-text">16/16</div>
     </div>
   </div>
 
@@ -684,6 +827,7 @@ a:hover,
       <h4>Party</h4>
       <div id="party-list"></div>
       <div style="margin-top:8px;">
+        <button id="equip-ally-button" class="item-use-button">Equip Selected Ally</button>
       </div>
     </div>
   </div>
@@ -768,12 +912,6 @@ a:hover,
   <label style="display:block; font-size:10px;">Mobile Mode</label>
   <input id="toggle-mobile-mode" type="checkbox" /> Enable Mobile Controls
 </div>
-      
-      <div style="margin:8px 0;">
-  <label style="display:block; font-size:10px;">Misc</label>
-  <input id="toggle-cps-counter" type="checkbox" /> Show CPS<br>
-  <input id="toggle-playtime-counter" type="checkbox" /> Show Playtime
-</div>
 
       <div style="margin:8px 0;">
   <label style="display:block; font-size:10px;">Autosave</label>
@@ -803,37 +941,14 @@ a:hover,
 
   <div id="fade-overlay" style="position:fixed; inset:0; background:black; opacity:0; pointer-events:none; z-index:9999; transition: opacity 0.25s;"></div>
 
-<div id="ally-info-popup" style="display:none; position:absolute; right: 30%; top: 40%; width:320px; background:#002591; border:4px solid white; padding:15px; color:white; z-index:1001; font-family:'Press Start 2P';">
-    <div style="display:flex; justify-content:space-between; align-items: flex-start; margin-bottom:10px;">
-        <span id="info-name" style="font-size:14px; border-bottom:2px solid white;">NAME</span>
-        <span id="info-stats" style="font-size:8px; text-align:right;">LVL 1 HP:1 DMG: 1</span>
-    </div>
 
-    <div style="display:flex; gap:10px; margin-bottom:15px;">
-        <div id="info-portrait" style="width:80px; height:80px; border:2px solid white; background:#001a66;"></div>
-        <div style="flex:1; font-size:8px;">
-            <div style="color:#00ffff; margin-bottom:4px;">PASSIVE</div>
-            <div id="info-passive" style="margin-bottom:8px; line-height:1.2;">...</div>
-            <div style="color:#00ffff; margin-bottom:4px;">ACTIVE</div>
-            <div id="info-active" style="line-height:1.2;">...</div>
-        </div>
-    </div>
-
-    <div style="display:flex; justify-content:space-between; align-items:flex-end;">
-        <div style="display:flex; gap:5px;">
-            <div class="star-power-slot" style="width:40px; height:40px; border:2px solid #555; background:#222; display:flex; align-items:center; justify-content:center; font-size:18px;">🔒</div>
-        </div>
-        <button id="info-equip-btn" class="item-use-button" style="padding:10px;">EQUIP</button>
-    </div>
-</div>
-  
   <div id="battle-overlay">
     <div id="enemy-display"></div>
     <div id="player-battle-status"></div>
     <div id="battle-controls">
       <button id="attack-button">Attack</button>
-      <button id="special-attack-button-1">Special One (100 STM)</button>
-      <button id="special-attack-button-2">Special Two (200 STM)</button>
+      <button id="special-attack-button-1">Extra Credits (100 STM)</button>
+      <button id="special-attack-button-2">Plasma Blast (200 STM)</button>
       <button id="inventory-battle-button">Inventory</button>
     </div>
     <div id="inventory-battle-popup" class="inventory-popup" style="display: none;">
@@ -853,14 +968,7 @@ a:hover,
 </div>
 
   <div id="damage-overlay"></div>
-  
-<div id="cps-counter" style="display:none;">
-  CPS: <span id="cps-value">0</span>
-</div>
 
-  <div id="playtime-counter" style="display:none;">
-  Time: <span id="playtime-value">0:00</span>
-</div>
 
 <div id="export-menu" style="display:none;position:fixed;top:20%;left:50%;transform:translateX(-50%);
      background:#222;color:#fff;padding:20px;border:2px solid #fff;z-index:5000;">
@@ -886,10 +994,142 @@ a:hover,
   </div>
 </div>
   
+<div id="target-practice-overlay" style="display:none; position:fixed; inset:0; z-index:4000; background:rgba(0,0,0,0.85); align-items:center; justify-content:center;">
+  <div id="target-practice-ui" style="width:86vw; max-width:900px; height:86vh; background:#112244; border:2px solid #fff; padding:16px; box-sizing:border-box; display:flex; flex-direction:column; gap:12px; font-family: 'Press Start 2P', sans-serif; color:white;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div style="display:flex; gap:12px; align-items:center;">
+        <div style="font-size:13px;">Target Practice</div>
+        <div id="tp-timer" style="font-size:12px; background:#000a34; padding:6px 10px; border:1px solid #888;">30</div>
+        <div id="tp-score" style="font-size:12px; background:#001a00; padding:6px 10px; border:1px solid #888;">Score: 0</div>
+        <div id="tp-goal" style="font-size:12px; padding:6px 10px; border:1px solid #888;">Goal: 0</div>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <button id="tp-restart" class="item-use-button">Restart</button>
+        <button id="tp-close" class="item-use-button">Close</button>
+      </div>
+    </div>
+    <div id="tp-playfield" style="flex:1; position:relative; background:linear-gradient(#223355,#112233); border:1px solid #000; overflow:hidden;">
+    
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div style="font-size:11px;">Attempts left: <span id="tp-attempts">5</span></div>
+      <div style="font-size:11px;">Click targets to score</div>
+    </div>
+  </div>
+</div>
+
+  <div id="tea-ui">
+  <div id="tea-slots">
+    <div class="tea-slot" id="slot-water">Water Slot</div>
+    <div class="tea-slot" id="slot-honey">Honey Slot</div>
+    <div class="tea-slot" id="slot-spice">Spice Slot</div>
+    <button id="brew-tea-btn">Brew</button>
+  </div>
+
+  <div id="tea-inventory-list"></div>
+</div>
+
+
+ <div id="boil-ui">
+  <div id="boil-container">
+    <div id="kettle">
+      <div class="steam s1"></div>
+      <div class="steam s2"></div>
+      <div class="steam s3"></div>
+    </div>
+
+    <div id="boil-bar">
+      <div id="red-progress"></div>
+      <div id="green-zone"></div>
+    </div>
+
+    <div id="boil-instructions">Press SPACE to stop</div>
+  </div>
+</div>
+
+  <div id="farm-ui" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:5000; align-items:center; justify-content:center; font-family:'Press Start 2P'; color:white;">
+  <div style="background:#4b2d12; border:4px solid #fff; padding:20px; width:350px; text-align:center;">
+    <h3>Plant a Seed</h3>
+    <div id="farm-seed-list" style="max-height:200px; overflow-y:auto; margin:15px 0; text-align:left;"></div>
+    <button class="item-use-button" onclick="document.getElementById('farm-ui').style.display='none'">Cancel</button>
+  </div>
+</div>
+
+
+  <div id="slot-machine-popup" style="display:none; position:fixed; inset:0; z-index:5000; background:rgba(0,0,0,0.85); flex-direction: column; align-items:center; justify-content:center; font-family:'Press Start 2P', sans-serif; color:white;">
+  <div style="background:#002591; border:2px solid black; padding:20px; width:300px; text-align:center; border-radius:8px;">
+    <h3>Slot Machine</h3>
+    <p>Bet: 5 bolts</p>
+    <div style="display:flex; justify-content:center; gap:40px; font-size:48px; user-select:none; margin-bottom:20px;">
+      <div id="slot-left">-</div>
+      <div id="slot-middle">-</div>
+      <div id="slot-right">-</div>
+    </div>
+    <p id="slot-msg" style="min-height:24px;"></p>
+    <button id="slot-play-button" style="font-family:'Press Start 2P',sans-serif; padding:8px 12px; cursor:pointer; margin-bottom:10px;">Play</button>
+    <button id="slot-close-button" style="font-family:'Press Start 2P',sans-serif; padding:8px 12px; cursor:pointer;">Close</button>
+  </div>
+</div>
+
+  <!-- Slap Jack overlay -->
+<div id="slapjack-overlay" style="display:none; position:fixed; inset:0; z-index:4100;
+background:rgba(0,0,0,0.9); align-items:center; justify-content:center; font-family:'Press Start 2P',sans-serif;">
+  <div id="slapjack-ui" style="width:86vw; max-width:760px; height:66vh; background:#112244; border:2px solid #fff; padding:16px; box-sizing:border-box; color:white; display:flex; flex-direction:column; gap:10px;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <div style="font-size:13px;">Slap Jack</div>
+        <div id="sj-status" style="font-size:11px; opacity:0.9;">Wager bolts to play</div>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <div style="font-size:11px;">Your bolts:</div>
+        <div id="sj-player-bolts" style="font-size:13px; padding:6px 10px; background:#001a00; border:1px solid #888;">0</div>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:12px; align-items:center; justify-content:center;">
+      <div id="sj-npc-top" style="width:110px; height:90px; background:#333; border:2px solid #555; display:flex; align-items:center; justify-content:center;">NPC 1<br>(Top)</div>
+      <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+        <div id="sj-pile" style="width:220px; height:120px; background:#222; border:2px solid #999; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+          <div id="sj-mid-counter" style="font-size:18px;">Pile: 0</div>
+          <div id="sj-last-player" style="font-size:11px; opacity:0.8;">Last: —</div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <div id="sj-npc-left" style="width:90px; height:60px; background:#333; border:2px solid #555; display:flex; align-items:center; justify-content:center;">NPC 3<br>(Left)</div>
+          <div id="sj-you" style="width:150px; height:60px; background:#004; border:2px solid #fff; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+            <div style="font-size:12px;">You (Bottom)</div>
+            <div id="sj-you-counter" style="font-size:11px;">Cards: 0</div>
+          </div>
+          <div id="sj-npc-right" style="width:90px; height:60px; background:#333; border:2px solid #555; display:flex; align-items:center; justify-content:center;">NPC 2<br>(Right)</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:8px; justify-content:center; align-items:center; margin-top:6px;">
+      <input id="sj-wager-input" type="number" min="1" value="1" style="width:100px; font-family:'Press Start 2P'; padding:6px;" />
+      <button id="sj-lock-wager" class="item-use-button">Lock Wager</button>
+      <button id="sj-start" class="item-use-button" disabled>Start</button>
+      <button id="sj-slap" class="item-use-button" disabled>SLAP</button>
+      <button id="sj-close" class="item-use-button">Close</button>
+    </div>
+
+    <div style="font-size:11px; opacity:0.9; text-align:center;">
+      Win by collecting 30 cards in your pile. Wrong slap penalizes you (-3 cards).
+    </div>
+  </div>
+</div>
+
   <div id="dev-console" style="display:none; position:fixed; top:10px; left:50%; transform:translateX(-50%); z-index:10000; width:400px; background:rgba(0,0,0,0.9); border:2px solid #00ff00; padding:10px; font-family:'monospace';">
   <div style="color:#00ff00; font-size:10px; margin-bottom:5px;">DEV CONSOLE: Type command and press Enter</div>
   <input id="dev-input" type="text" style="width:100%; background:#111; color:#00ff00; border:1px solid #00ff00; outline:none; font-family:'monospace';" placeholder="/help" />
 </div>
+
+  <div id="demo-popup" style="display:none;">
+  <p>Thanks for playing!</p>
+  <p>The demo of this fangame took 3 months to develop, so your participation is much appreciated!</p>
+  <p>Later!</p>
+  <button id="demo-close-btn">X</button>
+</div>
+
 
   <div id="objective-box" style="
   position: fixed;
@@ -908,10 +1148,9 @@ a:hover,
   display: none;
 ">
   <div id="objective-title" style="font-weight: bold; font-size: 16px; margin-bottom: 10px;">Objective:</div>
-  <div id="objective-text" style="font-size: 14px;">YOUR OBJECTIVE HERE</div>
+  <div id="objective-text" style="font-size: 14px;">Explore the arcade area</div>
   <div id="objective-status" style="margin-top: 15px; font-size: 24px; color: #00FF00; display: none;">&#10003;</div>
 </div>
-  
 
   <div id="achievement-popup-box" style="
   position: fixed;
@@ -934,7 +1173,7 @@ a:hover,
   <div id="ach-popup-desc" style="font-size: 8px; line-height: 1.4; opacity: 0.8;"></div>
 </div>
 
-<div id="splatter-container"></div>  
+
   
 <div id="battle-blackout" style="display:none; position:fixed; inset:0; z-index:2500; background:black; pointer-events:none;"></div>
   
@@ -974,10 +1213,8 @@ canvas.tabIndex = 0;
 canvas.focus();
 canvas.addEventListener('click', () => canvas.focus());
 
-const devMode = true;
-  
+const devMode = false;
 // Player and game variables
-  
 let isGameOver = false;
 let x = 150, y = 50;
 const speed = 16;
@@ -996,10 +1233,10 @@ const playerSprites = {
   right: new Image()
 };
 
-playerSprites.down.src = 'herodown.png';
-playerSprites.up.src = 'heroup.png';
-playerSprites.left.src = 'heroleft.png';
-playerSprites.right.src = 'heroright.png';
+playerSprites.down.src = '8bit.png';
+playerSprites.up.src = '8bitup.png';
+playerSprites.left.src = '8bitleft.png';
+playerSprites.right.src = '8bitright.png';
 
 let currentFacing = 'down';
 
@@ -1009,7 +1246,21 @@ const hpText = document.getElementById('hp-text');
 let selectedEnemyIndex = 0;
 let allyTargetMode = 'Current';
 let gameFlags = {
-  yourflagshere: false
+  firsthit: false,
+  isPowered: false,
+  arcadegatetalk: false,
+  arcadegate2: false,
+  arcadeoldbottalk: false,
+  arcadeoldbotNO: false,
+  arcadeoldbottea: false,
+  carpass: false,
+  atticlever: false,
+  birthdaybottalk: false,
+  birthdaybotkilled: false,
+  birthdaybotspared: false,
+  louRecruited: false,
+  interactedWithDeadBody: false,
+  lightsFixed: false
 };
 
 let goodPoints = 0;
@@ -1154,7 +1405,7 @@ let equippedGears = [null, null, null];
   v8:    { name: "V8 Armor", hpBonus: 0.20, passiveHealPercent: 0, desc: "+ 20% HP" },
   saloon:{ name: "Saloon Armor", hpBonus: 0.40, passiveHealPercent: 0.02, desc: "+ 40% HP, heals 1% per sec" },
   haunted:{name: "Haunted Armor", hpBonus: 0.30, passiveHealPercent: 0, blockChance: 0.15, desc: "+ 30% HP, 30% chance to block" },
-  virus: { name: "Virus Armor", hpBonus: 0.50, passiveHealPercent: 0, desc: "+ 50% HP" }
+  virus: { name: "Virus Armor", hpBonus: 0.50, passiveHealPercent: 0, desc: "FORBIDDEN TO WEAR, TURN BACK 8-BIT, THERE IS STILL GOOD INSIDE YOU" }
 };
 
 const weaponTypes = {
@@ -1162,7 +1413,7 @@ const weaponTypes = {
   v8:    { name: "V8 Weapon", dmgBonus: 0.20, desc: "+ 20% Damage" },
   saloon:{ name: "Saloon Weapon", dmgBonus: 0.15, desc: "+ 15% Damage" },
   haunted:{name: "Haunted Weapon", dmgBonus: 0.25, desc: "+ 25% Damage" },
-  virus: { name: "Virus Weapon", dmgBonus: 0.50, desc: "+ 50% Damage" }
+  virus: { name: "Virus Weapon", dmgBonus: 0.50, desc: "DO NOT EQUIP, 8-BIT, THE EVIL IS CORRUPTING YOU" }
 };
 
 let equippedArmor = null; 
@@ -1234,8 +1485,21 @@ inventory.set("poison_vial", 0);
 inventory.set("extra_life", 0);
 inventory.set("damage_potion", 0);
 inventory.set("stamina_potion", 0);
+inventory.set("anti_virus", 0);
+inventory.set("driftwood", 0);
 
-inventory.set("bolts", 0); // CURRENCY, CHANGE TO COINS OR OTHER
+inventory.set("bolts", 5);
+inventory.set("water", 0);
+inventory.set("boiled_water", 0);
+inventory.set("water_1", 0);
+inventory.set("tealeaf", 0);
+inventory.set("seed_tealeaf", 0);
+inventory.set("seed_spice", 0);
+inventory.set("honey", 0);
+inventory.set("spice", 0);
+inventory.set("b_tea", 0);
+inventory.set("h_tea", 0);
+inventory.set("s_tea", 0);
   
 inventory.set("hammer", 0);
 inventory.set("laser_cutter", 0);
@@ -1292,28 +1556,27 @@ inventory.set("weapon_virus", 0);
 let abilityRegenIntervalId = null;
 let blockActive = false;
 let counterWindowActive = false;
-
-  //PLAYER
   
 let playerStats = {
   level: 1,
-  currentHp: 10,
-  maxHp: 10,
+  currentHp: 16,
+  maxHp: 16,
   damage: 2,
   xp: 0,
   xpToNextLevel: 10,
   currentStamina: 50,
   maxStamina: 200,
+
   baseMaxHp: 16,
   baseDamage: 2
 };
 const alliesData = [
-  { id: 'ally1', name: 'Lou', baseMaxHp: 35, baseDamage: 3, attackIntervalMs: 1700, level: 1, xp: 0, xpToNextLevel: 10, unlocked: false, passive: "Slows target attack time by 20%", active: "Freeze target for 4s (20s)", portrait: "lou_portrait.png" },
-  { id: 'ally2', name: 'Buzz', baseMaxHp: 58, baseDamage: 4, attackIntervalMs: 2200, level: 1, xp: 0, xpToNextLevel: 10, unlocked: false, passive: "20% to shatter the systems of the target per attack, reducing target dmg by 50% for 2s", active: "Taunts enemies to target him for 3s, gaining a 40% shield (15s)", portrait: "buzz_portrait.png"},
-  { id: 'ally3', name: 'Colt', baseMaxHp: 23, baseDamage: 6, attackIntervalMs: 3000, level: 1, xp: 0, xpToNextLevel: 10, unlocked: false, passive: "7% chance to deal 2x dmg", active: "Shoots target enemy, dealing 20% of their max hp, or x5 his dmg on bosses (23s)", portrait: "colt_portrait.png" },
-  { id: 'ally4', name: 'Otis', baseMaxHp: 45, baseDamage: 4, attackIntervalMs: 2000, level: 1, xp: 0, xpToNextLevel: 10, unlocked: false, passive: "Uses Cil as a shield, who has 20% of their max hp and tanks all damage until death", active: "Splatters paint everywhere, giving enemies 35% to miss for 5s (18s)", portrait: "otis_portrait.png" },
-  { id: 'ally5', name: 'Janet', baseMaxHp: 40, baseDamage: 3, attackIntervalMs: 1500, level: 1, xp: 0, xpToNextLevel: 10, unlocked: false, passive: "Right click scans enemies", active: "Empowers 8-Bit and her for 6s, increasing dmg by 25% (25s)", portrait: "janet_portrait.png" },
-  { id: 'ally6', name: 'Max', baseMaxHp: 36, baseDamage: 4, attackIntervalMs: 1000, level: 1, xp: 0, xpToNextLevel: 10, unlocked: false },
+  { id: 'ally1', name: 'Lou', baseMaxHp: 35, baseDamage: 3, attackIntervalMs: 1700, level: 1, xp: 0, xpToNextLevel: 10 },
+  { id: 'ally2', name: 'Buzz', baseMaxHp: 58, baseDamage: 4, attackIntervalMs: 2200, level: 1, xp: 0, xpToNextLevel: 10 },
+  { id: 'ally3', name: 'Colt', baseMaxHp: 23, baseDamage: 6, attackIntervalMs: 3000, level: 1, xp: 0, xpToNextLevel: 10 },
+  { id: 'ally4', name: 'Otis', baseMaxHp: 45, baseDamage: 4, attackIntervalMs: 2000, level: 1, xp: 0, xpToNextLevel: 10 },
+  { id: 'ally5', name: 'Janet', baseMaxHp: 40, baseDamage: 3, attackIntervalMs: 1500, level: 1, xp: 0, xpToNextLevel: 10 },
+  { id: 'ally6', name: 'Max', baseMaxHp: 36, baseDamage: 4, attackIntervalMs: 1000, level: 1, xp: 0, xpToNextLevel: 10 },
 ];
 
 let unlockedAllies = new Set();
@@ -1325,17 +1588,23 @@ let allyAttackTimerId = null;
 let inBattle = false;
 
 const enemyTypes = {
-  Dummy: { name: "Dummy", maxHp: 32, damage: 1, xpReward: 3, behavior: "normalAttack", info: "I don't know why you haven't killed this guy yet." },
+  Dummy: { name: "Dummy", maxHp: 32, damage: 1, xpReward: 3, behavior: "normalAttack" },
   Botling: { name: "Botling", maxHp: 10, damage: 1, xpReward: 2, behavior: "normalAttack" },
-  Sniperbot: { name: "Sniper", maxHp: 50, attackSpeed: 2500, damage: 1, xpReward: 5, behavior: "sniperAttack", info: "Occasionally snipes for 3x damage." },
-  Attictank: { name: "Dusty Bot", maxHp: 1500, damage: 1, xpReward: 14, behavior: "normalAttack", info: "Just a basic enemy." },
-  Atticsniper: { name: "Dusty Sniper", maxHp: 1000, attackSpeed: 3000, damage: 3, xpReward: 12, behavior: "sniperAttack", info: "Occasionally snipes for 3x damage." },
-  OldBot: { name: "Old Bot", maxHp: 10000, attackSpeed: 5000, damage: 10, xpReward: 200, behavior: "oldBotBehavior", info: "Wow, you really pissed this old man off. Though, I'm not sure how you scanned him, you're supposed to kill him solo." },
-  Sandbot: { name: "Sandy Bot", maxHp: 100, attackSpeed: 2000, damage: 3, xpReward: 10, behavior: "sandBehavior", info: "Every so often throws sand at you, decreasing accuracy." },
-  Smokebang: { name: "Smoke Bomb Bot", maxHp: 100, attackSpeed: 2000, damage: 3, xpReward: 10, behavior: "smokeBehavior", info: "Sometimes smokes the entire arena, hiding their attack meters and HP."},
-  Swordsman: { name: "Sword Bot", maxHp: 150, attackSpeed: 2500, damage: 3, xpReward: 10, behavior: "swordBehavior", info: "Those sword slashes don't do damage, but they certainly make you bleed." },
-  Mousebot: { name: "Quickbot", maxHp: 500, attackSpeed: 1000, damage: 2, xpReward: 8, behavior: "normalAttack", info: "Quick attack speed, might catch you off guard." },
-  Partyguard: { name: "Bodyguard", maxHp: 2200, damage: 1, xpReward: 100, behavior: "normalAttack", isBoss: true, defaultResistances: {stun: true, poison:true }, info: "Protectors of the birthday bot. Miniboss."},
+  Sniperbot: { name: "Sniper", maxHp: 50, attackSpeed: 2500, damage: 1, xpReward: 5, behavior: "sniperAttack" },
+  Partybot: { name: "Sniper", maxHp: 120, damage: 1, xpReward: 6, behavior: "sniperAttack" },
+  Partygoers: { name: "Celebrating Bots", maxHp: 500, damage: 2, xpReward: 8, behavior: "normalAttack" },
+  Drunkard: { name: "Drunken Bot", maxHp: 300, attackSpeed: 3000, damage: 5, xpReward: 7, behavior: "normalAttack" },
+  Cookingbot: { name: "The Cook", maxHp: 400, attackSpeed: 1500 ,damage: 2, xpReward: 8, behavior: "normalAttack" },
+  Partyblocker: { name: "Celebrating Bots", maxHp: 500, damage: 2, xpReward: 8, behavior: "normalAttack" },
+  Puncherbot: { name: "Puncher", maxHp: 90, damage: 1, xpReward: 5, behavior: "normalAttack" },
+  Attictank: { name: "Dusty Bot", maxHp: 1500, damage: 1, xpReward: 14, behavior: "normalAttack" },
+  Atticsniper: { name: "Dusty Sniper", maxHp: 1000, attackSpeed: 3000, damage: 3, xpReward: 12, behavior: "sniperAttack" },
+  OldBot: { name: "Old Bot", maxHp: 10000, attackSpeed: 5000, damage: 10, xpReward: 200, behavior: "oldBotBehavior" },
+  Sandbot: { name: "Sandy Bot", maxHp: 100, attackSpeed: 2000, damage: 3, xpReward: 10, behavior: "sandBehavior" },
+  Smokebang: { name: "Smoke Bomb Bot", maxHp: 100, attackSpeed: 2000, damage: 3, xpReward: 10, behavior: "smokeBehavior" },
+  Swordsman: { name: "Sword Bot", maxHp: 150, attackSpeed: 2500, damage: 3, xpReward: 10, behavior: "swordBehavior" },
+  Mousebot: { name: "Quickbot", maxHp: 500, attackSpeed: 1000, damage: 2, xpReward: 8, behavior: "normalAttack" },
+  Partyguard: { name: "Bodyguard", maxHp: 2200, damage: 1, xpReward: 100, behavior: "normalAttack", isBoss: true, defaultResistances: {stun: true, poison:true }},
   BossBot: { name: "BossRobot", maxHp: 100, damage: 4, xpReward: 50, isBoss: true, behavior: "bossBehavior", defaultResistances: {stun: true, poison:true }},
   Summoner: { name: "Factory", maxHp: 80, damage: 0, xpReward: 20, behavior: "summonerBehavior" },
   SecondStageBossStage1: { name: "The Works Plant", maxHp: 50, damage: 3, xpReward: 0, behavior: "secondStageBossBehavior", secondStageType: "SecondStageBossStage2" },
@@ -1343,13 +1612,36 @@ const enemyTypes = {
   Healer: { name: "Barbot", maxHp: 35, damage: 1, xpReward: 15, behavior: "healerBehavior" },
   IceBoss: { name: "Frozen Metal", maxHp: 100, damage: 6, xpReward: 1, behavior: "iceBossBehavior", isBoss: true, defaultResistances: {stun: true, poison:true }},
   LifeStealBoss: { name: "Soul Slasher", maxHp: 100, damage: 5, xpReward: 1, behavior: "lifeStealBossBehavior", isBoss: true, defaultResistances: {stun: true, poison:true }},
+  CritBoss: { name: "Deadshot", maxHp: 100, damage: 7, xpReward: 1, behavior: "critBossBehavior", isBoss: true, defaultResistances: {stun: true, poison:true }},
+  CaveBoss: { name: "Stoneforce", maxHp: 200, damage: 4, xpReward: 150, isBoss: true, behavior: "caveBossBehavior", defaultResistances: { stun: true, poison: true }},
+  CrystalShard: { name: "Crystal Shard", maxHp: 5, damage: 2, xpReward: 1, behavior: "normalAttack" },
+  MountainBoss: { name: "Autoyvern", maxHp: 10000, damage: 1, xpReward: 200, behavior: "mountainBossBehavior", isBoss: true, defaultResistances: {stun: true, poison:true }},
+  GhostBoss: { name: "The Maestro", maxHp: 450, damage: 3, xpReward: 150, behavior: "ghostBossBehavior", isBoss: true, defaultResistances: {stun: true, poison:true }},
+  Train: { name: "Train Carriage", maxHp: 40, damage: 0, xpReward: 0, behavior: "normalAttack"},
+  SpectralMinion: { name: "Spirit", maxHp: 12, damage: 3, xpReward: 1, behavior: "normalAttack" },
+  IslandBoss: { name: "Nekark of the Seas", maxHp: 320, damage: 3, xpReward: 180, behavior: "islandBossBehavior", isBoss: true, defaultResistances: { stun: true, poison: true }},
+  Roboworker: { name: "Roboworker", maxHp: 8, damage: 2, xpReward: 0, behavior: "normalAttack" },
+  LifeCore: { name: "Life Core", maxHp: 80, damage: 0, xpReward: 0, behavior: "lifeCoreBehavior" },
+  FinalBossStage1: { name: "Dark Lord Spike", maxHp: 420, damage: 4, xpReward: 100, behavior: "finalBossStage1Behavior", defaultResistances: { stun: true, poison: true }},
+  FinalBossStage2: { name: "Dark Lord Spike", maxHp: 20, damage: 6, xpReward: 180, behavior: "finalBossStage2Behavior", defaultResistances: { stun: true, poison: true }},
+  FinalBossStage3: { name: "Corruptus Caliginis Aeternae", maxHp: 1000, damage: 5, xpReward: 300, behavior: "finalBossStage3Behavior", defaultResistances: { stun: true, poison: true }},
+  Eye: { name: "Watcher Eye", maxHp: 220, damage: 8,  xpReward:  80, behavior: "normalAttack", defaultResistances: { poison: true } },
+  ShadowOrb: { name: "Shadow Orb", maxHp:  60, damage: 2,  xpReward:   5, behavior: "shadowOrbBehavior", defaultResistances: {} },
+  LightOrb: { name: "Light Orb", maxHp:  40, damage: 0,  xpReward:   8, behavior: "lightOrbBehavior", defaultResistances: {} }
+
 };
 
   const speakerConfigs = {
   '8-Bit': { speed: 30, pitch: 1.0, frequency: 2, sound: 'blip.wav' },
+  'New': { speed: 30, pitch: 1.0, frequency: 2, sound: 'blub2.mp3' },
+  'Birthday Bot': { speed: 30, pitch: 1.7, frequency: 3, sound: 'blip.wav' },
+  'BossRobot': { speed: 30, pitch: 0.6, frequency: 2, sound: 'blip.wav' }, 
+  'Bodyguard': { speed: 30, pitch: 0.7, frequency: 1, sound: 'blip.wav' },
+  'Guard': { speed: 40, pitch: 0.6, frequency: 1, sound: 'blip.wav' },
   'default': { speed: 30, pitch: 1.0, frequency: 2, sound: 'blip.wav' }
 };
 
+  // adjust these things as needed ill have to test em to see if they fit what i want
 
   // want multiple rounds? just do comma may or may not be needed at the end {
     //x: 507, y: 70, width: 64, height: 64,
@@ -1367,8 +1659,9 @@ const levels = [
       { x: 0, y: 0, width: 640, height: 20 },
     ],
     doors: [
-      { x: 0, y: 0, width: 80, height: 10, destLevel: 1, destX: 0, destY: 0 }
+      { x: 0, y: 0, width: 1, height: 1, destLevel: 1, destX: 300, destY: 375 }
     ],
+    darkZones: [],
     battleZones: [],
     dialogZones: [],
     interactables: []
@@ -1389,7 +1682,7 @@ levels.forEach(level => {
     id: 'played',
     name: 'Demo Player',
     description: 'Played the demo of the game!',
-    target: 1,
+    target: 1,      // set your number here
     progress: 0,
     unlocked: false,
     checkCondition: () => achievementsMap['played'].progress >= 1
@@ -1398,7 +1691,7 @@ levels.forEach(level => {
     id: 'kill_enemies',
     name: 'Bot Killer',
     description: 'Kill 50 enemies',
-    target: 50,
+    target: 50,      // set your number here
     progress: 0,
     unlocked: false,
     checkCondition: () => achievementsMap['kill_enemies'].progress >= achievementsMap['kill_enemies'].target
@@ -1407,7 +1700,7 @@ levels.forEach(level => {
     id: 'kill_enemies2',
     name: 'Bot Slayer',
     description: 'Kill 100 enemies',
-    target: 100,
+    target: 100,      // set your number here
     progress: 0,
     unlocked: false,
     checkCondition: () => achievementsMap['kill_enemies2'].progress >= achievementsMap['kill_enemies2'].target
@@ -1416,7 +1709,7 @@ levels.forEach(level => {
     id: 'kill_enemies3',
     name: 'No More Robots',
     description: 'Kill 1000 enemies',
-    target: 1000,
+    target: 1000,      // set your number here
     progress: 0,
     unlocked: false,
     checkCondition: () => achievementsMap['kill_enemies3'].progress >= achievementsMap['kill_enemies3'].target
@@ -1438,20 +1731,130 @@ levels.forEach(level => {
     progress: 0,
     unlocked: false,
     checkCondition: () => achievementsMap['kill_tutorial_dummy'].progress >= 1
+  },
+    {
+    id: 'tp_beat_master',
+    name: 'Sharp Shot',
+    description: 'Beat Unit 318920s score in Target Practice',
+    target: 1,
+    progress: 0,
+    unlocked: false,
+    checkCondition: () => achievementsMap['tp_beat_master'].progress >= 1
+  },
+    {
+    id: 'kill_bossbot',
+    name: 'Boss Slayer',
+    description: 'Kill the Boss Robot on Ultimate Difficulty',
+    target: 1,
+    progress: 0,
+    unlocked: false,
+    checkCondition: () => achievementsMap['kill_bossbot'].progress >= 1
+  },
+  {
+    id: 'kill_icebot',
+    name: 'Ice Lord',
+    description: 'Kill Frozen Metal on Ultimate Difficulty',
+    target: 1,
+    progress: 0,
+    unlocked: false,
+    checkCondition: () => achievementsMap['kill_icebot'].progress >= 1
+  },
+  {
+    id: 'kill_lifestealboss',
+    name: 'Undertaker',
+    description: 'Kill the Soul Slasher on Ultimate Difficulty',
+    target: 1,
+    progress: 0,
+    unlocked: false,
+    checkCondition: () => achievementsMap['kill_lifestealboss'].progress >= 1
+  },
+  {
+    id: 'kill_critboss',
+    name: 'High Noon',
+    description: 'Kill Deadshot on Ultimate Difficulty',
+    target: 1,
+    progress: 0,
+    unlocked: false,
+    checkCondition: () => achievementsMap['kill_critboss'].progress >= 1
+  },
+    {
+    id: 'kill_caveboss',
+    name: 'Reduced to Pebbles',
+    description: 'Kill Stoneforce on Ultimate Difficulty',
+    target: 1,
+    progress: 0,
+    unlocked: false,
+    checkCondition: () => achievementsMap['kill_caveboss'].progress >= 1
+  },
+    {
+    id: 'kill_mountainboss',
+    name: 'Last Fire Breath',
+    description: 'Kill Autoyvern on Ultimate Difficulty',
+    target: 1,
+    progress: 0,
+    unlocked: false,
+    checkCondition: () => achievementsMap['kill_mountainboss'].progress >= 1
+  },
+    {
+    id: 'kill_islandboss',
+    name: 'Washed Up Guardian',
+    description: 'Kill Nekark of the Seas on Ultimate Difficulty',
+    target: 1,
+    progress: 0,
+    unlocked: false,
+    checkCondition: () => achievementsMap['kill_islandboss'].progress >= 1
+  },
+    {
+    id: 'kill_factoryboss',
+    name: 'Fireworks',
+    description: 'Kill The Works Plant on Ultimate Difficulty',
+    target: 1,
+    progress: 0,
+    unlocked: false,
+    checkCondition: () => achievementsMap['kill_factoryboss'].progress >= 1
+  },
+  {
+    id: 'kill_ghostboss',
+    name: 'Whack-a-ghost',
+    description: 'Kill The Maestro on Ultimate Difficulty',
+    target: 1,
+    progress: 0,
+    unlocked: false,
+    checkCondition: () => achievementsMap['kill_ghostboss'].progress >= 1
+  },
+    {
+    id: 'kill_finaleboss',
+    name: 'Save the World!',
+    description: 'Kill Corruptus Caliginis Aeternae on Ultimate Difficulty',
+    target: 1,
+    progress: 0,
+    unlocked: false,
+    checkCondition: () => achievementsMap['kill_finaleboss'].progress >= 1
   }
 ];
+
+  alliesData.forEach(ally => {
+  achievements.push({
+    id: `ally_unlock_${ally.id}`,
+    name: `Unlock ${ally.name}`,
+    description: `Unlock the ally ${ally.name}.`,
+    progress: 0,
+    target: 1,
+    unlocked: false,
+    checkCondition: function() { return this.progress >= this.target; }
+  });
+});
+
     const achievementsMap = {};
 achievements.forEach(a => achievementsMap[a.id] = a);
   
   const titleScreen = document.getElementById('title-screen');
 const playBtn = document.getElementById('play-button');
-
-  // STARTING IMAGES
+  
 let bgImg = new Image();
 bgImg.src = 'arcade.png';
-  
 const playerImg = new Image();
-playerImg.src = 'hero.png'; 
+playerImg.src = '8bit.png'; 
 
 function preloadImagesForLevel(levelIndex, onComplete) {
   const level = levels[levelIndex];
@@ -1489,11 +1892,18 @@ function completeObjective() {
   objectiveBox.style.backgroundColor = '#37eb00';
 }
 
-setObjective("Explore the arcade area");
+setObjective("Current Task");
 
-// BLIP SFX
-    
-const blipSound = new Audio('blip.wav');
+
+function objPlaceholder() {
+  if (currentObjective === "Current Task") {
+    completeObjective();
+    setTimeout(() => {
+      setObjective("new objective");
+    }, 3000);
+  }
+}
+  const blipSound = new Audio('blip.wav');
 blipSound.volume = 0.6;
   
 function startTypewriter(text, element, speaker = null, effect = null, onFinish = null) {
@@ -1599,11 +2009,20 @@ function applyDialogStyle(box, style) {
   if (style === 'other') {
     box.style.background = '#223344';
     box.style.fontSize = '14px';
+  } else if (style === 'lou') {
+    box.style.background = '#78bdff';
+    box.style.fontSize = '14px';
   } else if (style === 'npc') {
     box.style.background = '#b7b7b7';
     box.style.fontSize = '14px';
+  } else if (style === 'unit') {
+    box.style.background = '#4c4c4c';
+    box.style.fontSize = '14px';
   } else if (style === 'boss') {
     box.style.background = '#330000';
+    box.style.fontSize = '12px';
+    } else if (style === 'colt') {
+    box.style.background = '#ca2f2f';
     box.style.fontSize = '12px';
   } else {
     box.style.background = '#0e2057';
@@ -1710,32 +2129,58 @@ function showDialog(textOrLines, idToMark, opts = {}) {
   draw();
 }
 
-  //PLAY BUTTON
+const prologueOverlay = document.getElementById('prologue-overlay');
+const prologueImage = document.getElementById('prologue-image');
+const prologueNext = document.getElementById('prologue-next');
+
+const prologueImages = [
+  'prologue1.png',
+  'prologue2.png',
+  'prologue3.png',
+  'prologue4.png'
+];
+
+let prologueIndex = 0;
 
 playBtn.addEventListener('click', () => {
   titleScreen.style.display = 'none';
 
-  if (objectiveBox) objectiveBox.style.display = 'block';
 
-  currentLevelIndex = 0;
-  currentLevel = levels[currentLevelIndex];
-  
-  x = typeof x === 'number' ? x : 150;
-  y = typeof y === 'number' ? y : 50;
-
-  preloadImagesForLevel(currentLevelIndex, () => {
-    draw();
-    achievementsMap['played'].progress++;
-    checkAchievements();
-    updateAbilityButtonsUI();
-    
-    showDialog([
-      { speaker: 'Hero', text: "YOUR TEXT HERE", style: 'dialog' }
-    ]);
-  });
+  prologueIndex = 0;
+  prologueImage.src = prologueImages[prologueIndex];
+  prologueOverlay.style.display = 'flex';
 });
 
-// IMAGES HERE, FEEL FREE TO DELETE
+prologueNext.addEventListener('click', () => {
+  prologueIndex++;
+  if (prologueIndex < prologueImages.length) {
+    prologueImage.src = prologueImages[prologueIndex];
+  } else {
+    prologueOverlay.style.display = 'none';
+
+
+    if (objectiveBox) objectiveBox.style.display = 'block';
+
+   
+    currentLevelIndex = 0;
+    currentLevel = levels[currentLevelIndex];
+    x = typeof x === 'number' ? x : 150;
+    y = typeof y === 'number' ? y : 50;
+
+    preloadImagesForLevel(currentLevelIndex, () => {
+      draw();
+      achievementsMap['played'].progress++;
+      checkAchievements();
+      updateAbilityButtonsUI();
+      showDialog([
+      { speaker: '8-Bit', text: "Ughhhh...", style: 'dialog' },
+      { speaker: '8-Bit', text: "I woke up in so much pain...", style: 'dialog' },
+      { speaker: '8-Bit', text: "I guess I gotta explore.", style: 'dialog' }
+    ]);
+    });
+  }
+});
+
 
 const closedChestImg = new Image(); closedChestImg.src = "chest_closed.png";
 const openChestImg   = new Image(); openChestImg.src = "chest_open.png";
@@ -1778,6 +2223,12 @@ dmgPotionImg.src = 'dmgPotion.png';
 
 const stmPotionImg = new Image();
 stmPotionImg.src = 'stmPotion.png';
+
+const arcadegateImg = new Image();
+arcadegateImg.src = 'arcadegate.png';
+
+const partybotImg = new Image();
+partybotImg.src = 'partybot.png';
 
 const rockbImg = new Image();
 rockbImg.src = 'rockB.png';
@@ -1894,6 +2345,11 @@ passwordCancel.addEventListener('click', () => {
   closePasswordPopup();
 });
 
+function ensureFiniteNumber(v, fallback) {
+  const n = Number(v);
+  return Number.isFinite(n) ? n : fallback;
+}
+
 function levelUpAlly(ally) {
   let leveled = false;
   
@@ -1922,7 +2378,6 @@ function levelUpAlly(ally) {
     }
     
     drawPartyStatus();
-    drawPartyUI();
   }
 }
 
@@ -2197,82 +2652,71 @@ console.log('drawInventoryBattlePopup called, entries:', Array.from(inventory.en
   }
 }
 
-const partyButton = document.getElementById('party-button');
-partyButton.addEventListener('click', toggleParty);
+  const partyButton = document.getElementById('party-button');
 const partyPopup = document.getElementById('party-popup');
-const allyInfoPopup = document.getElementById('ally-info-popup');
+const partyListDiv = document.getElementById('party-list');
+const equipAllyButton = document.getElementById('equip-ally-button');
 
-function drawPartyUI() {
-  const container = document.getElementById('party-list');
-  container.innerHTML = '';
-  const unlockedAlli = alliesData.filter(a => a.unlocked);
-  
-  if (unlockedAlli.length === 0) {
-    container.innerHTML = '<div style="font-size:8px; padding:20px; color:#aaa; text-align:center;">No allies unlocked yet.</div>';
+partyButton.addEventListener('click', () => {
+  if (partyPopup.style.display === 'none') {
+    drawPartyList();
+    partyPopup.style.display = 'block';
+  } else {
+    partyPopup.style.display = 'none';
+  }
+});
+
+function drawPartyList() {
+  partyListDiv.innerHTML = '';
+  if (unlockedAllies.size === 0) {
+    partyListDiv.innerHTML = '<p>No allies unlocked yet.</p>';
+    equipAllyButton.disabled = true;
     return;
   }
 
-  alliesData.forEach((ally, index) => {
-    if (!ally.unlocked) return;
+  equipAllyButton.disabled = false;
+
+  unlockedAllies.forEach(allyId => {
+    const ally = alliesData.find(a => a.id === allyId);
+    if (!ally) return;
+
     const div = document.createElement('div');
-    div.style.padding = "10px";
-    div.style.borderBottom = "1px solid #ffffff22";
-    div.style.cursor = "pointer";
-    const isEquipped = (selectedAllyIndex === index);
-    div.innerHTML = `${isEquipped ? '<span style="color:#00ffff;">[E]</span> ' : ''}${ally.name} (Lvl ${ally.level})`;
-    
-    div.onclick = () => openAllyInfo(index);
-    container.appendChild(div);
+    div.className = 'party-ally-item';
+    div.textContent = `${ally.name} (Lvl ${ally.level}, HP: ${ally.baseMaxHp}, DMG: ${ally.baseDamage})`;
+    div.dataset.allyId = ally.id;
+    div.style.cursor = 'pointer';
+
+    if (ally.id === equippedAllyId) {
+      div.style.fontWeight = 'bold';
+      div.style.color = 'yellow';
+    }
+
+    div.onclick = () => {
+      const prevSelected = partyListDiv.querySelector('.selected');
+      if (prevSelected) prevSelected.classList.remove('selected');
+      div.classList.add('selected');
+    };
+
+    partyListDiv.appendChild(div);
   });
 }
-  
-let selectedAllyIndex = -1; 
 
-function openAllyInfo(index) {
-  const ally = alliesData[index];
-  const infoPopup = document.getElementById('ally-info-popup');
-  const portraitDiv = document.getElementById("info-portrait");
-  portraitDiv.style.backgroundImage = `url(${ally.portrait})`;
-  portraitDiv.style.backgroundSize = "cover";
-  portraitDiv.style.backgroundPosition = "center";
-  document.getElementById('info-name').textContent = ally.name;
-  const currentMaxHp = ally.baseMaxHp;
-  const currentDamage = ally.baseDamage;
-  document.getElementById('info-stats').textContent =
-  `LVL ${ally.level} HP ${currentMaxHp} DMG ${currentDamage}`;
-  document.getElementById('info-passive').textContent = ally.passive;
-  document.getElementById('info-active').textContent = ally.active;
-  const slot = document.querySelectorAll('.star-power-slot');
-  slot.forEach((slot, i) => {
-      slot.innerHTML = ally.level >= 30 ? "⭐" : "🔒";
-  });
-  document.getElementById('info-equip-btn').onclick = () => {
-    selectedAllyIndex = index;
-    
-    window.currentAlly = alliesData[index]; 
-    equippedAllyId = ally.id;
-    if(window.player) window.player.equippedAlly = alliesData[index];
-    infoPopup.style.display = 'none';
-    document.getElementById('party-popup').style.display = 'none';
-    showTemporaryText(`${ally.name} equipped!`);
-    drawPartyUI();
-  };
-
-  infoPopup.style.display = 'block';
-}
-
-function toggleParty() {
-  const p = document.getElementById('party-popup');
-  const i = document.getElementById('ally-info-popup');
-  
-  if (p.style.display === 'flex' || p.style.display === 'block') {
-    p.style.display = 'none';
-    i.style.display = 'none';
-  } else {
-    p.style.display = 'block';
-    drawPartyUI();
+equipAllyButton.addEventListener('click', () => {
+  const selectedDiv = partyListDiv.querySelector('.selected');
+  if (!selectedDiv) {
+    showTemporaryText('Select an ally to equip.');
+    return;
   }
-}
+  const allyId = selectedDiv.dataset.allyId;
+  if (!unlockedAllies.has(allyId)) {
+    showTemporaryText('This ally is not unlocked.');
+    return;
+  }
+  equippedAllyId = allyId;
+  showTemporaryText(`Equipped ${alliesData.find(a => a.id === allyId).name} as ally.`);
+  partyPopup.style.display = 'none';
+  drawPartyList();
+});
 
 function equipArmor(type) {
   if (!armorTypes[type]) {
@@ -2301,88 +2745,6 @@ function equipWeapon(type) {
   applyEquipmentBonuses();
   showTemporaryText(`Equipped ${weaponTypes[type].name}`);
 }
-
-  function applyWeakness(enemy, percent, duration) {
-  if (!enemy || enemy.resistances?.weakness) return;
-
-  const multiplier = 1 - percent;
-
-  if (enemy._weakenTimeout) {
-    clearTimeout(enemy._weakenTimeout);
-    enemy._weakenTimeout = null;
-  }
-
-  enemy.weakened = true;
-  enemy.weakenMultiplier = multiplier;
-
-  enemy._weakenTimeout = setTimeout(() => {
-    if (!enemy || enemy.removed || enemy.currentHp == null) {
-      if (enemy?._weakenTimeout) {
-        clearTimeout(enemy._weakenTimeout);
-        enemy._weakenTimeout = null;
-      }
-      if (enemy) {
-        enemy.weakened = false;
-        enemy.weakenMultiplier = 1;
-      }
-      drawBattleUI();
-      return;
-    }
-
-    enemy.weakened = false;
-    enemy.weakenMultiplier = 1;
-    enemy._weakenTimeout = null;
-    drawBattleUI();
-  }, duration);
-
-  drawBattleUI();
-}
-
-  function applyInk(enemy, missChance, duration) {
-  if (!enemy || enemy.isBoss) return;
-
-  enemy.inked = true;
-  enemy.missChance = missChance;
-
-  if (enemy._inkTimeout) {
-    clearTimeout(enemy._inkTimeout);
-  }
-
-  enemy._inkTimeout = setTimeout(() => {
-    enemy.inked = false;
-    enemy.missChance = 0;
-    enemy._inkTimeout = null;
-    drawBattleUI();
-  }, duration);
-}
-
-      function applyStun(enemy, duration) {
-  if (!enemy || enemy.resistances?.stun) return;
-
-  enemy.stunned = true;
-  if (enemy._stunTimeout) {
-    clearTimeout(enemy._stunTimeout);
-    enemy._stunTimeout = null;
-  }
-
-  enemy._stunTimeout = setTimeout(() => {
-    if (!enemy || enemy.removed || enemy.currentHp == null) {
-      if (enemy?._stunTimeout) {
-        clearTimeout(enemy._stunTimeout);
-        enemy._stunTimeout = null;
-      }
-      if (enemy) enemy.stunned = false;
-      drawBattleUI();
-      return;
-    }
-
-    enemy.stunned = false;
-    enemy._stunTimeout = null;
-    drawBattleUI();
-  }, duration);
-
-  drawBattleUI();
-}
   
 
 function useItem(itemName) {
@@ -2401,10 +2763,42 @@ if (inBattle) {
   if (itemName === 'bandaid') {
     const healAmount = Math.ceil(playerStats.maxHp * 0.33);
     updateHp(playerStats.currentHp + healAmount);
- } else if (itemName === 'emp_grenade') {
-  activeEnemies.forEach(enemy => applyStun(enemy, 4000));
+  } else if (itemName === 'emp_grenade') {
+  const STUN_DURATION_MS = 4000;
+
+  activeEnemies.forEach(enemy => {
+    if (enemy.resistances && enemy.resistances.stun) return;
+
+  
+    enemy.stunned = true;
+
+    if (enemy._stunTimeout != null) {
+      clearTimeout(enemy._stunTimeout);
+      enemy._stunTimeout = null;
+    }
+
+
+    enemy._stunTimeout = setTimeout(() => {
+     
+      if (!enemy || enemy.removed || enemy.currentHp == null) {
+        if (enemy && enemy._stunTimeout != null) {
+          clearTimeout(enemy._stunTimeout);
+          enemy._stunTimeout = null;
+        }
+        if (enemy) enemy.stunned = false;
+        drawBattleUI();
+        return;
+      }
+
+     
+      enemy.stunned = false;
+      enemy._stunTimeout = null;
+      drawBattleUI();
+    }, STUN_DURATION_MS);
+  });
+
   drawBattleUI();
-} else if (itemName === 'poison_vial') {
+  } else if (itemName === 'poison_vial') {
   const POISON_TICK_MS = 500;
   const POISON_DURATION_MS = 3000;
   const poisonDamagePerTick = Math.max(1, Math.ceil(200 * playerStats.damage / 100));
@@ -2576,140 +2970,6 @@ function updateProgressiveDarknessUI() {
   }
 }
 
-const abilityNames = {
-  ally1: "Ability | Cyro Syrup",
-  ally2: "Ability | Whistle Taunt",
-  ally3: "Ability | Silver Bullet",
-  ally4: "Ability | Ink Ejection",
-  ally5: "Ability | Sing-a-long",
-  ally6: "Ability | Max Energy"
-};
-
-  const allyAbilityCooldowns = {
-  ally1: 20000,
-  ally2: 15000,
-  ally3: 23000,
-  ally4: 18000,
-  ally5: 25000,
-  ally6: 19000
-};
-
-let allyAbilityCooldown = 0;
-let allyDodgeChance = 0;
-  
-function playAbilitySfx(src, volume = 1) {
-  const sound = new Audio(src);
-  sound.volume = volume;
-  sound.play();
-}
-  function spawnSplatter() {
-  const container = document.getElementById("splatter-container");
-
-  const img = document.createElement("img");
-  img.src = "splatter.png";
-  img.classList.add("splatter");
-
-  img.style.left = Math.random() * 80 + "%";
-  img.style.top = Math.random() * 80 + "%";
-
-  container.appendChild(img);
-  setTimeout(() => {
-    img.style.opacity = 0;
-  }, 1000);
-  setTimeout(() => {
-    img.remove();
-  }, 7000);
-}
-
-function useAllyAbility(ally) {
-  const now = Date.now();
-
-  const cd = allyAbilityCooldowns[ally.id] || 20000;
-  if (now < allyAbilityCooldown) return;
-  if (ally.currentHp <= 0) {
-        return; 
-    }
-
-  if (ally.id === "ally1") {
-  playAbilitySfx("lou-ab.mp3");
-  const target = ally.currentTarget;
-  if (target) applyStun(target, 4000);
-}
-  if (ally.id === "ally2") {
-  playAbilitySfx("buzz-ab.mp3");
-  playerStats.isTargeted = false;
-  activeAlly.isTargeted = true;
-  activeAlly.isTaunting = true;
-  activeAlly.damageReduction = 0.40;
-  setTimeout(() => {
-    activeAlly.isTargeted = false;
-    activeAlly.isTaunting = false;
-    activeAlly.damageReduction = 0;
-  }, 3000);
-}
-  if (ally.id === "ally3") {
-  playAbilitySfx("colt-ab.mp3");
-  const target = ally.currentTarget;
-  if (!target) return;
-  let dmg;
-  if (target.isBoss) {
-    dmg = ally.damage * 5;
-  } else {
-    dmg = Math.floor(target.maxHp * 0.20);
-  }
-  target.currentHp -= dmg;
-  if (target.currentHp < 0) target.currentHp = 0;
-  const enemyIdx = activeEnemies.indexOf(target);
-  spawnDamageNumber(enemyIdx, dmg);
-
-  if (target.currentHp === 0) {
-    handleEnemyDeath(target);
-  }
-}
-  if (ally.id === "ally4") {
-  playAbilitySfx("otis-ab.mp3");
-  for (const enemy of activeEnemies) {
-    applyInk(enemy, 0.35, 5000);
-  }
-  const splatterCount = Math.floor(Math.random() * 3) + 3;
-  for (let i = 0; i < splatterCount; i++) {
-    spawnSplatter();
-  }
-}
-
-  if (ally.id === "ally5") {
-  playAbilitySfx("janet-ab.wav");
-  applyStatusEffect(activeAlly, 'strong', 6000);
-  applyStatusEffect(playerStats, 'strong', 6000);
-  }
-    if (ally.id === "ally6") {
-    playAbilitySfx("max-ab.mp3");
-    const playerHeal = Math.floor(playerStats.maxHp * 0.10);
-    const allyHeal = Math.floor(ally.maxHp * 0.10);
-    playerStats.currentHp = Math.min(playerStats.maxHp, playerStats.currentHp + playerHeal);
-    ally.currentHp = Math.min(ally.maxHp, ally.currentHp + allyHeal);
-    updateHp(playerStats.currentHp);
-  }
-  allyAbilityCooldown = now + cd;
-  drawPlayerBattleStatus();
-}
-
-  function scanEnemy(enemy) {
-  if (!enemy) return;
-
-    const base = enemyTypes[enemy.type] || {};
-    const lines = [];
-  lines.push({ speaker: 'Janet', text: `Max HP: ${enemy.maxHp}`, style: 'dialog' });
-  lines.push({ speaker: 'Janet', text: `Damage: ${enemy.damage}`, style: 'dialog' });
-
-  if (base.info) {
-    lines.push({ speaker: 'Janet', text: base.info, style: 'dialog' });
-  }
-
-  showBattleDialog(lines);
-}
-
-
 
 function drawBattleUI() {
   const battleOverlay = document.getElementById('battle-overlay');
@@ -2727,14 +2987,7 @@ function drawBattleUI() {
 
     const enemyButton = document.createElement('button');
     enemyButton.className = 'enemy-target';
-    
-    enemyButton.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-      if (activeAlly?.id === "ally5") {
-        scanEnemy(enemy);
-      }
-  });
-    
+
     if (isFogged) {
       enemyButton.innerHTML = `<h3>${enemy.name}</h3><p>HP: ???/???</p>`;
     } else {
@@ -2745,7 +2998,6 @@ function drawBattleUI() {
     if (enemy.stunned) enemyButton.classList.add('stunned');
     if (enemy.poisoned) enemyButton.classList.add('poisoned');
     if (enemy.enraged) enemyButton.classList.add('enraged');
-    if (enemy.snow) enemyButton.classList.add('snow');
     if (enemy.isStoned) enemyButton.classList.add('stoned');
     if (index === selectedEnemyIndex) enemyButton.classList.add('selected');
 
@@ -2792,7 +3044,6 @@ function drawPlayerBattleStatus() {
       { active: !!entity.isFogged, img: 'fog.png' },
       { active: !!entity.isBleeding, img: 'bleed.png' },
       { active: !!entity.isWeakened, img: 'weak.png' },
-      { active: !!entity.isStrong, img: 'strong.png' },
       { active: !!entity.isTargeted, img: 'target.png' }
     ];
 
@@ -2923,33 +3174,6 @@ function drawPlayerBattleStatus() {
       targetDiv.appendChild(btn);
     });
     playerBattleStatusDiv.appendChild(targetDiv);
-    
-const abilityBtn = document.createElement('button');
-abilityBtn.className = 'item-use-button';
-abilityBtn.style.marginTop = "6px";
-abilityBtn.style.width = "100%";
-abilityBtn.style.padding = "6px";
-abilityBtn.style.fontSize = "11px";
-abilityBtn.style.backgroundColor = "#444";
-
-abilityBtn.onclick = () => {
-    useAllyAbility(activeAlly);
-};
-
-const now = Date.now();
-const cdRemaining = allyAbilityCooldown - now;
-
-if (cdRemaining > 0) {
-    abilityBtn.disabled = true;
-    abilityBtn.style.opacity = "0.5";
-    abilityBtn.textContent = `Cooldown: ${Math.ceil(cdRemaining / 1000)}s`;
-} else {
-    abilityBtn.disabled = false;
-    abilityBtn.style.opacity = "1";
-    abilityBtn.textContent = abilityNames[activeAlly.id] || "Ability";
-}
-
-playerBattleStatusDiv.appendChild(abilityBtn);
   }
   
   if (window._raft) {
@@ -3038,10 +3262,6 @@ playerBattleStatusDiv.appendChild(abilityBtn);
   if (!activeAlly) return;
   if (activeAlly.attackTimerId) clearInterval(activeAlly.attackTimerId);
 
-  if (activeAlly.id === "ally6") {
-    allyDodgeChance = 0.20;
-}
-
   activeAlly.attackTimerId = setInterval(() => {
     if (!inBattle || !activeAlly || activeAlly.currentHp <= 0) {
       clearInterval(activeAlly.attackTimerId);
@@ -3072,56 +3292,22 @@ playerBattleStatusDiv.appendChild(abilityBtn);
     }
 
     if (!targetEnemy) return;
-  activeAlly.currentTarget = targetEnemy;
 
   if (targetEnemy.isStoned) {
     return;
   }
 
     if (targetEnemy.shieldActive) {
-  showTemporaryText(`${activeAlly.name}'s attack was blocked by shield!`);
-} else {
+      showTemporaryText(`${activeAlly.name}'s attack was blocked by shield!`);
+    } else {
+      targetEnemy.currentHp -= activeAlly.damage;
 
-  let dmg = activeAlly.damage;
-      if (activeAlly.isStrong) {
-        dmg *= 1.25;
-      }
-  if (activeAlly.id === "ally3") {
-    if (Math.random() < 0.07) {
-      dmg *= 2;
+      const enemyIdx = activeEnemies.indexOf(targetEnemy);
+      spawnDamageNumber(enemyIdx, activeAlly.damage);
+
+      if (targetEnemy.currentHp < 0) targetEnemy.currentHp = 0;
+      showTemporaryText(`${activeAlly.name} attacks ${targetEnemy.name} for ${activeAlly.damage} damage!`);
     }
-  }
-  dmg = Math.floor(dmg);
-  targetEnemy.currentHp -= dmg;
-
-  const enemyIdx = activeEnemies.indexOf(targetEnemy);
-  spawnDamageNumber(enemyIdx, dmg);
-
-  if (targetEnemy.currentHp < 0) targetEnemy.currentHp = 0;
-}
-
-if (activeAlly.id === 'ally1') {
-    targetEnemy.snow = true;
-
-    const now = Date.now();
-    const timeSinceLast = now - targetEnemy.lastAttackAt;
-    const timeRemaining = targetEnemy.attackTime - timeSinceLast;
-    const extraDelay = timeRemaining * 0.20;
-
-    targetEnemy.attackTime += extraDelay;
-    targetEnemy.lastAttackAt += extraDelay;
-
-    clearTimeout(targetEnemy.snowTimeout);
-    targetEnemy.snowTimeout = setTimeout(() => {
-        targetEnemy.snow = false;
-    }, 5000);
-}
-  
-if (activeAlly.id === "ally2") {
-  if (Math.random() < 0.20) {
-    applyWeakness(targetEnemy, 0.50, 2000);
-  }
-}
 
     if (targetEnemy.currentHp === 0) {
       handleEnemyDeath(targetEnemy);
@@ -3148,8 +3334,7 @@ if (activeAlly.id === "ally2") {
     'blind': 'isBlinded',
     'frozen': 'isFrozen',
     'fog': 'isFogged',
-    'weaken': 'isWeakened',
-    'strong': 'isStrong'
+    'weaken': 'isWeakened'
   };
   
   const flag = statusMap[status];
@@ -3170,66 +3355,63 @@ if (activeAlly.id === "ally2") {
 // Enemy behaviors
 // normal enemy attack
 function normalAttack(enemy, target) {
-
-if (enemy.missChance && Math.random() < enemy.missChance) {
-  return { damage: 0, target };
-}
-
-  
-if (activeAlly && activeAlly.isTaunting) {
-  target = activeAlly;
-}
-
-  let damage = enemy.damage || 0;
-
-  if (enemy.weakened) {
-    damage = Math.floor(damage * enemy.weakenMultiplier);
+  const damage = enemy.damage || 0;
+   if (typeof normalAttack === 'function') {
+    const _orig_normalAttack = normalAttack;
+    normalAttack = function(enemy, target) {
+      if (target === playerStats) {
+        const dmg = enemy.damage || 0;
+        if (typeof playerTakeDamage === 'function') playerTakeDamage(dmg, enemy);
+        else _orig_normalAttack(enemy, target);
+      } else {
+        _orig_normalAttack(enemy, target);
+      }
+    };
   }
-
   if (target === playerStats) {
-    playerTakeDamage(damage, enemy);
-  }
-
-  else if (target === activeAlly) {
-
-  let finalDamage = damage;
-  if (activeAlly.damageReduction) {
-    finalDamage = Math.floor(finalDamage * (1 - activeAlly.damageReduction));
-  }
-    if (activeAlly.id === "ally6" && Math.random() < allyDodgeChance) {
-      return;
-  }
-
-  if (activeAlly.id === "ally4" && activeAlly.starfishAlive) {
-    activeAlly.starfishHp -= finalDamage;
-
-    if (activeAlly.starfishHp <= 0) {
-      activeAlly.starfishHp = 0;
-      activeAlly.starfishAlive = false;
+    playerTakeDamage(damage);
+    showTemporaryText(`${enemy.name} attacks you for ${damage} damage!`);
+  } else if (target === activeAlly) {
+    activeAlly.currentHp -= damage;
+    if (activeAlly.currentHp < 0) activeAlly.currentHp = 0;
+    showTemporaryText(`${enemy.name} attacks ${activeAlly.name} for ${damage} damage!`);
+    if (activeAlly.currentHp === 0) {
+      showTemporaryText(`${activeAlly.name} has been defeated!`);
+      clearInterval(activeAlly.attackTimerId);
+      activeAlly.attackTimerId = null;
     }
-
-    return { damage: finalDamage, target: activeAlly };
   }
-  activeAlly.currentHp -= finalDamage;
-  if (activeAlly.currentHp < 0) activeAlly.currentHp = 0;
-
-  if (activeAlly.currentHp === 0) {
-    clearInterval(activeAlly.attackTimerId);
-    activeAlly.attackTimerId = null;
-  }
-}
-  return { damage, target };
 }
 
 function sniperAttack(enemy, target) {
+  if (typeof sniperAttack === 'function') {
+    const _orig_sniperAttack = sniperAttack;
+    sniperAttack = function(enemy, target) {
+      const isCritical = Math.random() < 0.3;
+      const damage = isCritical ? (enemy.damage * 3) : enemy.damage;
+      if (target === playerStats) {
+        if (typeof playerTakeDamage === 'function') playerTakeDamage(damage, enemy);
+        else _orig_sniperAttack(enemy, target);
+      } else {
+        _orig_sniperAttack(enemy, target);
+      }
+    };
+  }
   const isCritical = Math.random() < 0.3;
-  const critDamage = isCritical ? enemy.damage * 3 : enemy.damage;
-
-  const originalDamage = enemy.damage;
-  enemy.damage = critDamage;
-  normalAttack(enemy, target);
-
-  enemy.damage = originalDamage;
+  const damage = isCritical ? (enemy.damage * 3) : enemy.damage;
+  if (target === playerStats) {
+    playerTakeDamage(damage);
+    showTemporaryText(`${enemy.name} ${isCritical ? 'snipes critically' : 'attacks'} for ${damage} damage!`);
+  } else if (target === activeAlly) {
+    activeAlly.currentHp -= damage;
+    if (activeAlly.currentHp < 0) activeAlly.currentHp = 0;
+    showTemporaryText(`${enemy.name} ${isCritical ? 'snipes critically' : 'attacks'} ${activeAlly.name} for ${damage} damage!`);
+    if (activeAlly.currentHp === 0) {
+      showTemporaryText(`${activeAlly.name} has been defeated!`);
+      clearInterval(activeAlly.attackTimerId);
+      activeAlly.attackTimerId = null;
+    }
+  }
 }
 
 function bossBehavior(enemy, target) {
@@ -3452,21 +3634,34 @@ function swordBehavior(enemy, target) {
 
 //mortuary boss
 function lifeStealBossBehavior(enemy, target) {
-  if (enemy.shieldActive || enemy.stunned) {
+  if (enemy.shieldActive) {
     return;
   }
 
-  const damageDealt = normalAttack(enemy, target);
+  if (!enemy.stunned) {
+    const damage = enemy.damage || 0;
+    if (target === playerStats) {
+      playerTakeDamage(damage);
+      showTemporaryText(`${enemy.name} life steals you for ${damage} damage!`);
+    } else if (target === activeAlly) {
+      activeAlly.currentHp -= damage;
+      if (activeAlly.currentHp < 0) activeAlly.currentHp = 0;
+      showTemporaryText(`${enemy.name} life steals ${activeAlly.name} for ${damage} damage!`);
+      if (activeAlly.currentHp === 0) {
+        showTemporaryText(`${activeAlly.name} has been defeated!`);
+        clearInterval(activeAlly.attackTimerId);
+        activeAlly.attackTimerId = null;
+      }
+    }
 
-  if (damageDealt > 0) {
-    enemy.currentHp = Math.min(enemy.currentHp + damageDealt, enemy.maxHp);
-    showTemporaryText(`${enemy.name} heals for ${damageDealt} HP!`);
+    enemy.currentHp += damage;
+    if (enemy.currentHp > enemy.maxHp) enemy.currentHp = enemy.maxHp;
+    showTemporaryText(`${enemy.name} heals for ${damage} HP!`);
+
+    drawBattleUI();
+    drawPlayerBattleStatus();
   }
-
-  drawBattleUI();
-  drawPlayerBattleStatus();
 }
-
 // Cave boss 
 function caveBossBehavior(enemy, target) {
   if (!enemy._shardIntervalId) {
@@ -3496,22 +3691,39 @@ function caveBossBehavior(enemy, target) {
   }
 
   const hpPercent = (enemy.currentHp / enemy.maxHp) * 100;
-  if (hpPercent <= 50 && !enemy._blackoutRunning) {
-    enemy._blackoutRunning = true;
+  if (hpPercent <= 50) {
+    if (!enemy._blackoutRunning) {
+      enemy._blackoutRunning = true;
 
-    enemy._blackoutIntervalId = setInterval(() => {
+      enemy._blackoutIntervalId = setInterval(() => {
+        showBattleBlackout();
+        setTimeout(() => {
+          hideBattleBlackout();
+        }, 9000);
+      }, 10000);
+
       showBattleBlackout();
-      setTimeout(hideBattleBlackout, 9000);
-    }, 10000);
-
-    showBattleBlackout();
-    setTimeout(hideBattleBlackout, 9000);
+      setTimeout(() => {
+        hideBattleBlackout();
+      }, 9000);
+    }
   }
+
   if (!enemy.stunned) {
-    normalAttack(enemy, target);
+    const dmg = enemy.damage || 0;
+    if (target === playerStats) {
+      playerTakeDamage(dmg);
+    } else if (target === activeAlly && activeAlly) {
+      activeAlly.currentHp -= dmg;
+      if (activeAlly.currentHp < 0) activeAlly.currentHp = 0;
+      if (activeAlly.currentHp === 0) {
+        showTemporaryText(`${activeAlly.name} has been defeated!`);
+        clearInterval(activeAlly.attackTimerId);
+        activeAlly.attackTimerId = null;
+      }
+    }
   }
 }
-  
 //mystic mountain boss
 
   function findMountainBoss() {
@@ -3582,15 +3794,19 @@ function spawnMountainSheep(pen, boss) {
 
   
   setTimeout(() => {
+    // If boss still valid and alive, heal
     if (boss && boss.currentHp != null && boss.currentHp > 0) {
       const heal = Math.max(1, Math.ceil((boss.maxHp || 1) * MOUNTAIN_PEN_CONFIG.sheepHealPercent));
       boss.currentHp = Math.min(boss.maxHp, (boss.currentHp || 0) + heal);
       showTemporaryText(`${boss.name} devours a sheep and heals for ${heal} HP!`);
+      // reflect in UI
       drawPlayerBattleStatus();
     }
 
+    // Remove sheep from activeEnemies
     const si = activeEnemies.indexOf(sheep);
     if (si > -1) activeEnemies.splice(si, 1);
+    // Also remove from pen._spawnedSheep
     if (pen && Array.isArray(pen._spawnedSheep)) {
       pen._spawnedSheep = pen._spawnedSheep.filter(s => s !== sheep);
     }
@@ -3598,10 +3814,12 @@ function spawnMountainSheep(pen, boss) {
   }, MOUNTAIN_PEN_CONFIG.sheepLifetimeMs);
 }
 
+// 
 function startMountainPenCycle(boss) {
   if (!boss || boss._penCycleStarted) return;
   boss._penCycleStarted = true;
 
+  // Make sure pen respawns every penRespawnIntervalMs if none present
   boss._penRespawnInterval = setInterval(() => {
     if (!inBattle || boss.currentHp <= 0) {
       clearInterval(boss._penRespawnInterval);
@@ -3609,12 +3827,14 @@ function startMountainPenCycle(boss) {
       return;
     }
 
+    // If pen already present and alive, skip
     const penPresent = activeEnemies.some(e => e && e._isMountainPen && e._ownerBossId === boss._internalId);
     if (!penPresent) {
       spawnMountainPen(boss);
     }
   }, MOUNTAIN_PEN_CONFIG.penRespawnIntervalMs);
 
+  // Try to spawn a pen immediately
   spawnMountainPen(boss);
 }
 function mountainBossBehavior(enemy, target) {
@@ -3679,18 +3899,26 @@ function mountainBossPenTrigger(enemy) {
 }
 
   
-let chosen = playerStats;
-if (activeAlly && activeAlly.currentHp > 0 && Math.random() < 0.4) {
-  chosen = activeAlly;
+  const baseDamage = enemy.damage || 0;
+  const finalDamage = enemy.enraged ? baseDamage * 2 : baseDamage;
+
+  let chosen = playerStats;
+  if (activeAlly && activeAlly.currentHp > 0 && Math.random() < 0.4) chosen = activeAlly;
+
+  if (chosen === playerStats) {
+    playerTakeDamage(finalDamage);
+    showTemporaryText(`${enemy.name} bites and smashes you for ${finalDamage} damage!`);
+  } else {
+    activeAlly.currentHp = Math.max(0, activeAlly.currentHp - finalDamage);
+    showTemporaryText(`${enemy.name} bites ${activeAlly.name} for ${finalDamage} damage!`);
+    if (activeAlly.currentHp === 0) {
+      showTemporaryText(`${activeAlly.name} has been defeated!`);
+      clearInterval(activeAlly.attackTimerId);
+      activeAlly.attackTimerId = null;
+    }
+  }
 }
 
-const originalDamage = enemy.damage;
-enemy.damage = enemy.enraged ? enemy.damage * 2 : enemy.damage;
-
-normalAttack(enemy, chosen);
-
-enemy.damage = originalDamage;
-}
 
 const _orig_handleEnemyDeath = handleEnemyDeath;
 handleEnemyDeath = function(enemy, idx) {
@@ -3891,18 +4119,27 @@ function ghostBossBehavior(enemy, target) {
   // If hidden, behavior is managed by trains and spectral spawner; do nothing per-turn
   if (enemy._isHidden) return;
 
-if (enemy.shieldActive || enemy.stunned) return;
+  // revealed behavior: normal attack like other bosses
+  if (enemy.shieldActive || enemy.stunned) return;
+  const dmg = enemy.damage || 0;
+  let chosen = playerStats;
+  if (activeAlly && activeAlly.currentHp > 0 && Math.random() < 0.5) chosen = activeAlly;
+  if (chosen === playerStats) {
+    playerTakeDamage(dmg);
+    showTemporaryText(`${enemy.name} lashes you with ethereal claws for ${dmg} damage!`);
+  } else {
+    activeAlly.currentHp = Math.max(0, activeAlly.currentHp - dmg);
+    showTemporaryText(`${enemy.name} slashes ${activeAlly.name} for ${dmg} damage!`);
+    if (activeAlly.currentHp === 0) {
+      showTemporaryText(`${activeAlly.name} has been defeated!`);
+      clearInterval(activeAlly.attackTimerId);
+      activeAlly.attackTimerId = null;
+    }
+  }
+  drawBattleUI();
+  drawPlayerBattleStatus();
+  drawPartyStatus();
 
-let chosen = playerStats;
-if (activeAlly && activeAlly.currentHp > 0 && Math.random() < 0.5) {
-  chosen = activeAlly;
-}
-
-normalAttack(enemy, chosen);
-
-drawBattleUI();
-drawPlayerBattleStatus();
-drawPartyStatus();
 
   if (!enemy._hideTimeoutScheduled && Math.random() < 0.95) {
     enemy._hideTimeoutScheduled = true;
@@ -3925,20 +4162,25 @@ drawPartyStatus();
   }
 }
 
+// ---------- handleEnemyDeath wrapper (ensure trains and reveal logic) ----------
 const __orig_handleEnemyDeath = handleEnemyDeath;
 handleEnemyDeath = function(enemy, idx) {
+  // call original logic first to handle XP, removal, etc.
   const res = __orig_handleEnemyDeath(enemy, idx);
 
+  // If a train died and a hidden ghost exists, handle reveal/respawn
   if (enemy && enemy._isGhostTrain) {
     let ghost = activeEnemies.find(e => e && e.type === 'GhostBoss');
     if (!ghost) ghost = window._lastGhostRef;
     if (!ghost) return res;
 
-
+    // If ghost is hidden and host train died -> reveal
     if (ghost._isHidden) {
       if (enemy._trainIndex === ghost._hiddenInIndex) {
-        revealGhostFromTrain(enemy); 
+        revealGhostFromTrain(enemy); // reveals and schedules next hide
+        // guard: ensure hide cycle will be called again after reveal (revealGhostFromTrain does this)
       } else {
+        // non-host train died: remove it; if none remain, respawn trains
         const remainingTrains = activeEnemies.filter(e => e && e._isGhostTrain);
         if (remainingTrains.length === 0 && ghost && ghost._isHidden) {
           spawnGhostTrains(ghost);
@@ -3958,43 +4200,57 @@ function IslandBossPresent() {
 function islandBossBehavior(enemy, target) {
   if (enemy.shieldActive || enemy.stunned) return;
 
+  // ensure raft exists for this fight; if not, initialize safe default
   if (!window._raft) window._raft = { maxHp: 12, hp: 12 };
 
+  // per-action cooldown so boss doesn't attack every tick (tune ms)
   if (!enemy._lastAction) enemy._lastAction = 0;
   const now = Date.now();
-  if (now - enemy._lastAction < 800) return;
+  if (now - enemy._lastAction < 800) return; // boss acts at most ~once per 800ms
   enemy._lastAction = now;
 
-let chosen = playerStats;
-if (activeAlly && activeAlly.currentHp > 0 && Math.random() < 0.5) {
-  chosen = activeAlly;
-}
-const isPiercing = Math.random() < 0.25;
+  // choose target (50/50 preference for ally if present)
+  let chosen = playerStats;
+  if (activeAlly && activeAlly.currentHp > 0 && Math.random() < 0.5) chosen = activeAlly;
 
-const damageDealt = normalAttack(enemy, chosen);
+  // Attack landing logic only reduces raft when it damages the player (not ally)
+  const isPiercing = Math.random() < 0.25; // 25% piercing
+  const baseDamage = Math.max(0, Number(enemy.damage) || 0);
 
-if (chosen === playerStats) {
-  const drain = isPiercing ? 2 : 1;
-  window._raft.hp = Math.max(0, window._raft.hp - drain);
+  if (chosen === playerStats) {
+    // damage player
+    playerTakeDamage(baseDamage);
+    // drain raft HP: 1 normal, 2 piercing
+    const drain = isPiercing ? 2 : 1;
+    window._raft.hp = Math.max(0, window._raft.hp - drain);
+    showTemporaryText(`${enemy.name} attacks your raft and you for ${baseDamage} damage! Raft -${drain}.`);
+    // piercing special message
+    if (isPiercing) showTemporaryText(`${enemy.name} pierced through the raft!`);
+    drawPlayerBattleStatus();
+    drawBattleUI();
 
-  showTemporaryText(`${enemy.name} attacks your raft and you! Raft -${drain}.`);
-  if (isPiercing) {
-    showTemporaryText(`${enemy.name} pierced through the raft!`);
-  }
-
-  drawPlayerBattleStatus();
-  drawBattleUI();
-
-  if (window._raft.hp <= 0) {
-    showTemporaryText('Your raft breaks apart — you are lost to the sea!');
-    playerStats.currentHp = 0;
-    updateHp(0);
-    endBattle('lose');
-    return;
+    // raft destroyed => player dies immediately
+    if (window._raft.hp <= 0) {
+      showTemporaryText('Your raft breaks apart — you are lost to the sea!');
+      // Force player death/instant lose
+      playerStats.currentHp = 0;
+      updateHp(0);
+      endBattle('lose');
+      return;
     }
+  } else {
+    // hit ally only, does not drain raft
+    activeAlly.currentHp = Math.max(0, activeAlly.currentHp - baseDamage);
+    showTemporaryText(`${enemy.name} hits ${activeAlly.name} for ${baseDamage} damage!`);
+    if (activeAlly.currentHp === 0) {
+      showTemporaryText(`${activeAlly.name} has been defeated!`);
+      clearInterval(activeAlly.attackTimerId);
+      activeAlly.attackTimerId = null;
+    }
+    drawPartyStatus();
+    drawBattleUI();
   }
 }
-
 
   function factoryBehavior(enemy, target) {
   // one-time init
@@ -4036,7 +4292,7 @@ if (chosen === playerStats) {
     enemy._lifecoreInterval = setInterval(() => {
       if (!inBattle || enemy.currentHp <= 0) return;
 
-      // create a Life Core
+      // create a Life Core and link it to the factory as a protector
       const base = enemyTypes.LifeCore;
       const mult = getDifficultyMultipliers();
       const lc = {
@@ -4057,14 +4313,16 @@ if (chosen === playerStats) {
       enemy._spawnedEntities.push(lc);
       activeEnemies.push(lc);
 
-      
+      // when a life core dies, we'll remove references (handled elsewhere)
       drawBattleUI();
     }, 5000);
 
-    
+    // initial shield state: if any lifeCore exists, keep shield active
     enemy.shieldActive = (enemy._lifeCoreRefs.length > 0);
   }
 
+  // Maintain shield while any LifeCore exists
+  // Purge stale refs (in case quality of references changes)
   enemy._lifeCoreRefs = enemy._lifeCoreRefs.filter(ref => ref && ref.currentHp > 0 && activeEnemies.includes(ref));
   const anyLifeCoreAlive = enemy._lifeCoreRefs.length > 0;
 
@@ -4080,20 +4338,29 @@ if (chosen === playerStats) {
     }
   }
 
-if (!enemy.shieldActive && !enemy.stunned) {
+  // Factory performs occasional direct attacks if not shielded
+  if (!enemy.shieldActive && !enemy.stunned) {
+    // basic attack behaviour: pick a target (player or ally)
     const now = Date.now();
     if (!enemy._lastAttack || (now - enemy._lastAttack) > 1200) {
-        enemy._lastAttack = now;
-
-        const chosen = (activeAlly && activeAlly.currentHp > 0 && Math.random() < 0.5)
-            ? activeAlly
-            : playerStats;
-
-        normalAttack(enemy, chosen);
-
-        drawBattleUI();
-        drawPlayerBattleStatus();
-        drawPartyStatus();
+      enemy._lastAttack = now;
+      const chosen = (activeAlly && activeAlly.currentHp > 0 && Math.random() < 0.5) ? activeAlly : playerStats;
+      const dmg = enemy.damage || 0;
+      if (chosen === playerStats) {
+        playerTakeDamage(dmg);
+        showTemporaryText(`${enemy.name} slams you for ${dmg} damage!`);
+      } else {
+        activeAlly.currentHp = Math.max(0, activeAlly.currentHp - dmg);
+        showTemporaryText(`${enemy.name} smashes ${activeAlly.name} for ${dmg} damage!`);
+        if (activeAlly.currentHp === 0) {
+          showTemporaryText(`${activeAlly.name} has been defeated!`);
+          clearInterval(activeAlly.attackTimerId);
+          activeAlly.attackTimerId = null;
+        }
+      }
+      drawBattleUI();
+      drawPlayerBattleStatus();
+      drawPartyStatus();
     }
   }
 }
@@ -4431,6 +4698,7 @@ function smokeBehavior(enemy, target) {
     normalAttack(enemy, target);
 }
 
+// Healer: heals all allies every 3 seconds
 function healerBehavior(enemy) {
   if (!enemy.lastHealTime) enemy.lastHealTime = 0;
   const now = Date.now();
@@ -4438,7 +4706,7 @@ function healerBehavior(enemy) {
   if (now - enemy.lastHealTime >= 3000) {
     enemy.lastHealTime = now;
 
-    activeEnemies.forEach(ally => { //maybe rework the names bc allies exist
+    activeEnemies.forEach(ally => {
       if (ally.currentHp < ally.maxHp) {
         const healAmount = Math.floor(ally.maxHp * 0.15); // Heals 15% max HP
         ally.currentHp += healAmount;
@@ -4461,6 +4729,81 @@ function healerBehavior(enemy) {
   sheepHealPercent: 0.05         // heal boss for 5% of its maxHp when a sheep is eaten
 };
   
+// Take enemy turn actions
+function takeTurn() {
+  if (!inBattle) return;
+
+
+  activeEnemies.forEach(enemy => {
+    if (!enemy.stunned) {
+      let target = playerStats;
+      if (activeAlly && activeAlly.currentHp > 0) {
+        target = (Math.random() < 0.5) ? playerStats : activeAlly;
+      }
+
+      const behavior = enemyTypes[enemy.type]?.behavior || 'normalAttack';
+if (behavior === 'normalAttack') {
+  normalAttack(enemy, target);
+} else if (behavior === 'sniperAttack') {
+  sniperAttack(enemy, target);
+} else if (behavior === 'oldBotBehavior') {
+  oldBotBehavior(enemy, target);
+} else if (behavior === 'sandBehavior') {
+  sandBehavior(enemy, target);
+} else if (behavior === 'smokeBehavior') {
+  smokeBehavior(enemy, target);
+} else if (behavior === 'caveBossBehavior') {
+  caveBossBehavior(enemy, target);
+} else if (behavior === 'bossBehavior') {
+  bossBehavior(enemy, target);
+} else if (behavior === 'summonerBehavior') {
+  summonerBehavior(enemy, target);
+} else if (behavior === 'secondStageBossBehavior') {
+  secondStageBossBehavior(enemy, target);
+} else if (behavior === 'factoryBehavior') {
+  factoryBehavior(enemy, target);
+} else if (behavior === 'lifeCoreBehavior') {
+  lifeCoreBehavior(enemy, target);
+} else if (behavior === 'iceBossBehavior') {
+  iceBossBehavior(enemy, target);
+} else if (behavior === 'lifeStealBossBehavior') {
+  lifeStealBossBehavior(enemy, target);
+} else if (behavior === 'critBossBehavior') {
+  critBossBehavior(enemy, target);
+} else if (behavior === 'islandBossBehavior') {
+  islandBossBehavior(enemy, target);
+} else if (behavior === 'mountainBossBehavior') {
+  mountainBossBehavior(enemy, target);
+} else if (behavior === 'ghostBossBehavior') {
+  ghostBossBehavior(enemy, target);
+} else if (behavior === 'finalBossStage1Behavior') {
+  finalBossStage1Behavior(enemy, target);
+} else if (behavior === 'finalBossStage2Behavior') {
+  finalBossStage2Behavior(enemy, target);
+} else if (behavior === 'finalBossStage3Behavior') {
+  finalBossStage3Behavior(enemy, target);
+} else if (behavior === 'shadowOrbBehavior') {
+  shadowOrbBehavior(enemy, target);
+} else if (behavior === 'lightOrbBehavior') {
+  lightOrbBehavior(enemy, target);
+} else if (behavior === 'healerBehavior') {
+  healerBehavior(enemy, target);
+}
+    }
+  if (!canGoBelow1Hp() && playerStats.currentHp <= 1) {
+    playerStats.currentHp = 1;
+  }
+  updateHp(playerStats.currentHp);
+  drawBattleUI();
+  drawPlayerBattleStatus();
+  drawPartyStatus();
+
+  if (playerStats.currentHp <= 0) {
+    endBattle('lose');
+    hideBattleBlackout();
+  }
+    });
+}
 
 function startDarkTimer() {
   if (darkTimerActive) return;
@@ -4839,20 +5182,24 @@ deathSound.play();
 
   handleEnemyDeath = function(arg0, arg1) {
     try {
+      // Resolve arguments: allow (enemy), (enemy, idx) or (idx)
       let enemy = arg0;
       let idx = (typeof arg1 === 'number') ? arg1 : undefined;
       if (typeof arg0 === 'number') { idx = arg0; enemy = Array.isArray(activeEnemies) ? activeEnemies[idx] : null; }
 
       console.log('[FinalBossHook] wrapper enter. enemyExists=', !!enemy, 'enemyType=', enemy ? enemy.type : '<<none>>', 'resolvedIdx=', typeof idx === 'number' ? idx : '<<none>>');
 
+      // If no usable enemy and no valid index, delegate
       if (!enemy && (typeof idx !== 'number' || idx < 0 || idx >= (activeEnemies && activeEnemies.length || 0))) {
         return __orig_handleEnemyDeath(arg0, arg1);
       }
       if (!enemy && typeof idx === 'number') enemy = activeEnemies[idx];
       if (!enemy) return __orig_handleEnemyDeath(arg0, arg1);
 
+      // Prevent duplicate processing
       if (!enemy._deathHandled) enemy._deathHandled = true;
 
+      // Compute a safe insert index (use provided idx if valid, else find enemy index)
       let insertIndex = (typeof idx === 'number' && idx >= 0 && idx <= activeEnemies.length) ? idx : activeEnemies.indexOf(enemy);
       if (insertIndex === -1) insertIndex = activeEnemies.length;
 
@@ -4864,6 +5211,7 @@ deathSound.play();
         }
       }
 
+      // -- simple dialog example (keeps behavior) --
       if (enemy.type === 'MountainBoss') {
         console.log('[FinalBossHook] MountainBoss dialog for', enemy.name);
         if (typeof showBattleDialog === 'function') {
@@ -4883,6 +5231,7 @@ deathSound.play();
         // allow original to continue after
       }
 
+      // -- FinalBossStage1 -> FinalBossStage2: sentinel technique to keep battle open synchronously --
       if (enemy.type === 'FinalBossStage1' && !enemy._stageProgressed) {
         enemy._stageProgressed = true;
 
@@ -4894,6 +5243,7 @@ deathSound.play();
           { speaker: '8-Bit', text: "I'll never surrender to you! You know that! Bring it on! Let's fight!" }
         ];
 
+        // Build Stage2 synchronously
         const base = (enemyTypes && enemyTypes.FinalBossStage2) || { name: 'FinalBossStage2', maxHp:1, damage:0 };
         const mult = (typeof getDifficultyMultipliers === 'function') ? getDifficultyMultipliers() : { enemyHp:1, enemyDmg:1 };
         const realStage2 = {
@@ -4926,17 +5276,21 @@ deathSound.play();
         try {
           if (origEndBattle) window.endBattle = suppressEndBattle;
 
+          // Call original handler synchronously to perform the usual removal/XPs
           try { __orig_handleEnemyDeath(enemy, idx); } catch (e) { console.error('[FinalBossHook] original handleEnemyDeath threw', e); }
 
+          // Determine safe insert index (use idx if valid else append)
           let safeIndex = (typeof idx === 'number' && idx >= 0 && idx <= activeEnemies.length) ? idx : activeEnemies.indexOf(enemy);
           if (safeIndex === -1) safeIndex = activeEnemies.length;
 
+          // Insert Stage2 synchronously so the battle never sees zero enemies
           if (safeIndex >= 0 && safeIndex < activeEnemies.length) {
             activeEnemies.splice(safeIndex, 0, realStage2);
           } else {
             activeEnemies.push(realStage2);
           }
 
+          // Post-insert effects (knock out ally, timers, UI)
           showTemporaryText(`${realStage2.name} descends from the dark sigil!`);
           if (activeAlly) {
             activeAlly.currentHp = 0;
@@ -4953,6 +5307,7 @@ deathSound.play();
           drawPlayerBattleStatus();
           drawPartyStatus();
 
+          // Show dialog now (Stage2 is already present)
           if (typeof showBattleDialog === 'function') {
             try {
               showBattleDialog(dialogArr, function(){ /* no-op */ }, { style: 'dialog' });
@@ -4961,21 +5316,25 @@ deathSound.play();
             }
           }
 
+          // If endBattle was called by original handler, ignore it (we want to keep battle open).
           if (endBattleWasCalled) {
             console.log('[FinalBossHook] original handler attempted to end battle; suppressed to allow Stage2 spawn.');
           }
 
         } finally {
+          // Restore original endBattle
           if (origEndBattle) window.endBattle = origEndBattle;
         }
 
-        return;
+        return; // avoid calling original handler again
       }
 
+      // ShadowOrb -> LightOrb conversion (keep conversion but DO NOT reduce dark timer here)
       if (enemy && enemy.type === 'ShadowOrb' && !enemy._lightSpawned) {
         enemy._lightSpawned = true;
         console.log('[FinalBossHook] converting ShadowOrb -> LightOrb for', enemy.name);
 
+        // clear any running timers from the ShadowOrb
         if (enemy._poisonIntervalId) { clearInterval(enemy._poisonIntervalId); enemy._poisonIntervalId = null; }
         if (enemy._spectralIntervalId) { clearInterval(enemy._spectralIntervalId); enemy._spectralIntervalId = null; }
         if (enemy._shardIntervalId) { clearInterval(enemy._shardIntervalId); enemy._shardIntervalId = null; }
@@ -4993,33 +5352,44 @@ deathSound.play();
           resistances: lightBase.defaultResistances || {}
         };
 
+        // Determine index of the corpse (prefer provided insertIndex)
         let corpseIdx = (typeof insertIndex === 'number' && insertIndex >= 0 && insertIndex < activeEnemies.length)
           ? insertIndex
           : activeEnemies.indexOf(enemy);
         if (corpseIdx === -1) corpseIdx = activeEnemies.length;
 
+        // Remove corpse slot first to avoid later cleanup removing the wrong object
         if (corpseIdx >= 0 && corpseIdx < activeEnemies.length && activeEnemies[corpseIdx] === enemy) {
           activeEnemies.splice(corpseIdx, 1);
         }
 
+        // Insert the LightOrb at the former corpse position
         if (corpseIdx >= activeEnemies.length) {
           activeEnemies.push(light);
         } else {
           activeEnemies.splice(corpseIdx, 0, light);
         }
 
+        // Important: DO NOT reduce the dark timer here. LightOrb reduction happens when a LightOrb dies (see below).
+
+        showTemporaryText('A Shadow Orb collapses into a Light Orb!');
         drawBattleUI();
         console.log('[FinalBossHook] ShadowOrb converted. activeEnemies:', activeEnemies.map(e => e && e.type).join(','));
       }
 
+      // LightOrb death -> reduce dark timer (ONLY LightOrb should reduce)
       if (enemy && enemy.type === 'LightOrb') {
+        // guard to only reduce once per LightOrb instance
         if (!enemy._darkReduced) {
           enemy._darkReduced = true;
+
+          // Reduce the dark timer by 5 seconds if helper exists, else attempt other fallbacks
           try {
             if (typeof reduceDarkTimer === 'function') {
               reduceDarkTimer(5000);
               console.log('[FinalBossHook] reduced dark timer by 5000ms via reduceDarkTimer() (LightOrb)');
             } else if (typeof darkTimerMs === 'number' && typeof darkTimerLimitMs === 'number') {
+              // your code uses darkTimerMs / darkTimerLimitMs elsewhere; attempt to reduce darkTimerMs directly
               darkTimerMs = Math.max(0, (typeof darkTimerMs === 'number' ? darkTimerMs : 0) - 5000);
               updateProgressiveDarknessUI && updateProgressiveDarknessUI();
               console.log('[FinalBossHook] reduced darkTimerMs by 5000ms directly (LightOrb)');
@@ -5035,9 +5405,12 @@ deathSound.play();
           } catch (e) {
             console.error('[FinalBossHook] error reducing dark timer on LightOrb death', e);
           }
-        }
+
+          showTemporaryText('A Light Orb pulses and the darkness recedes!');
+        } // end _darkReduced guard
       }
 
+      // -- FinalBossStage2 -> Stage3 or other special conversions can use earlier patterns --
       if (enemy.type === 'FinalBossStage2' && !enemy._stageProgressed) {
         enemy._stageProgressed = true;
 
@@ -5053,9 +5426,11 @@ deathSound.play();
               { style: 'dialog' }
             );
 
+        // Clear intervals on old object
         if (enemy._shardIntervalId) { clearInterval(enemy._shardIntervalId); enemy._shardIntervalId = null; }
         if (enemy._blackoutIntervalId) { clearInterval(enemy._blackoutIntervalId); enemy._blackoutIntervalId = null; }
 
+        // Build stage3 then insert synchronously (similar to earlier)
         const base3 = (enemyTypes && enemyTypes.FinalBossStage3) || { name: 'FinalBossStage3', maxHp:1, damage:0 };
         const mult3 = (typeof getDifficultyMultipliers === 'function') ? getDifficultyMultipliers() : { enemyHp:1, enemyDmg:1 };
         const stage3 = {
@@ -5071,17 +5446,22 @@ deathSound.play();
           resistances: base3.defaultResistances || {}
         };
 
+        // pause timers before popup
         if (typeof pauseBattleTimersForDialog === 'function') pauseBattleTimersForDialog();
 
         placeSpawnAt(insertIndex, stage3);
+        showTemporaryText(`${stage3.name} rises from the shadows!`);
         drawBattleUI();
 
         stopDarkTimer();
+
+        // find spawned battle enemy reference
         let spawned = (typeof insertIndex === 'number' && insertIndex >= 0 && insertIndex < activeEnemies.length)
           ? activeEnemies[insertIndex]
           : activeEnemies.find(e => e && e.type === 'FinalBossStage3');
 
         if (spawned && typeof startFinalBossBulletHell === 'function') {
+          // delay the popup by 1 second without blocking the game loop
           setTimeout(() => {
             startFinalBossBulletHell({
               bossEnemy: spawned,
@@ -5089,14 +5469,17 @@ deathSound.play();
                 if (typeof resumeBattleTimersAfterDialog === 'function') resumeBattleTimersAfterDialog();
 
                 if (mode === 'victory') {
+                  // keep the battle enemy present but mark defeated and set visible HP to 1
                   try {
                     if (typeof spawned.currentHp === 'number') spawned.currentHp = 1;
                     if (typeof spawned.maxHp === 'number' && spawned.maxHp < 1) spawned.maxHp = 1;
                     spawned._defeated = true;
+                    // sync any global enemy object if present
                     if (typeof enemyObj === 'object' && enemyObj) {
                       if (typeof enemyObj.currentHp === 'number') enemyObj.currentHp = 1;
                       enemyObj._defeated = true;
                     }
+                    // grant XP safely if you want the player rewarded now
                     if (typeof grantXpToPlayer === 'function') {
                       try { grantXpToPlayer(spawned.xpReward || 0); } catch (e) {}
                     }
@@ -5104,6 +5487,8 @@ deathSound.play();
                     console.error('[FinalBossHook] onEnd victory handler error', e);
                   }
                 }
+
+                // UI refresh
                 try { drawBattleUI(); drawPlayerBattleStatus(); } catch (e) {}
               }
             });
@@ -5111,12 +5496,16 @@ deathSound.play();
         } else {
           if (typeof resumeBattleTimersAfterDialog === 'function') resumeBattleTimersAfterDialog();
         }
+
+        // do not call original handler here because original should have been applied when enemy died
         return;
       }
 
     } catch (e) {
       console.error('[FinalBossHook] wrapper error', e);
     }
+
+    // Default: delegate to original handler for normal cleanup
     return __orig_handleEnemyDeath(arg0, arg1);
   };
 
@@ -5134,23 +5523,30 @@ deathSound.play();
     { style: 'boss' }
   );
   }
-
+  // Stage1 special: explode and spawn Stage2 (explosion happens when Stage1 dies)
   if (enemy.type === "SecondStageBossStage1") {
-
+    // Explosion damage: 5% of player's max HP (rounded up)
     const explosionDamage = Math.max(1, Math.ceil(playerStats.maxHp * 0.05));
 
+    // Apply damage to player (respect extra-life/invincibility flags)
     if (inBattle) {
+      // Player
       if (playerStats && typeof playerStats.currentHp === 'number') {
         playerStats.currentHp -= explosionDamage;
+        // If Extra Life active, ensure we don't kill below 1 (existing helper)
         if (!canGoBelow1Hp() && playerStats.currentHp <= 0) {
           playerStats.currentHp = 1;
         }
         if (playerStats.currentHp < 0) playerStats.currentHp = 0;
         updateHp(playerStats.currentHp);
       }
+      showTemporaryText(`${enemy.name} explodes on defeat for ${explosionDamage} damage!`);
 
+      // Active ally also takes explosion damage (if present)
       if (activeAlly && typeof activeAlly.currentHp === 'number') {
         activeAlly.currentHp = Math.max(0, activeAlly.currentHp - explosionDamage);
+        showTemporaryText(`${activeAlly.name} takes ${explosionDamage} explosion damage!`);
+        // Ally death handling
         if (activeAlly.currentHp === 0 && activeAlly.attackTimerId) {
           clearInterval(activeAlly.attackTimerId);
           activeAlly.attackTimerId = null;
@@ -5158,6 +5554,7 @@ deathSound.play();
       }
     }
 
+    // Now spawn Stage2
     const stage2Base = enemyTypes[enemyTypes.SecondStageBossStage1.secondStageType];
     const stage2Stats = scaleEnemyStats(stage2Base);
     const stage2Enemy = {
@@ -5169,20 +5566,24 @@ deathSound.play();
       xpReward: stage2Stats.xpReward,
       shieldActive: false,
       shieldCooldownEnd: 0,
-      rocketActive: false, //add boss flag later
+      rocketActive: false,
       rocketTicksLeft: 0,
       stunned: false,
       poisoned: false,
       resistances: stage2Base.defaultResistances || {}
     };
 
+    // Remove the dead stage1 and insert stage2
     activeEnemies = activeEnemies.filter(e => e !== enemy);
     activeEnemies.push(stage2Enemy);
 
+    // Re-init enemy attack loop if needed
+    showTemporaryText(`${stage2Enemy.name} emerges from the core!`);
     drawBattleUI();
     drawPlayerBattleStatus();
     drawPartyStatus();
 
+    // Ensure battle continues
     inBattle = true;
    
     return;
@@ -5197,13 +5598,16 @@ enemy._isBlackout = false;
 const willHideBattleBlackout = (() => {
   
   const others = activeEnemies.filter(e => e && e !== enemy);
+  // if any other enemy has _blackoutIntervalId or _blackoutRunning truthy, keep overlay
   return !others.some(e => e && (e._blackoutIntervalId || e._blackoutRunning || e._isBlackout));
 })();
 if (willHideBattleBlackout) {
   hideBattleBlackout();
 }
+  // award XP immediately
   if (enemy && enemy.xpReward) gainXP(enemy.xpReward);
 
+  // cleanup behavior timers if any
   if (enemy.behaviorTimers && enemy.behaviorTimers.length) {
     enemy.behaviorTimers.forEach(id => clearInterval(id));
     enemy.behaviorTimers = [];
@@ -5215,7 +5619,16 @@ if (willHideBattleBlackout) {
   const DROP_CHANCE = 0.30;
 //bolts
   const boltDroppers = new Set([
-    'Sniperbot'
+    'Sniperbot',
+    'Puncherbot',
+    'Partybot',
+    'Mousebot',
+    'Drunkard',
+    'Partyguard',
+    'Partyblocker',
+    'Partygoers',
+    'Attictank',
+    'Atticsniper'
   ]);
 
   let bonusBolts = 0;
@@ -5225,10 +5638,13 @@ if (willHideBattleBlackout) {
     const currentBolts = inventory.get('bolts') || 0;
     inventory.set('bolts', currentBolts + 1 + bonusBolts);
   }
-  
 //gears
   const normalGearDroppers = new Set([
-    'Sniperbot'
+    'Sniperbot',
+    'Puncherbot',
+    'Partybot',
+    'Mousebot',
+    'Drunkard'
   ]);
     
   if (normalGearDroppers.has(enemy.type) && Math.random() < 0.03) {
@@ -5239,8 +5655,10 @@ if (willHideBattleBlackout) {
     const currentHpI = inventory.get('gear_hp_gear_1') || 0;
     inventory.set('gear_hp_gear_1', currentHpI + 1);
   }
-//other
-
+//other shit
+if (enemy.type === 'Partyblocker') {
+  gameFlags.carpass = true;
+}    
    if (equippedGears.includes('vampire_gear')) {
   let healedHp = playerStats.currentHp + 0.1 * playerStats.maxHp;
   healedHp = Math.min(playerStats.maxHp, Math.max(0, healedHp));
@@ -5249,11 +5667,36 @@ if (willHideBattleBlackout) {
   updateHp(playerStats.currentHp);
 }
     
+    if (enemy.type === "CritBoss") {
+    setTimeout(() => {
+        showDialog([
+            { speaker: "Deadshot", text: "Argh...", style: 'unit' },
+            { speaker: "Deadshot", text: "I feel weak... but cleared.", style: 'unit' },
+            { speaker: "Deadshot", text: "Normal.", style: 'unit' },
+            { speaker: "Deadshot", text: "8-Bit, I am so sorry for my betrayal.", style: 'unit' },
+            { speaker: "Deadshot", text: "I wish things hadn't come to this, but they had.", style: 'unit' },
+            { speaker: "Deadshot", text: "It was nice to meet you, but I fear this is the end.", style: 'unit' },
+            { speaker: "Deadshot", text: "I understand if you decide to finish me off.", style: 'unit' },
+            { speaker: "Deadshot", text: "You cannot trust me again.", style: 'unit' },
+            { speaker: "8-Bit", text: "I...", style: 'dialog' }
+        ]);
+    }, 1000);
+}
 
   
   achievementsMap['kill_enemies'].progress++;
   achievementsMap['kill_enemies2'].progress++;
   achievementsMap['kill_enemies3'].progress++;
+  if (enemy.type === 'BossBot' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_bossbot'].progress = 1;
+  if (enemy.type === 'IceBoss' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_icebot'].progress = 1;
+  if (enemy.type === 'LifeStealBoss' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_lifestealboss'].progress = 1;
+  if (enemy.type === 'CritBoss' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_critboss'].progress = 1;
+  if (enemy.type === 'CaveBoss' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_caveboss'].progress = 1;
+  if (enemy.type === 'MountainBoss' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_mountainboss'].progress = 1;
+  if (enemy.type === 'GhostBoss' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_ghostboss'].progress = 1;
+  if (enemy.type === 'SecondStageBossStage2' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_factoryboss'].progress = 1;
+  if (enemy.type === 'IslandBoss' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_islandboss'].progress = 1;
+  if (enemy.type === 'FinalBossStage3' && gameSettings.difficulty === 'ultimate') achievementsMap['kill_finaleboss'].progress = 1;
   if (enemy.type === 'Dummy') achievementsMap['kill_tutorial_dummy'].progress = 1;
   checkAchievements();
 
@@ -5265,23 +5708,10 @@ if (willHideBattleBlackout) {
     clearInterval(enemy._poisonIntervalId);
     enemy._poisonIntervalId = null;
   }
-if (enemy.weakened) {
-  enemy.weakened = false;
-  enemy.weakenMultiplier = 1;
-  if (enemy._weakenTimeout) {
-    clearTimeout(enemy._weakenTimeout);
-    enemy._weakenTimeout = null;
-  }
-}
-    if (enemy._inkTimeout) {
-  clearTimeout(enemy._inkTimeout);
-  enemy._inkTimeout = null;
-}
-  enemy.inked = false;
-  enemy.missChance = 0;
   enemy.stunned = false;
   enemy.poisoned = false;
 
+  // if no enemies remain, either end the battle round (endBattle('win') will check rounds) or spawn next round is handled in endBattle
   if (activeEnemies.length === 0) {
     endBattle('win');
   } else {
@@ -5290,7 +5720,7 @@ if (enemy.weakened) {
     drawPartyStatus();
   }
 }
-    // you can ignore this it doesnt really work
+    
 function healAllyAfterBattle() {
   if (activeAlly && activeAlly.currentHp > 0) {
     const healAmount = Math.ceil(activeAlly.maxHp * 0.33);
@@ -5415,15 +5845,11 @@ function endBattle(outcome) {
     ent.isBlinded = false;
     ent.isFogged = false;
     ent.isWeakened = false;
-    ent.isStrong = false;
     if (ent.isBlindedTimeout) clearTimeout(ent.isBlindedTimeout);
     if (ent.isFrozenTimeout) clearTimeout(ent.isFrozenTimeout);
     if (ent.isFoggedTimeout) clearTimeout(ent.isFoggedTimeout);
     if (ent.isWeakenedTimeout) clearTimeout(ent.isWeakenedTimeout);
-    if (ent.isStrongTimeout) clearTimeout(ent.isStrongTimeout);
   });
-
- allyDodgeChance = 0;
   
   drawPlayerBattleStatus();
 
@@ -5433,8 +5859,7 @@ function endBattle(outcome) {
     clearInterval(activeAlly.attackTimerId);
     activeAlly.attackTimerId = null;
   }
-  
-  stopCPSCounter();
+
   toggleAutofire(false); 
   
   for (let key in activeAmulets) {
@@ -5475,7 +5900,6 @@ playerStats.currentHp = Math.min(playerStats.currentHp, playerStats.maxHp);
 
 function initiateBattle(zoneType, zoneObject) {
   inBattle = true;
-  startCPSCounter();
   defeatedZone = { type: zoneType, object: zoneObject };
   resetAbilitiesForBattle();
 
@@ -5503,6 +5927,7 @@ setInterval(() => {
   battleRounds = currentRoundEncounters.length;
   currentRoundIndex = 0;
 
+  // Spawn first round
   spawnRound(currentRoundIndex);
   
   if (equippedAllyId && unlockedAllies.has(equippedAllyId)) {
@@ -5527,23 +5952,37 @@ setInterval(() => {
   } else {
     activeAlly = null;
   }
-  
-  if (activeAlly && activeAlly.id === "ally4") {
-  activeAlly.starfishHp = Math.floor(activeAlly.maxHp * 0.20);
-  activeAlly.starfishAlive = true;
-}
-
 
   selectedEnemyIndex = 0;
   drawBattleUI();
   drawPlayerBattleStatus();
 
+  if (activeEnemies.length > 0 && activeEnemies[0].type === 'OldBot') {
+    showBattleDialog([
+      { speaker: 'Old Bot', text: "My old cane will break your frame!", style: 'npc' },
+      { speaker: '8-Bit', text: "Oh, you're one to talk, old man." }
+    ]);
+  }
   
   if (activeEnemies.length > 0 && activeEnemies[0].type === 'Dummy') {
     showBattleDialog([
-      { speaker: '8-Bit', text: "intro enemy text." }
+      { speaker: '8-Bit', text: "Oh damn, it's been a while since I've brawled." },
+      { speaker: '8-Bit', text: "There's an attack button I think I gotta press." }
     ]);
   }
+      if (activeEnemies.length > 0 && activeEnemies[0].type === 'Partyblocker') {
+    showBattleDialog([
+      { speaker: 'Bot', text: "Yeah, we're strong and we're gonna kick your ass!", style: 'npc' }
+    ]);
+  }
+  if (activeEnemies.length > 0 && activeEnemies[0].type === 'Partyguard') {
+    showBattleDialog([
+      { speaker: 'Bodyguard', text: "You shall not pass, brawler!", style: 'npc' },
+      { speaker: '8-Bit', text: "Excuse me? You're the intruder here, not me, man.", style: 'dialog' },
+      { speaker: 'Bodyguard', text: "Enough chat. The party must not be stopped.", style: 'npc' }
+    ]);
+  }
+}
 
   function performEnemyAction(enemy) {
   if (!inBattle || isGameOver || enemy.currentHp <= 0) return;
@@ -5679,7 +6118,6 @@ function spawnRound(roundIdx) {
       damage: finalDamage,
       xpReward: baseStats.xpReward || 0,
       shieldActive: false,
-      isBoss: baseStats.isBoss || false,
       stunned: false,
       poisoned: false,
       resistances: baseStats.defaultResistances || { stun: false, poison: false },
@@ -5717,13 +6155,13 @@ function spawnRound(roundIdx) {
   drawPlayerBattleStatus();
   startAbilityRegen();
 }
+  // Unlock an ally and update UI/save state
 function unlockAlly(allyId) {
   if (!allyId) return;
   if (unlockedAllies.has(allyId)) {
     showTemporaryText(`${alliesData.find(a => a.id === allyId)?.name || allyId} is already unlocked.`);
     return;
   }
-
   const ally = alliesData.find(a => a.id === allyId);
   if (!ally) {
     console.warn('unlockAlly: unknown allyId', allyId);
@@ -5732,26 +6170,22 @@ function unlockAlly(allyId) {
   }
 
   unlockedAllies.add(allyId);
-  const allyObj = alliesData.find(a => a.id === allyId);
-  if (allyObj) allyObj.unlocked = true;
-
+  // Auto-equip if nothing equipped yet
   if (!equippedAllyId) {
     equippedAllyId = allyId;
     showTemporaryText(`${ally.name} has joined and was auto-equipped.`);
   } else {
     showTemporaryText(`${ally.name} has joined your party!`);
   }
-
-  const ach = achievementsMap[`ally_unlock_${allyId}`];
+const ach = achievementsMap[`ally_unlock_${allyId}`];
   if (ach && !ach.unlocked) {
     ach.progress = 1;
     checkAchievements();
   }
-
-  drawPartyUI();
+  
+  drawPartyList();
   drawPartyStatus();
 }
-
   function triggerScreenShake() {
   const body = document.body;
   
@@ -6524,8 +6958,665 @@ document.addEventListener("keydown", function(event) {
   })();
 
 })();
+  
+//------ let's go gambling ----
+  (() => {
+  const slotPopup = document.getElementById('slot-machine-popup');
+  const slotLeft = document.getElementById('slot-left');
+  const slotMiddle = document.getElementById('slot-middle');
+  const slotRight = document.getElementById('slot-right');
+  const slotMsg = document.getElementById('slot-msg');
+  const slotPlayBtn = document.getElementById('slot-play-button');
+  const slotCloseBtn = document.getElementById('slot-close-button');
 
-  //shop
+  const PATTERN = [1, 3, 7, 4, 5, 9, 8, 6, 2];
+  const BET = 5;
+  let cycleIntervals = [null, null, null];
+  let indices = [0, 0, 0];
+  let locked = [false, false, false];
+  let currentSlot = 0;
+  let numbers = [null, null, null];
+  let playing = false;
+
+  function startCycle(slotIdx) {
+    if (cycleIntervals[slotIdx]) clearInterval(cycleIntervals[slotIdx]);
+    indices[slotIdx] = Math.floor(Math.random() * PATTERN.length);
+    locked[slotIdx] = false;
+    const slotEl = [slotLeft, slotMiddle, slotRight][slotIdx];
+    cycleIntervals[slotIdx] = setInterval(() => {
+      indices[slotIdx] = (indices[slotIdx] + 1) % PATTERN.length;
+      slotEl.textContent = PATTERN[indices[slotIdx]];
+    }, 150);
+  }
+
+  function stopCycle(slotIdx) {
+    if (cycleIntervals[slotIdx]) {
+      clearInterval(cycleIntervals[slotIdx]);
+      cycleIntervals[slotIdx] = null;
+    }
+    locked[slotIdx] = true;
+    numbers[slotIdx] = PATTERN[indices[slotIdx]];
+  }
+
+  function resetSlots() {
+    numbers = [null, null, null];
+    locked = [false, false, false];
+    currentSlot = 0;
+    slotLeft.textContent = '-';
+    slotMiddle.textContent = '-';
+    slotRight.textContent = '-';
+    slotMsg.textContent = 'Press Space to lock LEFT slot';
+  }
+
+  function calculatePayout() {
+    const [a, b, c] = numbers;
+    if (a == null || b == null || c == null) return 0;
+    let payout = 0;
+    if (a === b && b === c) payout = BET * 25;
+    else if (a === b || b === c || a === c) payout = BET * 5;
+    return payout;
+  }
+
+  function openSlotMachine() {
+    if ((inventory.get('bolts') || 0) < BET) {
+      showTemporaryText("Not enough bolts to play slot machine.");
+      return;
+    }
+    slotPopup.style.display = 'flex';
+  }
+
+  function closeSlotMachine() {
+    playing = false;
+    slotPopup.style.display = 'none';
+    cycleIntervals.forEach((id, idx) => {
+      if (id) clearInterval(id);
+      cycleIntervals[idx] = null;
+    });
+    draw();
+  }
+
+  function onSlotMachineKeyDown(e) {
+    if (!playing) return;
+    if (e.code === 'Space' || e.key === ' ') {
+      e.preventDefault();
+      if (!locked[currentSlot]) {
+        stopCycle(currentSlot);
+        currentSlot++;
+        if (currentSlot < 3) {
+          startCycle(currentSlot);
+          const names = ['LEFT', 'MIDDLE', 'RIGHT'];
+          slotMsg.textContent = `Press Space to lock ${names[currentSlot]} slot`;
+        } else {
+          const payout = calculatePayout();
+          if (payout > 0) {
+            const curBolts = inventory.get('bolts') || 0;
+            inventory.set('bolts', curBolts + payout);
+            slotMsg.textContent = `You won ${payout} bolts!`;
+          } else {
+            slotMsg.textContent = 'No win this time. Try again!';
+          }
+          playing = false;
+        }
+      }
+    }
+  }
+
+slotPlayBtn.addEventListener('click', () => {
+  if (playing) return;
+
+  if ((inventory.get('bolts') || 0) < BET) {
+    showTemporaryText("Not enough bolts to play slot machine.");
+    return;
+  }
+
+  const curBolts = inventory.get('bolts') || 0;
+  inventory.set('bolts', curBolts - BET);
+  drawInventoryBattlePopup?.();
+  drawGeneralInventory?.();
+
+  playing = true;
+  resetSlots();
+  openSlotMachine();
+  startCycle(0);
+});
+
+  slotCloseBtn.addEventListener('click', () => {
+    closeSlotMachine();
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (slotPopup.style.display === 'flex') {
+      onSlotMachineKeyDown(e);
+    }
+  });
+
+  window.openSlotMachine = () => {
+    if ((inventory.get('bolts') || 0) < BET) {
+      showTemporaryText("Not enough bolts to play slot machine.");
+      return;
+    }
+    const curBolts = inventory.get('bolts') || 0;
+    drawInventoryBattlePopup?.();
+    drawGeneralInventory?.();
+    openSlotMachine();
+  };
+})();
+
+// ---------------------- Slap Jack minigame ----------------------
+(function installSlapJack() {
+  const overlay = document.getElementById('slapjack-overlay');
+  const btnLock = document.getElementById('sj-lock-wager');
+  const btnStart = document.getElementById('sj-start');
+  const btnSlap = document.getElementById('sj-slap');
+  const btnClose = document.getElementById('sj-close');
+  const wagerInput = document.getElementById('sj-wager-input');
+  const sjPlayerBolts = document.getElementById('sj-player-bolts');
+  const sjYouCounter = document.getElementById('sj-you-counter');
+  const sjMidCounter = document.getElementById('sj-mid-counter');
+  const sjLastPlayer = document.getElementById('sj-last-player');
+  const sjStatus = document.getElementById('sj-status');
+
+  // Game state
+  let sjActive = false;
+  let sjWager = 0;
+  let sjMyCards = 10; // Start with 10 cards
+  let sjPile = 0;
+  let sjPlayers = ['NPC1','NPC2','You','NPC3']; // turn order
+  let sjTurnIndex = 0;
+  let sjNpcCards = { NPC1: 10, NPC2: 10, NPC3: 10 }; // NPCs start with 10 cards
+  let sjNpcActive = { NPC1: true, NPC2: true, NPC3: true };
+  let sjInterval = null;
+  let sjCardPlayIntervalMs = 1000; // each turn 1s
+  let sjJackChance = 0.10; // chance the played card is a Jack
+  let sjJackActive = false;
+  let sjJackPlayedBy = null;
+  let sjJackWindowTimeout = null;
+  let sjNpcSlapTimers = [];
+  const WIN_TARGET = 30;
+  const WRONG_SLAP_PENALTY = 3;
+
+  function updateUi() {
+    sjPlayerBolts.textContent = (inventory.get('bolts') || 0);
+    sjYouCounter.textContent = `Cards: ${sjMyCards}`;
+    sjMidCounter.textContent = `Pile: ${sjPile}`;
+    sjStatus.textContent = sjActive ? (sjJackActive ? 'JACK! SLAP!' : 'In game') : 'Wager bolts to play';
+    sjLastPlayer.textContent = `Last: ${sjJackPlayedBy || '—'}`;
+    document.getElementById('sj-npc-top').textContent = `NPC 1\n(${sjNpcActive.NPC1? sjNpcCards.NPC1 : 'out'})`;
+    document.getElementById('sj-npc-right').textContent = `NPC 2\n(${sjNpcActive.NPC2? sjNpcCards.NPC2 : 'out'})`;
+    document.getElementById('sj-npc-left').textContent = `NPC 3\n(${sjNpcActive.NPC3? sjNpcCards.NPC3 : 'out'})`;
+    btnStart.disabled = !sjWager || (inventory.get('bolts') || 0) < sjWager || sjActive;
+    btnSlap.disabled = !sjActive; // can press slap anytime while game active
+  }
+
+  function openSlapJack() {
+    overlay.style.display = 'flex';
+    updateUi();
+  }
+  function closeSlapJack() {
+    overlay.style.display = 'none';
+    stopGame();
+  }
+
+  btnLock.addEventListener('click', () => {
+    const val = Math.max(1, Math.floor(Number(wagerInput.value) || 0));
+    if (val <= 0) { showTemporaryText('Enter at least 1 bolt'); return; }
+    if ((inventory.get('bolts') || 0) < val) { showTemporaryText('Not enough bolts'); return; }
+    sjWager = val;
+    wagerInput.value = val;
+    wagerInput.disabled = true;
+    btnLock.disabled = true;
+    showTemporaryText(`Wager locked: ${val} bolts`);
+    updateUi();
+  });
+
+  btnStart.addEventListener('click', () => {
+    if (sjActive) return;
+    const bolts = inventory.get('bolts') || 0;
+    if (sjWager <= 0 || bolts < sjWager) { showTemporaryText('Lock a valid wager first'); return; }
+    inventory.set('bolts', bolts - sjWager);
+    showTemporaryText(`Wager placed: ${sjWager} bolts`);
+
+    sjNpcCards = { NPC1: 10, NPC2: 10, NPC3: 10 };
+    sjNpcActive = { NPC1: true, NPC2: true, NPC3: true };
+    sjMyCards = 10;
+    sjPile = 0;
+    sjTurnIndex = 0;
+    sjJackActive = false;
+    sjJackPlayedBy = null;
+    clearAllNpcSlapTimers();
+    sjActive = true;
+    btnStart.disabled = true;
+    wagerInput.disabled = true;
+    btnLock.disabled = true;
+    updateUi();
+    sjInterval = setInterval(playCardToPile, sjCardPlayIntervalMs);
+    // immediate first play
+    playCardToPile();
+  });
+
+  function stopGame() {
+    sjActive = false;
+    if (sjInterval) { clearInterval(sjInterval); sjInterval = null; }
+    if (sjJackWindowTimeout) { clearTimeout(sjJackWindowTimeout); sjJackWindowTimeout = null; }
+    clearAllNpcSlapTimers();
+    wagerInput.disabled = false; btnLock.disabled = false; btnStart.disabled = false;
+    sjWager = 0;
+    updateUi();
+  }
+
+  function clearAllNpcSlapTimers() {
+    while (sjNpcSlapTimers.length) {
+      const id = sjNpcSlapTimers.pop();
+      clearTimeout(id);
+    }
+  }
+
+  function advanceTurnIndex() {
+    const MAX = sjPlayers.length;
+    for (let i=1;i<=MAX;i++){
+      const idx = (sjTurnIndex + i) % MAX;
+      const p = sjPlayers[idx];
+      if (p === 'You' || sjNpcActive[p]) { sjTurnIndex = idx; return; }
+    }
+    // fallback
+    sjTurnIndex = sjPlayers.indexOf('You');
+  }
+
+  function playCardToPile() {
+    if (!sjActive) return;
+
+    const actor = sjPlayers[sjTurnIndex];
+
+    // If actor is You: you must have a card to play; if you have none you skip
+    if (actor === 'You') {
+      if (sjMyCards > 0) {
+        sjMyCards -= 1;
+        sjPile += 1;
+        sjLastPlayer.textContent = 'Last: You';
+        // if you drop to zero you can still play 0 (zero doesn't add)
+      } else {
+        // you have no cards; skip
+      }
+    } else {
+      if (!sjNpcActive[actor]) {
+        advanceTurnIndex();
+        return;
+      }
+      if ((sjNpcCards[actor] || 0) > 0) {
+        sjNpcCards[actor] -= 1;
+        sjPile += 1;
+        sjLastPlayer.textContent = `Last: ${actor}`;
+        if (sjNpcCards[actor] <= 0) {
+          sjNpcActive[actor] = false;
+          showTemporaryText(`${actor} ran out of cards`);
+        }
+      } else {
+        sjNpcActive[actor] = false;
+      }
+    }
+
+    // Show which card was played in the pile UI (simple textual indicator)
+    // Randomly decide whether it's a Jack
+    const isJack = !sjJackActive && (Math.random() < sjJackChance);
+    if (isJack) {
+      sjJackActive = true;
+      sjJackPlayedBy = actor;
+      // schedule NPC slap attempts (they race to slap)
+      scheduleNpcSlaps();
+      // set a window timeout after which Jack is considered missed if no one slaps
+      if (sjJackWindowTimeout) clearTimeout(sjJackWindowTimeout);
+      sjJackWindowTimeout = setTimeout(() => {
+        if (sjJackActive) {
+          sjJackActive = false;
+          sjJackPlayedBy = null;
+          showTemporaryText('Jack window expired');
+          clearAllNpcSlapTimers();
+          updateUi();
+        }
+      }, 900); // 900ms window
+    } else {
+      // not a Jack: show normal card label
+      showTemporaryText(`${actor} played a card`);
+    }
+
+    // update visuals
+    updateUi();
+
+    // Check if anyone reached target (NPC win)
+    for (const npc of ['NPC1','NPC2','NPC3']) {
+      if (sjNpcCards[npc] >= WIN_TARGET) {
+        // NPC wins -> you lose immediately
+        showTemporaryText(`${npc} reached ${WIN_TARGET} cards — you lose the wager.`);
+        // no refund
+        stopGame();
+        return;
+      }
+    }
+
+    // Check if you reached target (shouldn't usually happen because you take pile; kept for symmetry)
+    if (sjMyCards >= WIN_TARGET) {
+      // you win
+      showTemporaryText('You reached 30 cards and win!');
+      // award double wager
+      const cur = inventory.get('bolts') || 0;
+      inventory.set('bolts', cur + (sjWager * 2));
+      stopGame();
+      return;
+    }
+
+    // Move to next player
+    advanceTurnIndex();
+    updateUi();
+  }
+
+  function scheduleNpcSlaps() {
+    clearAllNpcSlapTimers();
+    // each NPC attempts to slap after a small random delay; the earliest to fire takes it if still active
+    ['NPC1','NPC2','NPC3'].forEach(npc => {
+      if (!sjNpcActive[npc]) return;
+      const delay = 500 + Math.floor(Math.random() * 500); //
+      const t = setTimeout(() => {
+        if (!sjJackActive) return;
+        // NPC attempts to slap now
+        if (!sjActive) return;
+        // NPC "slap" resolves: they take the pile
+        const taken = sjPile;
+        sjPile = 0;
+        sjNpcCards[npc] = (sjNpcCards[npc] || 0) + taken;
+        sjJackActive = false;
+        sjJackPlayedBy = null;
+        clearAllNpcSlapTimers();
+        if (sjJackWindowTimeout) { clearTimeout(sjJackWindowTimeout); sjJackWindowTimeout = null; }
+        showTemporaryText(`${npc} slapped first and grabbed ${taken} cards!`);
+        updateUi();
+
+        // Check NPC win
+        if (sjNpcCards[npc] >= WIN_TARGET) {
+          showTemporaryText(`${npc} reached ${WIN_TARGET} cards — you lose.`);
+          stopGame();
+        }
+      }, delay);
+      sjNpcSlapTimers.push(t);
+    });
+  }
+
+  // Player pressing SLAP
+  btnSlap.addEventListener('click', () => {
+    if (!sjActive) return;
+    if (sjJackActive) {
+      // Player slapped successfully and takes the pile
+      const taken = sjPile;
+      sjPile = 0;
+      sjMyCards += taken;
+      sjJackActive = false;
+      sjJackPlayedBy = null;
+      if (sjJackWindowTimeout) { clearTimeout(sjJackWindowTimeout); sjJackWindowTimeout = null; }
+      clearAllNpcSlapTimers();
+      showTemporaryText(`You slapped first and took ${taken} cards!`);
+      updateUi();
+
+      // Check win
+      if (sjMyCards >= WIN_TARGET) {
+        const cur = inventory.get('bolts') || 0;
+        inventory.set('bolts', cur + (sjWager * 2));
+        showTemporaryText('You achieved 30 cards — you win!');
+        stopGame();
+      }
+      return;
+    } else {
+      // Wrong slap: penalty
+      sjMyCards = Math.max(0, sjMyCards - WRONG_SLAP_PENALTY);
+      showTemporaryText(`Wrong slap! -${WRONG_SLAP_PENALTY} cards`);
+      updateUi();
+      return;
+    }
+  });
+
+  function winSlapJack() {
+    const current = inventory.get('bolts') || 0;
+    inventory.set('bolts', current + (sjWager * 2));
+    showTemporaryText(`You win! Collected ${sjMyCards} cards. Earned ${sjWager * 2} bolts`);
+    stopGame();
+  }
+
+  btnClose.addEventListener('click', () => {
+  if (sjActive) {
+    showTemporaryText('Wager forfeited');
+  }
+  closeSlapJack();
+  draw();
+});
+
+
+  window.openSlapJack = openSlapJack;
+
+  updateUi();
+})();
+
+  let boilActive = false;
+let boilInterval = null;
+let boilProgress = 0;
+
+function openBoilUI() {
+  if ((inventory.get("water") || 0) <= 0) {
+    showTemporaryText("You need water to boil!");
+    return;
+  }
+
+  inventory.set("water", inventory.get("water") - 1);
+
+  boilProgress = 0;
+  boilActive = true;
+
+  document.getElementById("boil-ui").style.display = "block";
+  document.getElementById("red-progress").style.width = "0px";
+
+  startBoilBar();
+}
+
+  function startBoilBar() {
+  boilInterval = setInterval(() => {
+    boilProgress += 2;
+    if (boilProgress > 300) boilProgress = 300;
+
+    document.getElementById("red-progress").style.width = boilProgress + "px";
+  }, 30);
+}
+
+  
+  document.addEventListener("keydown", e => {
+  if (!boilActive) return;
+  if (e.code !== "Space") return;
+
+  finishBoiling();
+});
+
+  function finishBoiling() {
+  boilActive = false;
+  clearInterval(boilInterval);
+
+  const center = 150;
+  const perfectMin = center - 15;
+  const perfectMax = center + 15;
+
+  let result = "water_1";
+
+  if (boilProgress >= perfectMin && boilProgress <= perfectMax) {
+    result = "boiled_water";
+  }
+
+  inventory.set(result, (inventory.get(result) || 0) + 1);
+  showTemporaryText('You boiled the water!');
+
+  document.getElementById("boil-ui").style.display = "none";
+}
+
+let teaSlots = {
+  water: null,
+  honey: null,
+  spice: null
+};
+
+  function openTeaUI() {
+  document.getElementById("tea-ui").style.display = "flex";
+  drawTeaUI();
+}
+
+  function drawTeaUI() {
+  ["water","honey","spice"].forEach(slot => {
+    const el = document.getElementById("slot-" + slot);
+    el.innerHTML = teaSlots[slot] ? teaSlots[slot] : slot.toUpperCase();
+    el.onclick = () => {
+      if (teaSlots[slot]) {
+        inventory.set(teaSlots[slot], (inventory.get(teaSlots[slot]) || 0) + 1);
+        teaSlots[slot] = null;
+        drawTeaUI();
+      }
+    };
+  });
+
+  const list = document.getElementById("tea-inventory-list");
+  list.innerHTML = "";
+
+  inventory.forEach((qty, key) => {
+    if (qty <= 0) return;
+
+    const div = document.createElement("div");
+    div.textContent = `${key} (${qty})`;
+    div.onclick = () => addToTeaSlot(key);
+    list.appendChild(div);
+  });
+}
+  function addToTeaSlot(item) {
+  const slotOrder = ["water","honey","spice"];
+
+  for (let s of slotOrder) {
+    if (!teaSlots[s]) {
+      teaSlots[s] = item;
+      inventory.set(item, inventory.get(item) - 1);
+      drawTeaUI();
+      return;
+    }
+  }
+}
+function brewTea() {
+  const items = Object.values(teaSlots).filter(x => x);
+
+  const has = x => items.includes(x);
+
+  if (has("water_1") && has("honey") && items.length === 2)
+    return "b_tea";
+  if (has("boiled_water") && has("honey") && items.length === 2)
+    return "h_tea";
+  if (has("boiled_water") && has("honey") && has("spice"))
+    return "s_tea";
+  if (has("water_1") && has("honey") && has("spice"))
+    return "h_tea";
+  if (has("spice") && (has("water_1") || has("boiled_water")))
+    return "b_tea";
+
+  return "invalid";
+}
+  
+  document.getElementById("brew-tea-btn").onclick = () => {
+  const result = brewTea();
+
+  const usedItems = Object.values(teaSlots).filter(x => x);
+
+  teaSlots.water = null;
+  teaSlots.honey = null;
+  teaSlots.spice = null;
+
+  if (result === "invalid") {
+    usedItems.forEach(item => {
+      inventory.set(item, (inventory.get(item) || 0) + 1);
+      showTemporaryText('Bad recipe.');
+    });
+
+    document.getElementById("tea-ui").style.display = "none";
+    drawTeaUI();
+    return;
+  }
+
+  inventory.set(result, (inventory.get(result) || 0) + 1);
+  showTemporaryText('You brewed a tea!');
+  document.getElementById("tea-ui").style.display = "none";
+
+  drawTeaUI();
+};
+
+  
+const GROWTH_STAGE_TIME = 5 * 60 * 1000; 
+
+let farmingData = new Map(); 
+
+const farmSprites = {
+  stage0: new Image(),
+  stage1: new Image(),
+  stage2: new Image(),
+  stage3: new Image(),
+  stage4: new Image() 
+};
+farmSprites.stage0.src = "stage0.png";
+farmSprites.stage1.src = "stage1.png";
+farmSprites.stage2.src = "stage2.png";
+farmSprites.stage3.src = "stage3.png";
+farmSprites.stage4.src = "stage4.png";
+
+   function getPlotStage(plotId) {
+  const data = farmingData.get(plotId);
+  if (!data) return 0;
+
+  const elapsed = Date.now() - data.plantedAt;
+  const stage = Math.floor(elapsed / GROWTH_STAGE_TIME) + 1;
+  
+  return Math.min(4, stage);
+}
+
+function openFarmUI(plotId) {
+  const list = document.getElementById('farm-seed-list');
+  list.innerHTML = "";
+  
+  let hasSeeds = false;
+  inventory.forEach((qty, itemName) => {
+    if (itemName.startsWith("seed_") && qty > 0) {
+      hasSeeds = true;
+      const btn = document.createElement('div');
+      btn.className = "clickable";
+      btn.style.padding = "10px";
+      btn.style.borderBottom = "1px solid #666";
+      btn.textContent = `${itemName.replace('seed_', '').toUpperCase()} (${qty})`;
+      btn.onclick = () => plantSeed(plotId, itemName);
+      list.appendChild(btn);
+    }
+  });
+
+  if (!hasSeeds) list.innerHTML = "No seeds in inventory.";
+  document.getElementById('farm-ui').style.display = 'flex';
+}
+
+function plantSeed(plotId, seedType) {
+  inventory.set(seedType, inventory.get(seedType) - 1);
+  farmingData.set(plotId, {
+    seedType: seedType,
+    plantedAt: Date.now()
+  });
+  document.getElementById('farm-ui').style.display = 'none';
+  showTemporaryText(`Planted ${seedType.replace('seed_', '')}!`);
+  draw();
+}
+
+function harvestPlot(plotId) {
+  const data = farmingData.get(plotId);
+  const resultItem = data.seedType.replace('seed_', '');
+  
+  inventory.set(resultItem, (inventory.get(resultItem) || 0) + 1);
+  farmingData.delete(plotId); 
+  showTemporaryText(`Harvested a ${resultItem}!`);
+  draw();
+}
+  
+
   
 (function installSimpleShop() {
   if (document.getElementById('simple-shop-popup')) return;
@@ -6644,13 +7735,495 @@ document.addEventListener("keydown", function(event) {
 })();
 
 
+function openDemo() {
+  const popup = document.getElementById('demo-popup');
+  const closeBtn = document.getElementById('demo-close-btn');
+
+  popup.style.display = 'block';
+
+  closeBtn.onclick = () => {
+    popup.style.display = 'none';
+  };
+}
+  
+// ---amog us wires
+  
+const wiresPopupHtml = `
+<div id="wires-popup" style="
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85);
+  z-index:5000; color:white; font-family:'Press Start 2P',sans-serif; 
+  padding:20px; box-sizing:border-box; user-select:none; touch-action: none;">
+  <h3>Wires</h3>
+  <div style="display:flex; justify-content:space-between; width:640px; margin:auto;">
+    
+    <div id="wires-left" style="display:flex; flex-direction:column; gap:20px;">
+      <div draggable="true" class="wire red" data-wire="red" 
+           style="width:50px; height:20px; background:red; cursor:pointer;">Red</div>
+      <div draggable="true" class="wire green" data-wire="green" 
+           style="width:50px; height:20px; background:green; cursor:pointer;">Green</div>
+      <div draggable="true" class="wire yellow" data-wire="yellow" 
+           style="width:50px; height:20px; background:yellow; cursor:pointer;">Yellow</div>
+      <div draggable="true" class="wire blue" data-wire="blue" 
+           style="width:50px; height:20px; background:blue; cursor:pointer;">Blue</div>
+    </div>
+    
+    <div id="wires-right" style="display:flex; flex-direction:column; gap:20px;">
+      <div class="wire-slot" data-wire="red"    style="width:70px; height:20px; border:2px solid red;">Connect</div>
+      <div class="wire-slot" data-wire="blue"   style="width:70px; height:20px; border:2px solid blue;">Connect</div>
+      <div class="wire-slot" data-wire="green"  style="width:70px; height:20px; border:2px solid green;">Connect</div>
+      <div class="wire-slot" data-wire="yellow" style="width:70px; height:20px; border:2px solid yellow;">Connect</div>
+    </div>
+  </div>
+  
+  <button id="wires-close-btn" disabled 
+          style="margin-top:20px; font-family:'Press Start 2P'; padding:8px 16px;">Close</button>
+</div>
+`;
+document.body.insertAdjacentHTML('beforeend', wiresPopupHtml);
+
+
+let wiresState = {
+  connected: new Set(),
+  draggingWire: null
+};
+
+
+function openWires() {
+  wiresState.connected.clear();
+  wiresState.draggingWire = null;
+
+  const popup = document.getElementById('wires-popup');
+  const closeBtn = document.getElementById('wires-close-btn');
+
+  
+  const wires = popup.querySelectorAll('#wires-left .wire');
+  wires.forEach(w => {
+    w.draggable = true;
+    w.style.opacity = '1';
+  });
+
+  
+  const slots = popup.querySelectorAll('.wire-slot');
+  slots.forEach(slot => {
+    slot.textContent = "Connect";
+    slot.style.backgroundColor = 'transparent';
+  });
+
+  closeBtn.disabled = true;
+  closeBtn.onclick = () => {
+    
+    if (currentLevel && currentLevel.walls) {
+      removedWallIds.add('blocker'); 
+      currentLevel.walls = currentLevel.walls.filter(wall => wall.id !== 'blocker');
+    }
+    popup.style.display = 'none';
+    draw();
+  };
+
+  popup.style.display = 'flex';
+  draw();
+}
+
+
+function setupWiresListeners() {
+  const popup = document.getElementById('wires-popup');
+  if (!popup) return;
+
+  const wires = popup.querySelectorAll('#wires-left .wire');
+  wires.forEach(wire => {
+    wire.addEventListener('dragstart', onWireDragStart);
+  });
+
+  const slots = popup.querySelectorAll('.wire-slot');
+  slots.forEach(slot => {
+    slot.addEventListener('dragover', onWireDragOver);
+    slot.addEventListener('dragleave', onWireDragLeave);
+    slot.addEventListener('drop', onWireDrop);
+  });
+  wires.forEach(wire => {
+    wire.addEventListener('touchstart', onTouchStart, { passive: false });
+    wire.addEventListener('touchmove', onTouchMove, { passive: false });
+    wire.addEventListener('touchend', onTouchEnd, { passive: false });
+  });
+}
+
+
+setupWiresListeners();
+function onWireDragStart(e) {
+  wiresState.draggingWire = e.target.dataset.wire;
+  e.dataTransfer.setData('text/plain', wiresState.draggingWire);
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function onWireDragOver(e) {
+  e.preventDefault();
+  const slotWire = e.currentTarget.dataset.wire;
+  if (wiresState.draggingWire === slotWire) {
+    e.dataTransfer.dropEffect = 'move';
+    e.currentTarget.style.backgroundColor = slotWire;
+  } else {
+    e.dataTransfer.dropEffect = 'none';
+    e.currentTarget.style.backgroundColor = 'transparent';
+  }
+}
+
+function onWireDragLeave(e) {
+  e.currentTarget.style.backgroundColor = 'transparent';
+}
+
+function onWireDrop(e) {
+  e.preventDefault();
+  const slotWire = e.currentTarget.dataset.wire;
+  const draggedWire = e.dataTransfer.getData('text/plain');
+
+  if (draggedWire === slotWire && !wiresState.connected.has(slotWire)) {
+    wiresState.connected.add(slotWire);
+
+    
+    const popup = document.getElementById('wires-popup');
+    const wireEl = popup.querySelector(`#wires-left .wire[data-wire="${slotWire}"]`);
+    if (wireEl) {
+      wireEl.draggable = false;
+      wireEl.style.opacity = '0.4';
+    }
+
+    
+    e.currentTarget.textContent = `${capitalize(slotWire)} Connected`;
+    e.currentTarget.style.backgroundColor = slotWire;
+
+    
+    const closeBtn = popup.querySelector('#wires-close-btn');
+    if (wiresState.connected.size === 4) {
+      closeBtn.disabled = false;
+    }
+  }
+  e.currentTarget.style.backgroundColor = 'transparent';
+  wiresState.draggingWire = null;
+}
+
+let touchGhost = null;
+let activeTouchWire = null;
+
+function onTouchStart(e) {
+  if (wiresState.connected.has(e.target.dataset.wire)) return;
+  e.preventDefault();
+
+  activeTouchWire = e.target;
+  const wireColor = activeTouchWire.dataset.wire;
+  
+  touchGhost = activeTouchWire.cloneNode(true);
+  touchGhost.style.position = 'fixed';
+  touchGhost.style.width = activeTouchWire.offsetWidth + 'px';
+  touchGhost.style.height = activeTouchWire.offsetHeight + 'px';
+  touchGhost.style.zIndex = '10001';
+  touchGhost.style.pointerEvents = 'none';
+  touchGhost.style.opacity = '0.8';
+  touchGhost.style.left = e.touches[0].clientX - (activeTouchWire.offsetWidth / 2) + 'px';
+  touchGhost.style.top = e.touches[0].clientY - (activeTouchWire.offsetHeight / 2) + 'px';
+  
+  document.body.appendChild(touchGhost);
+  wiresState.draggingWire = wireColor;
+}
+
+function onTouchMove(e) {
+  if (!touchGhost) return;
+  e.preventDefault();
+  
+  touchGhost.style.left = e.touches[0].clientX - (touchGhost.offsetWidth / 2) + 'px';
+  touchGhost.style.top = e.touches[0].clientY - (touchGhost.offsetHeight / 2) + 'px';
+
+  const el = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+  const slot = el ? el.closest('.wire-slot') : null;
+  
+  document.querySelectorAll('.wire-slot').forEach(s => s.style.backgroundColor = 'transparent');
+  
+  if (slot && slot.dataset.wire === wiresState.draggingWire) {
+    slot.style.backgroundColor = slot.dataset.wire;
+  }
+}
+
+function onTouchEnd(e) {
+  if (!touchGhost) return;
+  
+  const touch = e.changedTouches[0];
+  const el = document.elementFromPoint(touch.clientX, touch.clientY);
+  const slot = el ? el.closest('.wire-slot') : null;
+
+  if (slot && slot.dataset.wire === wiresState.draggingWire && !wiresState.connected.has(wiresState.draggingWire)) {
+    const wireColor = wiresState.draggingWire;
+    wiresState.connected.add(wireColor);
+
+    activeTouchWire.draggable = false;
+    activeTouchWire.style.opacity = '0.4';
+
+    slot.textContent = `${capitalize(wireColor)} Connected`;
+    slot.style.backgroundColor = wireColor;
+
+    if (wiresState.connected.size === 4) {
+      document.getElementById('wires-close-btn').disabled = false;
+    }
+  }
+
+  if (touchGhost) touchGhost.remove();
+  touchGhost = null;
+  activeTouchWire = null;
+  wiresState.draggingWire = null;
+  document.querySelectorAll('.wire-slot').forEach(s => s.style.backgroundColor = 'transparent');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+  
+  // ---------- Target Practice Mini-game ----------
+(function installTargetPractice() {
+  // Tunables
+  const TP_DURATION_MS = 30_000;         // 30s round
+  const TP_MIN_SPAWN_MS = 700;           // spawn interval min
+  const TP_MAX_SPAWN_MS = 1200;          // spawn interval max
+  const TP_TARGET_LIFETIME_MS = 1500;    // normal target lifetime
+  const TP_GOLD_LIFETIME_MS = 750;       // golden target lifetime
+  const TP_NORMAL_SCORE = 100;
+  const TP_GOLD_SCORE = 300;
+  const TP_ATTEMPTS_MAX = 5;
+  const TP_GOAL_FIXED = 4500;            // fixed hard goal (used if TP_GOAL_RANDOMIZE false)
+  const TP_GOAL_RANDOMIZE = false;
+  const TP_GOAL_MIN = 1200;
+  const TP_GOAL_MAX = 1800;
+  const GOLD_TIMES = [10_000, 20_000];   // golden spawn times (ms)
+  const WAVE_COUNT = 12;                 // number of targets in final 3s burst
+  const WAVE_SPREAD_MS = 40;             // base delay between burst spawns
+  const WAVE_JITTER_MS = 80;             // added random jitter per spawn
+
+  // State
+  let tpAttemptsLeft = TP_ATTEMPTS_MAX;
+  let tpActive = false;
+  let tpTimerId = null;
+  let tpSpawnTimeout = null;
+  let tpRoundStart = 0;
+  let tpScore = 0;
+  let tpGoal = 0;
+  let tpRemainingTimeMs = TP_DURATION_MS;
+  let tpWon = false;
+  let tpGoldenSpawnedAt = new Set();
+  let tpThreeSecondWaveSpawned = false;
+
+  // Elements
+  const overlay = document.getElementById('target-practice-overlay');
+  const playfield = document.getElementById('tp-playfield');
+  const timerEl = document.getElementById('tp-timer');
+  const scoreEl = document.getElementById('tp-score');
+  const goalEl = document.getElementById('tp-goal');
+  const attemptsEl = document.getElementById('tp-attempts');
+  const restartBtn = document.getElementById('tp-restart');
+  const closeBtn = document.getElementById('tp-close');
+
+  function randBetween(a, b) { return a + Math.random() * (b - a); }
+  function randInt(a, b) { return Math.floor(randBetween(a, b + 1)); }
+
+  function openTargetPractice() {
+    if (tpWon) { showTemporaryText && showTemporaryText('You already beat this challenge!'); return; }
+    if (tpAttemptsLeft <= 0) {
+  showDialog && showDialog(
+    [
+      {
+        speaker: 'Unit318920',
+        text: "Looks like you couldn't beat my score. It's okay, they don't call me the sharpest shooter in the west for nothin",
+        style: 'unit'
+      }
+    ]
+  );
+  return;
+}
+    overlay && (overlay.style.display = 'flex');
+    startRound();
+  }
+
+  function closeTargetPractice() {
+    stopRound();
+    overlay && (overlay.style.display = 'none');
+  }
+
+  function startRound() {
+    stopRound(); // reset any existing timers/targets
+    tpActive = true;
+    tpRoundStart = performance.now();
+    tpScore = 0;
+    tpRemainingTimeMs = TP_DURATION_MS;
+    tpGoldenSpawnedAt.clear();
+    tpThreeSecondWaveSpawned = false;
+    tpGoal = TP_GOAL_RANDOMIZE ? randInt(TP_GOAL_MIN, TP_GOAL_MAX) : TP_GOAL_FIXED;
+    scoreEl && (scoreEl.textContent = `Score: ${tpScore}`);
+    goalEl && (goalEl.textContent = `Goal: ${tpGoal}`);
+    attemptsEl && (attemptsEl.textContent = tpAttemptsLeft);
+    updateTimerDisplay(tpRemainingTimeMs);
+    scheduleNextSpawn();
+    tpTimerId = setInterval(tickRound, 100);
+  }
+
+  function stopRound() {
+    tpActive = false;
+    if (tpTimerId) { clearInterval(tpTimerId); tpTimerId = null; }
+    if (tpSpawnTimeout) { clearTimeout(tpSpawnTimeout); tpSpawnTimeout = null; }
+    clearAllTargets();
+  }
+
+  function tickRound() {
+    const elapsed = performance.now() - tpRoundStart;
+    tpRemainingTimeMs = Math.max(0, TP_DURATION_MS - elapsed);
+    updateTimerDisplay(tpRemainingTimeMs);
+
+    // Golden spawns at configured times
+    for (const t of GOLD_TIMES) {
+      if (elapsed >= t && !tpGoldenSpawnedAt.has(t)) {
+        tpGoldenSpawnedAt.add(t);
+        spawnTarget(true);
+      }
+    }
+
+    // Final 3-second burst: spawn WAVE_COUNT normal targets once
+    if (!tpThreeSecondWaveSpawned && tpRemainingTimeMs <= 3000) {
+      tpThreeSecondWaveSpawned = true;
+      for (let i = 0; i < WAVE_COUNT; i++) {
+        setTimeout(() => { if (tpActive) spawnTarget(false); }, i * WAVE_SPREAD_MS + Math.floor(Math.random() * WAVE_JITTER_MS));
+      }
+    }
+
+    if (tpRemainingTimeMs <= 0) {
+      endRound();
+    }
+  }
+
+  function updateTimerDisplay(ms) {
+    const sec = Math.ceil(ms / 1000);
+    timerEl && (timerEl.textContent = String(sec));
+  }
+
+  function scheduleNextSpawn() {
+    const delay = randBetween(TP_MIN_SPAWN_MS, TP_MAX_SPAWN_MS);
+    tpSpawnTimeout = setTimeout(() => {
+      if (!tpActive) return;
+      spawnTarget(false);
+      scheduleNextSpawn();
+    }, delay);
+  }
+
+  function spawnTarget(isGolden) {
+    if (!playfield) return;
+    const pfRect = playfield.getBoundingClientRect();
+    const pad = 8;
+    const tw = isGolden ? 72 : 64;
+    const th = isGolden ? 72 : 64;
+    const maxX = Math.max(0, pfRect.width - tw - pad);
+    const maxY = Math.max(0, pfRect.height - th - pad);
+    const x = randBetween(pad, maxX);
+    const y = randBetween(pad, maxY);
+    const el = document.createElement('div');
+    el.className = `tp-target ${isGolden ? 'golden' : 'normal'}`;
+    el.style.left = `${Math.round(x)}px`;
+    el.style.top = `${Math.round(y)}px`;
+    const label = document.createElement('div');
+    label.className = 'tp-target-label';
+    label.textContent = isGolden ? String(TP_GOLD_SCORE) : String(TP_NORMAL_SCORE);
+    el.appendChild(label);
+    playfield.appendChild(el);
+
+    const life = isGolden ? TP_GOLD_LIFETIME_MS : TP_TARGET_LIFETIME_MS;
+    let removed = false;
+    const remove = () => { if (!removed) { removed = true; el.remove(); } };
+    const lifeTimer = setTimeout(remove, life);
+
+    function onClick() {
+      if (!tpActive) return;
+      clearTimeout(lifeTimer);
+      remove();
+      el.removeEventListener('click', onClick);
+      const gained = isGolden ? TP_GOLD_SCORE : TP_NORMAL_SCORE;
+      tpScore += gained;
+      scoreEl && (scoreEl.textContent = `Score: ${tpScore}`);
+      showTemporaryText && showTemporaryText(`+${gained}`);
+      if (tpScore >= tpGoal) {
+        endRound(true);
+      }
+    }
+    el.addEventListener('click', onClick);
+  }
+
+  function clearAllTargets() {
+    if (!playfield) return;
+    while (playfield.firstChild) playfield.firstChild.remove();
+  }
+
+  function endRound(didWin = false) {
+    if (!tpActive) return;
+    stopRound();
+    if (didWin || tpScore >= tpGoal) {
+      tpWon = true;
+      // award achievement if exists
+      if (achievementsMap && achievementsMap['tp_beat_master']) {
+        achievementsMap['tp_beat_master'].progress = 1;
+        checkAchievements && checkAchievements();
+      } else if (achievementsMap) {
+        achievementsMap['tp_beat_master'] = {
+          id: 'tp_beat_master',
+          name: 'Sharp Shooter',
+          description: 'Beat Unit318920s score in Target Practice',
+          target: 1,
+          progress: 1,
+          unlocked: false,
+          checkCondition: function() { return this.progress >= 1; }
+        };
+        checkAchievements && checkAchievements();
+      }
+      showTemporaryText && showTemporaryText('You beat the goal! Achievement unlocked!');
+      tpAttemptsLeft = 0;
+      attemptsEl && (attemptsEl.textContent = tpAttemptsLeft);
+      setTimeout(() => overlay && (overlay.style.display = 'none'), 1300);
+    } else {
+      // failed attempt
+      tpAttemptsLeft = Math.max(0, tpAttemptsLeft - 1);
+      attemptsEl && (attemptsEl.textContent = tpAttemptsLeft);
+      if (tpAttemptsLeft <= 0) {
+        showDialog && showDialog(
+    [
+      {
+        speaker: 'Unit318920',
+        text: "Looks like you couldn't beat my score. It's okay, they don't call me the sharpest shooter in the west for nothin",
+        style: 'unit'
+      }
+    ]
+  );
+        overlay && (overlay.style.display = 'none');
+      } else {
+        showTemporaryText && showTemporaryText('Attempt failed. Restart or close.');
+      }
+    }
+  }
+
+  // UI wiring
+  if (restartBtn) restartBtn.addEventListener('click', () => {
+    if (tpAttemptsLeft <= 0 || tpWon) { showTemporaryText && showTemporaryText('No more attempts.'); return; }
+    startRound();
+  });
+  if (closeBtn) closeBtn.addEventListener('click', () => {
+    closeTargetPractice();
+  });
+
+
+  // Expose functions
+  window.openTargetPractice = openTargetPractice;
+  window.closeTargetPractice = closeTargetPractice;
+})();
+
+
 
 function drawAchievementsUI() {
   achievementsPopup.innerHTML = '';
   achievements.forEach(ach => {
     const div = document.createElement('div');
     div.textContent = ach.unlocked ? `✓ ${ach.name}` : `🔒 ${ach.name}`;
-    div.title = ach.unlocked ? '' : ach.description;
+    div.title = ach.unlocked ? '' : ach.description; // Hover text only if locked
     div.style.cursor = ach.unlocked ? 'default' : 'help';
     div.style.padding = '4px 0';
     if (ach.unlocked) div.style.color = 'lightgreen';
@@ -6677,7 +8250,8 @@ function processAchievementQueue() {
   const nameEl = document.getElementById('ach-popup-name');
   const descEl = document.getElementById('ach-popup-desc');
 
-  const achSfx = new Audio('achievement.wav'); 
+  // my victory is unused but it sounds so good for achievements so why not
+  const achSfx = new Audio('victory.wav'); 
   achSfx.volume = 0.5;
   achSfx.play().catch(e => {});
 
@@ -6714,6 +8288,7 @@ function checkInteraction(checkX, checkY) {
   return null;
 }
 
+//if ((inventory.get("tea") || 0) > 0) 
   
 // Handle interaction actions
 function handleInteraction(object) {
@@ -6724,7 +8299,6 @@ function handleInteraction(object) {
     removedWallIds.add(object.targetWallId);
     toggleWallById(object.targetWallId, false, targetLvl);
   }
-  
 
   if (object.action === "recruit") {
     const preText = object.recruitDialog || [
@@ -6766,18 +8340,198 @@ function handleInteraction(object) {
     return;
   }
 
-
-  if (object.action === "misc") {
+      if (object.action === "open_door" && object.id === "cardoor") {
+  if (!gameFlags.carpass) {
     showDialog([
-      { speaker: 'NAME', text: "This is testing dialogue.", style: 'dialog' }
+      { speaker: 'Bot', text: "Hey asshole! Fight us first!", style: 'npc' }
     ]);
     return;
   }
+
+  loadLevel(object.destLevel, object.destX, object.destY);
+  draw();
+  return;
+}
+
+  if (object.action === "farm") {
+  const plotId = object.id;
+  const stage = getPlotStage(plotId);
+
+  if (stage === 0) {
+    openFarmUI(plotId);
+  } else if (stage === 4) {
+    harvestPlot(plotId);
+  } else {
+    showTemporaryText("The plant is still growing!");
+  }
+  return;
+}
+
+
+  if (object.action === 'wires') {
+    openWires();
+    return;
+  }
+
+  if (object.action === "arcadetrophy") {
+    showDialog([
+      { speaker: '8-Bit', text: "We won this little bad boy from a competition.", style: 'dialog' },
+      { speaker: '8-Bit', text: "A gaming competition.", style: 'dialog' },
+      { speaker: '8-Bit', text: "Us three, we make a great team.", style: 'dialog' }
+    ]);
+    return;
+  }
+  if (object.action === "controller") {
+    showDialog([
+      { speaker: '8-Bit', text: "I wish I could play.", style: 'dialog' },
+      { speaker: '8-Bit', text: "Doesn't look like my friends are around anymore.", style: 'dialog' }
+    ]);
+    return;
+  }
+  if (object.action === "houseturrent") {
+    showDialog([
+      { speaker: '8-Bit', text: "Ha, it's fake.", style: 'dialog' },
+      { speaker: '8-Bit', text: "These guys couldn't even get themselves a real turrent.", style: 'dialog' }
+    ]);
+    return;
+  }
+
+  if (object.action === "birthdayinvited") {
+    showDialog([
+      { speaker: '8-Bit', text: "Invited.", style: 'dialog' },
+      { speaker: '8-Bit', text: "Alright, who the hell is throwing a party in my buddy's house?!", style: 'dialog' }
+    ]);
+    return;
+  }
+ 
+  if (object.action === "atticphoto") {
+    showDialog([
+      { speaker: '8-Bit', text: "I wonder why they have a quite new photo of themselves in here.", style: 'dialog' },
+      { speaker: '8-Bit', text: "It's full of dust so it's been here for a while.", style: 'dialog' }
+    ]);
+    return;
+  }
+  if (object.name === "partybot" || object.id === "partybot") {
+
+    if (!gameFlags.birthdaybottalk) {
+      showDialog([
+        { speaker: 'Birthday Bot', text: "Please don't hurt me. It's my birthday, I just wanted to celebrate.", style: 'npc', effect: 'shaky' },
+        { speaker: '8-Bit', text: "You and your little gang destroyed my friend's house.", style: 'dialog' },
+        { speaker: '8-Bit', text: "I don't care what you're here for.", style: 'dialog' },
+        { speaker: 'Birthday Bot', text: "I'm just a kid, you aren't going to kill a kid, are you?", style: 'npc', effect: 'shaky' }
+      ], object.id, {
+        onComplete: () => {
+          setTimeout(() => {
+          gameFlags.birthdaybottalk = true;
+          handleInteraction(object); 
+          }, 500);
+        }
+      });
+      return;
+    }
+
+    if (gameFlags.birthdaybottalk && !gameFlags.birthdaybotkilled && !gameFlags.birthdaybotspared) {
+      showDialogWithOptions(
+        "I should make a choice.",
+        [
+          {
+            label: "Kill",
+            onSelect: () => {
+              gameFlags.birthdaybotkilled = true;
+              badPoints += 1;
+              currentLevel.interactables = currentLevel.interactables.filter(o => o.id !== object.id);
+              removedInteractableIds.add(object.id);
+              removedWallIds.add('partywall'); 
+              currentLevel.walls = currentLevel.walls.filter(w => w.id !== 'partywall');
+              showTemporaryText("You killed the birthday bot.");
+              const deathSound = new Audio('enemydie.wav');
+              deathSound.play();
+              draw();
+            }
+          },
+          {
+            label: "Spare",
+            onSelect: () => {
+              gameFlags.birthdaybotspared = true;
+              goodPoints += 1;
+              removedWallIds.add('partywall'); 
+              currentLevel.walls = currentLevel.walls.filter(w => w.id !== 'partywall');
+              showDialog([
+                { speaker: 'Birthday Bot', text: "Thank you for sparing me.", style: 'npc' },
+                { speaker: '8-Bit', text: "Eh, whatever man.", style: 'dialog' }
+              ]);
+            }
+          }
+        ],
+        object.id,
+        { style: 'dialog', speaker: '8-Bit' }
+      );
+      return;
+    }
+
+    if (gameFlags.birthdaybotspared) {
+      showDialog([
+        { speaker: 'Birthday Bot', text: "Thank you for sparing me.", style: 'npc' },
+        { speaker: '8-Bit', text: "Eh, whatever man.", style: 'dialog' }
+      ]);
+      return;
+    }
+
+    if (gameFlags.birthdaybotkilled) {
+      showTemporaryText("You have killed the birthday bot.");
+      return;
+    }
+  }
+      if (object.action === "attictrophy") {
+    showDialog([
+      { speaker: '8-Bit', text: "I forgot what this trophy's for.", style: 'dialog' },
+      { speaker: '8-Bit', text: "Something cool, for sure.", style: 'dialog' }
+    ]);
+    return;
+  }
+  if (object.action === "brocketlauncher") {
+    showDialog([
+      { speaker: '8-Bit', text: "It's one of my friend's old weapons.", style: 'dialog' },
+      { speaker: '8-Bit', text: "He has a better one now.", style: 'dialog' },
+      { speaker: '8-Bit', text: "He used to put a bottle in the fourth slot because apparently he needed to hydrate.", style: 'dialog' },
+      { speaker: '8-Bit', text: "Actually, his rocket launcher would overheat if he had to load a fourth one.", style: 'dialog' },
+      { speaker: '8-Bit', text: "Jeez, why was I worried about my friends?", style: 'dialog' },
+      { speaker: '8-Bit', text: "No way they can take down someone with a rocket launcher!", style: 'dialog' }
+    ]);
+    return;
+  }
+if (object.action === "atticletter") {
+    showDialog([
+      { speaker: '8-Bit', text: "Okay, it starts with 'To my beloved'.", style: 'dialog' },
+      { speaker: '8-Bit', text: "Dearest machine, I did have a splendid time with you.", style: 'dialog' },
+      { speaker: '8-Bit', text: "My circuits were a bundle of passion with each second by your side.", style: 'dialog' },
+      { speaker: '8-Bit', text: "Will you marry me?", style: 'dialog' },
+      { speaker: '8-Bit', text: "Ew. What a horrible love letter.", style: 'dialog' }
+    ]);
+    return;
+  }
+
+  if (object.action === 'democube') {
+  openDemo();
+  return;
+} 
   
+if (object.action === 'target_practice' && object.name === 'target_board') {
+  openTargetPractice();
+  return;
+}
  if (object.action === 'shop') {
   window.openShop();
   return;
 } 
+  if (object.action === 'slot_machine') {
+  if (window.openSlotMachine) window.openSlotMachine();
+  return;
+}
+if (object.action === 'slap_jack') {
+  if (window.openSlapJack) window.openSlapJack();
+  return;
+}
 
 
 // Lever interactions
@@ -6899,6 +8653,26 @@ if (object.action === 'lever_controller') {
   openPasswordPopup(object);
   return;
 }
+  
+  if (object.name === "power_box") {
+    if (!gameFlags.isPowered) {
+      gameFlags.isPowered = true;
+      showTemporaryText("You pressed something on the box. The arcade machine flickers to life, barely.");
+      draw();
+    } else {
+      showTemporaryText("The power is already on.");
+    }
+    return;
+  }
+
+  if (object.name === "arcade_machine") {
+    if (gameFlags.isPowered) {
+      initiateBattle('interactable', object);
+    } else {
+      showTemporaryText("The machine is turned off ...");
+    }
+    return;
+  }
 
   if (object.action === "break") {
   const tool = object.requiredItem;
@@ -7411,9 +9185,8 @@ achievementsButton.addEventListener('click', () => {
   }, 1000);
 }
   
-//PLAYER ATTACKING
-       
-const pewBuffer = new Audio('yourfilehere.mp3');
+
+const pewBuffer = new Audio('pew.mp3');
 pewBuffer.volume = 0.2;
 
 function performPlayerAttack() {
@@ -7427,6 +9200,9 @@ function performPlayerAttack() {
 
   if (targetEnemy.isStoned) {
     spawnDamageNumber(selectedEnemyIndex, "BLOCKED", "#aaaaaa");
+    //const dinkSound = new Audio('sfx.wav');
+    //dinkSound.volume = 0.3;
+    //dinkSound.play().catch(e=>{});
     return;
   }
   
@@ -7450,9 +9226,6 @@ if (activeAmulets.bullets && playerStats.currentStamina < 3) {
     if (playerStats.isWeakened) {
     finalDmg *= 0.5;
   }
-    if (playerStats.isStrong) {
-    finalDmg *= 1.25;
-  }
     finalDmg = Math.floor(finalDmg);
     targetEnemy.currentHp -= finalDmg;
     spawnDamageNumber(selectedEnemyIndex, finalDmg);
@@ -7470,7 +9243,7 @@ if (activeAmulets.bullets && playerStats.currentStamina < 3) {
 
   if (activeAmulets.stealing) {
         targetEnemy.lastAttackAt += 50; 
-        targetEnemy.attackTime += 50;
+        targetEnemy.lastAttackAt += 50; 
     }
   
   if (playerStats.isBleeding) {
@@ -7506,51 +9279,9 @@ if (activeAmulets.bullets && playerStats.currentStamina < 3) {
   drawPlayerBattleStatus();
 }
 
-const attackButton = document.getElementById('attack-button');
-
-let CPS = 0;
-let cpsInterval = null;
-let showCPS = false;
-let LBOZO = false;
-  
-function startCPSCounter() {
-    CPS = 0;
-    document.getElementById("cps-value").textContent = CPS;
-    if (showCPS) {
-        document.getElementById("cps-counter").style.display = "block";
-    }
-    cpsInterval = setInterval(() => {
-        document.getElementById("cps-value").textContent = CPS;
-        CPS = 0;
-    }, 1000);
-}
-
-function stopCPSCounter() {
-    document.getElementById("cps-counter").style.display = "none";
-    if (cpsInterval) {
-        clearInterval(cpsInterval);
-        cpsInterval = null;
-    }
-    CPS = 0;
-}
-  
-const cpsToggle = document.getElementById("toggle-cps-counter");
-
-cpsToggle.addEventListener("change", () => {
-    showCPS = cpsToggle.checked;
-});
-
-
 document.getElementById('attack-button').addEventListener('click', () => {
-    if (LBOZO) return;
-    CPS++;
-    if (CPS > 15) {
-        LBOZO = true;
-        attackButton.disabled = true;
-        return;
-    }
-    if (activeAmulets.clicking) return;
-    performPlayerAttack();
+  if (activeAmulets.clicking) return; 
+  performPlayerAttack();
 });
 
 
@@ -7662,7 +9393,7 @@ document.getElementById('inventory-battle-button').addEventListener('click', () 
   const loadTitleBtn = document.getElementById('load-title-button');
 
 loadTitleBtn.addEventListener('click', () => {
-  const saved = localStorage.getItem('gameSave');
+  const saved = localStorage.getItem('8bitsAdventureSave');
   
   if (!saved) {
     return;
@@ -7805,6 +9536,7 @@ function isInIce(px, py) {
   return false;
 }
 
+// Wall collision detection
 function isCollidingWithWall(newX, newY) {
   const newHitboxX = newX + hitboxOffsetX;
   const newHitboxY = newY + hitboxOffsetY;
@@ -7841,9 +9573,11 @@ function isCollidingWithWall(newX, newY) {
     const battleZone = findBattleZone(nextX, nextY);
     if (battleZone) { x = nextX; y = nextY; initiateBattle('battleZone', battleZone); stopSlide(); return; }
 
+    // commit move
     x = nextX;
     y = nextY;
 
+    // stop sliding if we left ice
     if (!isInIce(x, y)) { stopSlide(); return; }
 
     draw();
@@ -7871,6 +9605,7 @@ function tryEnterSlideIfNeeded(oldX, oldY, newX, newY, dx, dy) {
   return false;
 }
   
+// Door collision detection
 function checkDoorCollision(newX, newY) {
   const newHitboxX = newX + hitboxOffsetX;
   const newHitboxY = newY + hitboxOffsetY;
@@ -7996,6 +9731,38 @@ if (gameSettings.showZones) {
     }
   }
 });
+      currentLevel.interactables.forEach(obj => {
+  if (obj.action === "partybot") {
+    if (partybotImg && partybotImg.complete) {
+      ctx.drawImage(partybotImg, obj.x, obj.y, obj.width, obj.height);
+    } else {
+      ctx.fillStyle = "#ff00ff";
+      ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+    }
+  }
+});
+
+  currentLevel.interactables.forEach(obj => {
+  if (obj.action === "atticblockade") {
+    if (arcadegateImg && arcadegateImg.complete) {
+      ctx.drawImage(arcadegateImg, obj.x, obj.y, obj.width, obj.height);
+    } else {
+      ctx.fillStyle = "#ff00ff";
+      ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+    }
+  }
+});
+
+  currentLevel.interactables.forEach(obj => {
+  if (obj.name === "rockB") {
+    if (rockbImg && rockbImg.complete) {
+      ctx.drawImage(rockbImg, obj.x, obj.y, obj.width, obj.height);
+    } else {
+      ctx.fillStyle = "#ff00ff";
+      ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+    }
+  }
+});
 
 
 (currentLevel.interactables || []).forEach(obj => {
@@ -8078,6 +9845,39 @@ if (isInDarkZone(x, y) && (inventory.get("torch") || 0) <= 0) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+  currentLevel.interactables.forEach(obj => {
+  if (obj.name === "blockade") {
+    if (blockadeImg && blockadeImg.complete) {
+      ctx.drawImage(blockadeImg, obj.x, obj.y, obj.width, obj.height);
+    } else {
+      ctx.fillStyle = "#444";
+      ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+    }
+  }
+});
+
+  currentLevel.interactables.forEach(obj => {
+  if (obj.name === "arcadeoldbot") {
+    if (aOldBotImg && aOldBotImg.complete) {
+      ctx.drawImage(aOldBotImg, obj.x, obj.y, obj.width, obj.height);
+    } else {
+      ctx.fillStyle = "#444";
+      ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+    }
+  }
+});
+
+  currentLevel.interactables.forEach(obj => {
+  if (obj.name === "visualarcadegate") {
+    if (blockadeImg && arcadegateImg.complete) {
+      ctx.drawImage(arcadegateImg, obj.x, obj.y, obj.width, obj.height);
+    } else {
+      ctx.fillStyle = "#444";
+      ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+    }
+  }
+});
+
 
   currentLevel.interactables.forEach(obj => {
     if (obj.name === "big_stone" || obj.name === "bigStone") {
@@ -8090,40 +9890,9 @@ if (isInDarkZone(x, y) && (inventory.get("torch") || 0) <= 0) {
   setInterval(() => {
   draw();
 }, 1000 / 30);
-  
-let totalPlaytimeSeconds = 0;
-let playtimeInterval = null;
-let showPlaytime = false;
 
-document.addEventListener("DOMContentLoaded", () => {
-    const playtimeToggle = document.getElementById("toggle-playtime-counter");
-    playtimeToggle.addEventListener("change", () => {
-        showPlaytime = playtimeToggle.checked;
-        document.getElementById("playtime-counter").style.display =
-            showPlaytime ? "block" : "none";
-    });
-    startPlaytimeCounter();
-});
-  
-function startPlaytimeCounter() {
-    playtimeInterval = setInterval(() => {
-        totalPlaytimeSeconds++;
-        updatePlaytimeUI();
-    }, 1000);
-}
-function formatPlaytime(seconds) {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    return `${hours}:${minutes.toString().padStart(2, '0')}`;
-}
-function updatePlaytimeUI() {
-    document.getElementById("playtime-value").textContent =
-        formatPlaytime(totalPlaytimeSeconds);
-}
-
-
-const SETTINGS_KEY = 'gameSettings';
-const SAVE_SLOT_PREFIX = 'gameSave_slot_'; 
+const SETTINGS_KEY = '8bitsAdventureSettings';
+const SAVE_SLOT_PREFIX = '8bitsAdventureSave_slot_'; 
 
 const defaultSettings = {
   difficulty: 'normal',
@@ -8167,7 +9936,6 @@ function saveToSlot(slotNumber) {
     gameFlags,
     goodPoints: goodPoints,
     badPoints: badPoints,
-    playtimeSeconds: totalPlaytimeSeconds,
     currentObjective,
     objectiveCompleted,
     alliesData: alliesData.filter(a => unlockedAllies.has(a.id)).map(a => ({
@@ -8251,12 +10019,6 @@ levels.forEach(level => {
     } else {
       activeAlly = null;
     }
-  
-alliesData.forEach(ally => {
-    ally.unlocked = unlockedAllies.has(ally.id);
-});
-
-
 
     if (Array.isArray(saveData.achievements)) {
       saveData.achievements.forEach(savedAch => {
@@ -8281,7 +10043,6 @@ alliesData.forEach(ally => {
     drawAchievementsUI();
     drawPartyList();
     drawPartyStatus();
-    startPlaytimeCounter();
 
     showTemporaryText(`Loaded slot ${slotNumber}`);
   } catch (e) {
@@ -8317,7 +10078,6 @@ function saveGame() {
     gameFlags: gameFlags,
     goodPoints: goodPoints,
     badPoints: badPoints,
-    playtimeSeconds: totalPlaytimeSeconds,
     currentObjective: currentObjective,
     objectiveCompleted: objectiveCompleted,
   alliesData: alliesData.filter(a => unlockedAllies.has(a.id)).map(a => ({
@@ -8340,12 +10100,12 @@ function saveGame() {
   progress: a.progress,
   unlocked: a.unlocked
 }));
-  localStorage.setItem('gameSave', JSON.stringify(saveData));
+  localStorage.setItem('8bitsAdventureSave', JSON.stringify(saveData));
   console.log('Game saved:', saveData);
 }
 
   function exportSave() {
-  const rawSave = localStorage.getItem("gameSave");
+  const rawSave = localStorage.getItem("8bitsAdventureSave");
   document.getElementById("export-box").value = rawSave || "No save found";
 }
 
@@ -8370,7 +10130,7 @@ document.getElementById("close-export").addEventListener("click", closeExportMen
 
 
 function loadGame() {
-  const saved = localStorage.getItem('gameSave');
+  const saved = localStorage.getItem('8bitsAdventureSave');
   if (!saved) {
     showTemporaryText('No saved game found.');
     console.log('No saved game found.');
@@ -8432,11 +10192,6 @@ levels.forEach(level => {
       });
     }
     unlockedAllies = new Set(saveData.unlockedAllies || []);
-alliesData.forEach(ally => {
-    ally.unlocked = unlockedAllies.has(ally.id);
-});
-
-
     equippedAllyId = saveData.equippedAllyId || null;
     if (equippedAllyId && unlockedAllies.has(equippedAllyId)) {
       const allyBase = alliesData.find(a => a.id === equippedAllyId);
@@ -8463,7 +10218,6 @@ alliesData.forEach(ally => {
     updateHp(playerStats.currentHp);
     updateStatsPopup();
     drawAchievementsUI();
-    startPlaytimeCounter();
 
     showTemporaryText('Game loaded!');
     console.log('Game loaded:', saveData);
@@ -8546,12 +10300,10 @@ function executeDevCommand(input) {
       break;
 
     case '/unlockall':
-  alliesData.forEach(a => unlockedAllies.add(a.id));
-  alliesData.forEach(a => a.unlocked = true);
-  showTemporaryText("All allies unlocked!");
-  drawPartyUI();
-  break;
-
+      alliesData.forEach(a => unlockedAllies.add(a.id));
+      showTemporaryText("All allies unlocked!");
+      drawPartyList();
+      break;
 
     case '/battle':
       const enemyType = args[0];
