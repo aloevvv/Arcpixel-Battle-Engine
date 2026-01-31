@@ -1468,20 +1468,7 @@ const levels = [
     ],
     darkZones: [],
     battleZones: [],
-    dialogZones: [
-      {
-    id: 'housegaragetalk',
-    x: 0, y: 0, width: 640, height: 480,
-    text: [
-      { speaker: 'Bot', text: "Hey, I don't think we invited this robot to the party...", style: 'npc' },
-      { speaker: 'Bot 2',  text: "So don't tell it anything!", style: 'npc' },
-      { speaker: 'Bot', text: "Yeah, don't tell it that there's a lever inside this car!", style: 'npc' },
-      { speaker: '8-Bit',  text: "Idiots.", style: 'dialog' }
-    ],
-    autoShow: true,
-    style: 'dialog'
-  }
-    ],
+    dialogZones: [],
     interactables: []
   }
 ];
@@ -1978,11 +1965,6 @@ prologueNext.addEventListener('click', () => {
       achievementsMap['played'].progress++;
       checkAchievements();
       updateAbilityButtonsUI();
-      showDialog([
-      { speaker: '8-Bit', text: "Ughhhh...", style: 'dialog' },
-      { speaker: '8-Bit', text: "I woke up in so much pain...", style: 'dialog' },
-      { speaker: '8-Bit', text: "I guess I gotta explore.", style: 'dialog' }
-    ]);
     });
   }
 });
@@ -4617,33 +4599,10 @@ function handleInteraction(object) {
     return;
   }
 
-      if (object.action === "open_door" && object.id === "cardoor") {
-  if (!gameFlags.carpass) {
-    showDialog([
-      { speaker: 'Bot', text: "Hey asshole! Fight us first!", style: 'npc' }
-    ]);
-    return;
-  }
-
   loadLevel(object.destLevel, object.destX, object.destY);
   draw();
   return;
 }
-
-  if (object.action === "farm") {
-  const plotId = object.id;
-  const stage = getPlotStage(plotId);
-
-  if (stage === 0) {
-    openFarmUI(plotId);
-  } else if (stage === 4) {
-    harvestPlot(plotId);
-  } else {
-    showTemporaryText("The plant is still growing!");
-  }
-  return;
-}
-
 
  if (object.action === 'shop') {
   window.openShop();
