@@ -1069,21 +1069,8 @@ const hpText = document.getElementById('hp-text');
 let selectedEnemyIndex = 0;
 let allyTargetMode = 'Current';
 let gameFlags = {
-  firsthit: false,
-  isPowered: false,
-  arcadegatetalk: false,
-  arcadegate2: false,
-  arcadeoldbottalk: false,
-  arcadeoldbotNO: false,
-  arcadeoldbottea: false,
-  carpass: false,
-  atticlever: false,
-  birthdaybottalk: false,
-  birthdaybotkilled: false,
-  birthdaybotspared: false,
-  louRecruited: false,
-  interactedWithDeadBody: false,
-  lightsFixed: false
+  flag1: false,
+  flag2: false
 };
 
 let goodPoints = 0;
@@ -1142,14 +1129,6 @@ function drawBreathing() {
     });
   }
 }
-
-
-
-let darkTimerMs = 0;
-let darkTimerLimitMs = 30000;
-let darkTimerTickInterval = null;
-const darkTimerTickMs = 100;
-let darkTimerActive = false;
 
 let sliding = false;
 let slidingDirection = { dx: 0, dy: 0 };
@@ -1299,7 +1278,7 @@ inventory.set("stamina_potion", 0);
 inventory.set("anti_virus", 0);
 inventory.set("driftwood", 0);
 
-inventory.set("bolts", 5);
+inventory.set("bolts", 0); // CURRENCY, CHANGE NAME TO COINS, ETC
 inventory.set("water", 0);
 inventory.set("boiled_water", 0);
 inventory.set("water_1", 0);
@@ -1377,17 +1356,15 @@ let playerStats = {
   xpToNextLevel: 10,
   currentStamina: 50,
   maxStamina: 200,
-
   baseMaxHp: 16,
   baseDamage: 2
 };
 const alliesData = [
-  { id: 'ally1', name: 'Lou', baseMaxHp: 35, baseDamage: 3, attackIntervalMs: 1700, level: 1, xp: 0, xpToNextLevel: 10 },
-  { id: 'ally2', name: 'Buzz', baseMaxHp: 58, baseDamage: 4, attackIntervalMs: 2200, level: 1, xp: 0, xpToNextLevel: 10 },
-  { id: 'ally3', name: 'Colt', baseMaxHp: 23, baseDamage: 6, attackIntervalMs: 3000, level: 1, xp: 0, xpToNextLevel: 10 },
-  { id: 'ally4', name: 'Otis', baseMaxHp: 45, baseDamage: 4, attackIntervalMs: 2000, level: 1, xp: 0, xpToNextLevel: 10 },
-  { id: 'ally5', name: 'Janet', baseMaxHp: 40, baseDamage: 3, attackIntervalMs: 1500, level: 1, xp: 0, xpToNextLevel: 10 },
-  { id: 'ally6', name: 'Max', baseMaxHp: 36, baseDamage: 4, attackIntervalMs: 1000, level: 1, xp: 0, xpToNextLevel: 10 },
+  { id: 'ally1', name: 'ally1', baseMaxHp: 35, baseDamage: 3, attackIntervalMs: 1700, level: 1, xp: 0, xpToNextLevel: 10 },
+  { id: 'ally2', name: 'ally2', baseMaxHp: 58, baseDamage: 4, attackIntervalMs: 2200, level: 1, xp: 0, xpToNextLevel: 10 },
+  { id: 'ally3', name: 'ally3', baseMaxHp: 23, baseDamage: 6, attackIntervalMs: 3000, level: 1, xp: 0, xpToNextLevel: 10 },
+  { id: 'ally4', name: 'ally4', baseMaxHp: 45, baseDamage: 4, attackIntervalMs: 2000, level: 1, xp: 0, xpToNextLevel: 10 },
+  { id: 'ally5', name: 'ally5', baseMaxHp: 40, baseDamage: 3, attackIntervalMs: 1500, level: 1, xp: 0, xpToNextLevel: 10 },
 ];
 
 let unlockedAllies = new Set();
@@ -1401,15 +1378,6 @@ let inBattle = false;
 const enemyTypes = {
   Dummy: { name: "Dummy", maxHp: 32, damage: 1, xpReward: 3, behavior: "normalAttack" },
   Botling: { name: "Botling", maxHp: 10, damage: 1, xpReward: 2, behavior: "normalAttack" },
-  Sniperbot: { name: "Sniper", maxHp: 50, attackSpeed: 2500, damage: 1, xpReward: 5, behavior: "sniperAttack" },
-  Partybot: { name: "Sniper", maxHp: 120, damage: 1, xpReward: 6, behavior: "sniperAttack" },
-  Partygoers: { name: "Celebrating Bots", maxHp: 500, damage: 2, xpReward: 8, behavior: "normalAttack" },
-  Drunkard: { name: "Drunken Bot", maxHp: 300, attackSpeed: 3000, damage: 5, xpReward: 7, behavior: "normalAttack" },
-  Cookingbot: { name: "The Cook", maxHp: 400, attackSpeed: 1500 ,damage: 2, xpReward: 8, behavior: "normalAttack" },
-  Partyblocker: { name: "Celebrating Bots", maxHp: 500, damage: 2, xpReward: 8, behavior: "normalAttack" },
-  Puncherbot: { name: "Puncher", maxHp: 90, damage: 1, xpReward: 5, behavior: "normalAttack" },
-  Attictank: { name: "Dusty Bot", maxHp: 1500, damage: 1, xpReward: 14, behavior: "normalAttack" },
-  Atticsniper: { name: "Dusty Sniper", maxHp: 1000, attackSpeed: 3000, damage: 3, xpReward: 12, behavior: "sniperAttack" },
   OldBot: { name: "Old Bot", maxHp: 10000, attackSpeed: 5000, damage: 10, xpReward: 200, behavior: "oldBotBehavior" },
   Sandbot: { name: "Sandy Bot", maxHp: 100, attackSpeed: 2000, damage: 3, xpReward: 10, behavior: "sandBehavior" },
   Smokebang: { name: "Smoke Bomb Bot", maxHp: 100, attackSpeed: 2000, damage: 3, xpReward: 10, behavior: "smokeBehavior" },
@@ -1426,11 +1394,6 @@ const enemyTypes = {
   CritBoss: { name: "Deadshot", maxHp: 100, damage: 7, xpReward: 1, behavior: "critBossBehavior", isBoss: true, defaultResistances: {stun: true, poison:true }},
   CaveBoss: { name: "Stoneforce", maxHp: 200, damage: 4, xpReward: 150, isBoss: true, behavior: "caveBossBehavior", defaultResistances: { stun: true, poison: true }},
   CrystalShard: { name: "Crystal Shard", maxHp: 5, damage: 2, xpReward: 1, behavior: "normalAttack" },
-  MountainBoss: { name: "Autoyvern", maxHp: 10000, damage: 1, xpReward: 200, behavior: "mountainBossBehavior", isBoss: true, defaultResistances: {stun: true, poison:true }},
-  GhostBoss: { name: "The Maestro", maxHp: 450, damage: 3, xpReward: 150, behavior: "ghostBossBehavior", isBoss: true, defaultResistances: {stun: true, poison:true }},
-  Train: { name: "Train Carriage", maxHp: 40, damage: 0, xpReward: 0, behavior: "normalAttack"},
-  SpectralMinion: { name: "Spirit", maxHp: 12, damage: 3, xpReward: 1, behavior: "normalAttack" },
-  IslandBoss: { name: "Nekark of the Seas", maxHp: 320, damage: 3, xpReward: 180, behavior: "islandBossBehavior", isBoss: true, defaultResistances: { stun: true, poison: true }},
   Roboworker: { name: "Roboworker", maxHp: 8, damage: 2, xpReward: 0, behavior: "normalAttack" },
   LifeCore: { name: "Life Core", maxHp: 80, damage: 0, xpReward: 0, behavior: "lifeCoreBehavior" }
 };
@@ -1589,65 +1552,8 @@ levels.forEach(level => {
     progress: 0,
     unlocked: false,
     checkCondition: () => achievementsMap['kill_caveboss'].progress >= 1
-  },
-    {
-    id: 'kill_mountainboss',
-    name: 'Last Fire Breath',
-    description: 'Kill Autoyvern on Ultimate Difficulty',
-    target: 1,
-    progress: 0,
-    unlocked: false,
-    checkCondition: () => achievementsMap['kill_mountainboss'].progress >= 1
-  },
-    {
-    id: 'kill_islandboss',
-    name: 'Washed Up Guardian',
-    description: 'Kill Nekark of the Seas on Ultimate Difficulty',
-    target: 1,
-    progress: 0,
-    unlocked: false,
-    checkCondition: () => achievementsMap['kill_islandboss'].progress >= 1
-  },
-    {
-    id: 'kill_factoryboss',
-    name: 'Fireworks',
-    description: 'Kill The Works Plant on Ultimate Difficulty',
-    target: 1,
-    progress: 0,
-    unlocked: false,
-    checkCondition: () => achievementsMap['kill_factoryboss'].progress >= 1
-  },
-  {
-    id: 'kill_ghostboss',
-    name: 'Whack-a-ghost',
-    description: 'Kill The Maestro on Ultimate Difficulty',
-    target: 1,
-    progress: 0,
-    unlocked: false,
-    checkCondition: () => achievementsMap['kill_ghostboss'].progress >= 1
-  },
-    {
-    id: 'kill_finaleboss',
-    name: 'Save the World!',
-    description: 'Kill Corruptus Caliginis Aeternae on Ultimate Difficulty',
-    target: 1,
-    progress: 0,
-    unlocked: false,
-    checkCondition: () => achievementsMap['kill_finaleboss'].progress >= 1
   }
 ];
-
-  alliesData.forEach(ally => {
-  achievements.push({
-    id: `ally_unlock_${ally.id}`,
-    name: `Unlock ${ally.name}`,
-    description: `Unlock the ally ${ally.name}.`,
-    progress: 0,
-    target: 1,
-    unlocked: false,
-    checkCondition: function() { return this.progress >= this.target; }
-  });
-});
 
     const achievementsMap = {};
 achievements.forEach(a => achievementsMap[a.id] = a);
@@ -3529,12 +3435,6 @@ function healerBehavior(enemy) {
   }
 }
 
-  const MOUNTAIN_PEN_CONFIG = {
-  penRespawnIntervalMs: 10000,   // spawn a pen every 10s (if none present)
-  sheepSummonIntervalMs: 3000,   // each pen summons a sheep every 3s (or choose a value)
-  sheepLifetimeMs: 3000,         // sheep exist for 3s then are "eaten"
-  sheepHealPercent: 0.05         // heal boss for 5% of its maxHp when a sheep is eaten
-};
 
   function toggleAutofire(on) {
   const btn = document.getElementById('attack-button');
@@ -4614,31 +4514,8 @@ function handleInteraction(object) {
     draw();
     return;
   }
-
-      if (object.action === "open_door" && object.id === "cardoor") {
-  if (!gameFlags.carpass) {
-    showDialog([
-      { speaker: 'Bot', text: "Hey asshole! Fight us first!", style: 'npc' }
-    ]);
-    return;
-  }
-
   loadLevel(object.destLevel, object.destX, object.destY);
   draw();
-  return;
-}
-
-  if (object.action === "farm") {
-  const plotId = object.id;
-  const stage = getPlotStage(plotId);
-
-  if (stage === 0) {
-    openFarmUI(plotId);
-  } else if (stage === 4) {
-    harvestPlot(plotId);
-  } else {
-    showTemporaryText("The plant is still growing!");
-  }
   return;
 }
 
@@ -4687,20 +4564,6 @@ if (object.action === 'lever') {
       break;
     }
 
-
-    case 'atticlever2': {
-      const targetLevel = levels[65];
-      toggleWallById('arcadegate', !object.currentState, 65);
-      gameFlags.atticlever = true;
-      completeObjective();
-      if (targetLevel) {
-        targetLevel.interactables = targetLevel.interactables.filter(i => i.id !== 'visualarcadegate');
-        removedInteractableIds.add('visualarcadegate');
-        targetLevel.walls = targetLevel.walls.filter(w => w.id !== 'arcadegate');
-        removedWallIds.add('arcadegate');
-      }
-      break;
-    }
 
     case 'atticlever': {
       const targetLevel = levels[72];
