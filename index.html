@@ -1461,13 +1461,27 @@ const levels = [
     bgSrc: "arcadebg.png",
     walls: [
       { x: 0, y: 0, width: 640, height: 20 },
+      { x: 0, y: 460, width: 640, height: 20 },
     ],
     doors: [
       { x: 0, y: 0, width: 1, height: 1, destLevel: 1, destX: 300, destY: 375 }
     ],
     darkZones: [],
     battleZones: [],
-    dialogZones: [],
+    dialogZones: [
+      {
+    id: 'housegaragetalk',
+    x: 0, y: 0, width: 640, height: 480,
+    text: [
+      { speaker: 'Bot', text: "Hey, I don't think we invited this robot to the party...", style: 'npc' },
+      { speaker: 'Bot 2',  text: "So don't tell it anything!", style: 'npc' },
+      { speaker: 'Bot', text: "Yeah, don't tell it that there's a lever inside this car!", style: 'npc' },
+      { speaker: '8-Bit',  text: "Idiots.", style: 'dialog' }
+    ],
+    autoShow: true,
+    style: 'dialog'
+  }
+    ],
     interactables: []
   }
 ];
@@ -1636,18 +1650,6 @@ levels.forEach(level => {
     checkCondition: () => achievementsMap['kill_finaleboss'].progress >= 1
   }
 ];
-
-  alliesData.forEach(ally => {
-  achievements.push({
-    id: `ally_unlock_${ally.id}`,
-    name: `Unlock ${ally.name}`,
-    description: `Unlock the ally ${ally.name}.`,
-    progress: 0,
-    target: 1,
-    unlocked: false,
-    checkCondition: function() { return this.progress >= this.target; }
-  });
-});
 
     const achievementsMap = {};
 achievements.forEach(a => achievementsMap[a.id] = a);
