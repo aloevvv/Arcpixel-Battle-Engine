@@ -5099,10 +5099,7 @@ function showVictorySequence(onComplete) {
   
 function endBattle(outcome) {
 
-  try { stopDarkTimer(); } catch (e) {}
-
   if (outcome === 'win') {
-    
     battleRounds--;
     if (battleRounds > 0) {
       currentRoundIndex++;
@@ -5111,93 +5108,53 @@ function endBattle(outcome) {
       return;
     }
   }
-  if (activeEnemies.length === 0) {
-  const ghost = window._lastGhostRef;
-  if (ghost && ghost._isHidden) {
-    if (!activeEnemies.includes(ghost)) activeEnemies.push(ghost);
-    ghost._isHidden = false;
-    ghost._hostTrainSpawned = false;
-
-    if (ghost._spectralIntervalId) clearInterval(ghost._spectralIntervalId);
-    ghost._spectralIntervalId = setInterval(() => {
-      if (!inBattle || !activeEnemies.includes(ghost) || ghost.currentHp <= 0) {
-        if (ghost._spectralIntervalId) { clearInterval(ghost._spectralIntervalId); ghost._spectralIntervalId = null; }
-        return;
-      }
-      const base = enemyTypes.SpectralMinion;
-      const m = {
-        type: 'SpectralMinion',
-        name: base.name,
-        maxHp: Math.max(1, Math.floor(base.maxHp * getDifficultyMultipliers().enemyHp)),
-        currentHp: Math.max(1, Math.floor(base.maxHp * getDifficultyMultipliers().enemyHp)),
-        damage: Math.max(0, Math.floor(base.damage * getDifficultyMultipliers().enemyDmg)),
-        xpReward: base.xpReward || 0,
-        shieldActive: false, stunned: false, poisoned: false
-      };
-      activeEnemies.push(m);
-      showTemporaryText('A spectral minion emerges!');
-      drawBattleUI();
-    }, 3000);
-
-    selectedEnemyIndex = Math.max(0, Math.min(selectedEnemyIndex, activeEnemies.length - 1));
-    inBattle = true;
-
-  activeEnemies.forEach(enemy => {
-    if (enemy.attackTimerId) clearInterval(enemy.attackTimerId);
-  });
-    drawBattleUI();
-    drawPlayerBattleStatus();
-    return; 
-  }
-  }
-
+  
   inBattle = false;
-  document.getElementById('battle-overlay').style.display = 'none';
-  if (window._raft) {
-  window._raft = null;
-}
-  if (typeof endBattle === 'function') {
-  const _orig_endBattle = endBattle;
-  endBattle = function(outcome) {
-    blockActive = false;
-    counterWindowActive = false;
-    stopAbilityRegen();
-    updateAbilityButtonsUI();
-    return _orig_endBattle(outcome);
-  };
-}
+
+  const overlay = document.getElementById('battle-overlay');
+  if (overlay) overlay.style.display = 'none';
 
   const entities = [playerStats, activeAlly];
   entities.forEach(ent => {
     if (!ent) return;
+
     ent._burnType = null;
     ent.isFrozen = false;
     ent.isBlinded = false;
     ent.isFogged = false;
     ent.isWeakened = false;
+
     if (ent.isBlindedTimeout) clearTimeout(ent.isBlindedTimeout);
     if (ent.isFrozenTimeout) clearTimeout(ent.isFrozenTimeout);
     if (ent.isFoggedTimeout) clearTimeout(ent.isFoggedTimeout);
     if (ent.isWeakenedTimeout) clearTimeout(ent.isWeakenedTimeout);
   });
-  
+
   drawPlayerBattleStatus();
 
-  if (staminaRegenIntervalId) { clearInterval(staminaRegenIntervalId); staminaRegenIntervalId = null; }
-  if (enemyAttackIntervalId) { clearInterval(enemyAttackIntervalId); enemyAttackIntervalId = null; }
+  if (staminaRegenIntervalId) {
+    clearInterval(staminaRegenIntervalId);
+    staminaRegenIntervalId = null;
+  }
+
+  if (enemyAttackIntervalId) {
+    clearInterval(enemyAttackIntervalId);
+    enemyAttackIntervalId = null;
+  }
+
   if (activeAlly && activeAlly.attackTimerId) {
     clearInterval(activeAlly.attackTimerId);
     activeAlly.attackTimerId = null;
   }
 
-  toggleAutofire(false); 
-  
+  toggleAutofire(false);
+
   for (let key in activeAmulets) {
-    activeAmulets[key] = false; 
+    activeAmulets[key] = false;
   }
 
-  playerStats.maxHp = playerStats.baseMaxHp; 
-playerStats.currentHp = Math.min(playerStats.currentHp, playerStats.maxHp);
+  playerStats.maxHp = playerStats.baseMaxHp;
+  playerStats.currentHp = Math.min(playerStats.currentHp, playerStats.maxHp);
   updateHp(playerStats.currentHp);
 
   applyEquipmentBonuses();
@@ -5208,12 +5165,17 @@ playerStats.currentHp = Math.min(playerStats.currentHp, playerStats.maxHp);
   }
 
   if (outcome === 'win') {
+
     let totalXp = activeEnemies.reduce((sum, enemy) => sum + (enemy.xpReward || 0), 0);
     gainXP(totalXp);
+
     playerStats.currentHp = playerStats.maxHp;
     updateHp(playerStats.currentHp);
-    if (defeatedZone) removeZone(defeatedZone);
+
     healAllyAfterBattle();
+
+    if (defeatedZone) removeZone(defeatedZone);
+
   } else if (outcome === 'lose') {
     showGameOver();
   }
