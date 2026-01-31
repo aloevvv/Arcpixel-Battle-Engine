@@ -7733,9 +7733,6 @@ function performPlayerAttack() {
 
   if (targetEnemy.isStoned) {
     spawnDamageNumber(selectedEnemyIndex, "BLOCKED", "#aaaaaa");
-    //const dinkSound = new Audio('sfx.wav');
-    //dinkSound.volume = 0.3;
-    //dinkSound.play().catch(e=>{});
     return;
   }
   
@@ -8069,7 +8066,6 @@ function isInIce(px, py) {
   return false;
 }
 
-// Wall collision detection
 function isCollidingWithWall(newX, newY) {
   const newHitboxX = newX + hitboxOffsetX;
   const newHitboxY = newY + hitboxOffsetY;
@@ -8106,11 +8102,9 @@ function isCollidingWithWall(newX, newY) {
     const battleZone = findBattleZone(nextX, nextY);
     if (battleZone) { x = nextX; y = nextY; initiateBattle('battleZone', battleZone); stopSlide(); return; }
 
-    // commit move
     x = nextX;
     y = nextY;
 
-    // stop sliding if we left ice
     if (!isInIce(x, y)) { stopSlide(); return; }
 
     draw();
@@ -8138,7 +8132,6 @@ function tryEnterSlideIfNeeded(oldX, oldY, newX, newY, dx, dy) {
   return false;
 }
   
-// Door collision detection
 function checkDoorCollision(newX, newY) {
   const newHitboxX = newX + hitboxOffsetX;
   const newHitboxY = newY + hitboxOffsetY;
@@ -8167,7 +8160,7 @@ function draw() {
     ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
   } else {
     
-    ctx.fillStyle = "#737373";
+    ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
   ctx.fillStyle = "rgba(0,0,0,0.0)";
@@ -8226,16 +8219,6 @@ if (gameSettings.showZones) {
 }
 
   currentLevel.interactables.forEach(obj => {
-  if (obj.action === "farm") {
-    const stage = getPlotStage(obj.id);
-    const img = farmSprites[`stage${stage}`];
-    if (img && img.complete) {
-      ctx.drawImage(img, obj.x, obj.y, obj.width, obj.height);
-    }
-  }
-});
-
-  currentLevel.interactables.forEach(obj => {
   if (obj.action === "pickup") {
  
     let imgToDraw = null;
@@ -8264,39 +8247,6 @@ if (gameSettings.showZones) {
     }
   }
 });
-      currentLevel.interactables.forEach(obj => {
-  if (obj.action === "partybot") {
-    if (partybotImg && partybotImg.complete) {
-      ctx.drawImage(partybotImg, obj.x, obj.y, obj.width, obj.height);
-    } else {
-      ctx.fillStyle = "#ff00ff";
-      ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
-    }
-  }
-});
-
-  currentLevel.interactables.forEach(obj => {
-  if (obj.action === "atticblockade") {
-    if (arcadegateImg && arcadegateImg.complete) {
-      ctx.drawImage(arcadegateImg, obj.x, obj.y, obj.width, obj.height);
-    } else {
-      ctx.fillStyle = "#ff00ff";
-      ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
-    }
-  }
-});
-
-  currentLevel.interactables.forEach(obj => {
-  if (obj.name === "rockB") {
-    if (rockbImg && rockbImg.complete) {
-      ctx.drawImage(rockbImg, obj.x, obj.y, obj.width, obj.height);
-    } else {
-      ctx.fillStyle = "#ff00ff";
-      ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
-    }
-  }
-});
-
 
 (currentLevel.interactables || []).forEach(obj => {
   if (!obj) return;
@@ -8377,39 +8327,6 @@ if (isInDarkZone(x, y) && (inventory.get("torch") || 0) <= 0) {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
-
-  currentLevel.interactables.forEach(obj => {
-  if (obj.name === "blockade") {
-    if (blockadeImg && blockadeImg.complete) {
-      ctx.drawImage(blockadeImg, obj.x, obj.y, obj.width, obj.height);
-    } else {
-      ctx.fillStyle = "#444";
-      ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
-    }
-  }
-});
-
-  currentLevel.interactables.forEach(obj => {
-  if (obj.name === "arcadeoldbot") {
-    if (aOldBotImg && aOldBotImg.complete) {
-      ctx.drawImage(aOldBotImg, obj.x, obj.y, obj.width, obj.height);
-    } else {
-      ctx.fillStyle = "#444";
-      ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
-    }
-  }
-});
-
-  currentLevel.interactables.forEach(obj => {
-  if (obj.name === "visualarcadegate") {
-    if (blockadeImg && arcadegateImg.complete) {
-      ctx.drawImage(arcadegateImg, obj.x, obj.y, obj.width, obj.height);
-    } else {
-      ctx.fillStyle = "#444";
-      ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
-    }
-  }
-});
 
 
   currentLevel.interactables.forEach(obj => {
