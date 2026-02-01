@@ -1288,7 +1288,7 @@ function applyEquipmentBonuses() {
 
   let inventory = new Map();
 
-fetch("data/inventory.json")
+fetch("inventory.json")
   .then(res => res.json())
   .then(data => {
     for (const [item, amount] of Object.entries(data)) {
@@ -1344,7 +1344,7 @@ let inBattle = false;
 
 let enemyTypes = {};
 
-fetch("data/enemies.json")
+fetch("enemies.json")
   .then(res => res.json())
   .then(data => {
     enemyTypes = data;
