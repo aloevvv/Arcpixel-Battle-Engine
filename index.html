@@ -2904,7 +2904,6 @@ function drawPlayerBattleStatus() {
       spawnDamageNumber(enemyIdx, activeAlly.damage);
 
       if (targetEnemy.currentHp < 0) targetEnemy.currentHp = 0;
-      showTemporaryText(`${activeAlly.name} attacks ${targetEnemy.name} for ${activeAlly.damage} damage!`);
     }
 
     if (targetEnemy.currentHp === 0) {
@@ -2944,7 +2943,6 @@ function drawPlayerBattleStatus() {
 
   target[flag + 'Timeout'] = setTimeout(() => {
     target[flag] = false;
-    showTemporaryText(`${target.name || '8-Bit'} recovered from ${status}!`);
     drawPlayerBattleStatus();
     if (status === 'fog') drawBattleUI(); 
   }, duration);
