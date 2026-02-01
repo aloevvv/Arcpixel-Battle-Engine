@@ -1286,8 +1286,6 @@ function applyEquipmentBonuses() {
   updateStatsPopup();
 }
 
-  let inventory = new Map();
-
 fetch("inventory.json")
   .then(res => res.json())
   .then(data => {
