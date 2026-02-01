@@ -2053,11 +2053,6 @@ passwordCancel.addEventListener('click', () => {
   closePasswordPopup();
 });
 
-function ensureFiniteNumber(v, fallback) {
-  const n = Number(v);
-  return Number.isFinite(n) ? n : fallback;
-}
-
 function levelUpAlly(ally) {
   let leveled = false;
   
