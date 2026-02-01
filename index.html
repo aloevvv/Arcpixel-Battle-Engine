@@ -719,7 +719,7 @@ a:hover,
 
 <div id="title-screen" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#001a33;z-index:3000;">
   <div style="text-align:center;color:white;">
-    <h1 style="font-family:'Press Start 2P',sans-serif;margin-bottom:20px;">8-Bit's Adventure</h1>
+    <h1 style="font-family:'Press Start 2P',sans-serif;margin-bottom:20px;">GAME TITLE</h1>
     
     <button id="play-button" style="font-family:'Press Start 2P',sans-serif;padding:12px 20px;font-size:14px;cursor:pointer;">Play</button>
     <br><br>
@@ -904,8 +904,8 @@ a:hover,
     <div id="player-battle-status"></div>
     <div id="battle-controls">
       <button id="attack-button">Attack</button>
-      <button id="special-attack-button-1">Extra Credits (100 STM)</button>
-      <button id="special-attack-button-2">Plasma Blast (200 STM)</button>
+      <button id="special-attack-button-1">SPECIAL 1 (100 STM)</button>
+      <button id="special-attack-button-2">SPECIAL 2 (200 STM)</button>
       <button id="inventory-battle-button">Inventory</button>
     </div>
     <div id="inventory-battle-popup" class="inventory-popup" style="display: none;">
@@ -1036,7 +1036,7 @@ canvas.tabIndex = 0;
 canvas.focus();
 canvas.addEventListener('click', () => canvas.focus());
 
-const devMode = false;
+const devMode = true;
 // Player and game variables
 let isGameOver = false;
 let x = 150, y = 50;
@@ -1056,10 +1056,10 @@ const playerSprites = {
   right: new Image()
 };
 
-playerSprites.down.src = '8bit.png';
-playerSprites.up.src = '8bitup.png';
-playerSprites.left.src = '8bitleft.png';
-playerSprites.right.src = '8bitright.png';
+playerSprites.down.src = 'herodown.png';
+playerSprites.up.src = 'heroup.png';
+playerSprites.left.src = 'heroleft.png';
+playerSprites.right.src = 'heroright.png';
 
 let currentFacing = 'down';
 
