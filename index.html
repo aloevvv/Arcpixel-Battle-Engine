@@ -1286,72 +1286,16 @@ function applyEquipmentBonuses() {
   updateStatsPopup();
 }
 
+  let inventory = new Map();
 
+fetch("data/inventory.json")
+  .then(res => res.json())
+  .then(data => {
+    for (const [item, amount] of Object.entries(data)) {
+      inventory.set(item, amount);
+    }
+  });
 
-  
-
-inventory.set("bandaid", 0);
-inventory.set("emp_grenade", 0);
-inventory.set("poison_vial", 0);
-inventory.set("extra_life", 0);
-inventory.set("damage_potion", 0);
-inventory.set("stamina_potion", 0);
-inventory.set("anti_virus", 0);
-inventory.set("driftwood", 0);
-
-inventory.set("bolts", 5);
-inventory.set("water", 0);
-inventory.set("boiled_water", 0);
-inventory.set("water_1", 0);
-inventory.set("tealeaf", 0);
-inventory.set("seed_tealeaf", 0);
-inventory.set("seed_spice", 0);
-inventory.set("honey", 0);
-inventory.set("spice", 0);
-inventory.set("b_tea", 0);
-inventory.set("h_tea", 0);
-inventory.set("s_tea", 0);
-  
-inventory.set("hammer", 0);
-inventory.set("laser_cutter", 0);
-inventory.set("raft", 0);
-inventory.set("keycard", 0);
-inventory.set("gas_mask", 0);
-inventory.set("drill", 0);
-inventory.set("torch", 0);
-inventory.set("ice_boots", 0);
-
-inventory.set("amulet_clicking", 0);
-inventory.set("amulet_bullets", 0);
-inventory.set("amulet_stamina", 0);
-inventory.set("amulet_health", 0);
-inventory.set("amulet_stealing", 0);
-inventory.set("amulet_sacrifice", 0);
-inventory.set("amulet_xp", 0);
-inventory.set("amulet_defense", 0);
-
-inventory.set("gear_dmg_gear_1", 0);
-inventory.set("gear_hp_gear_1", 0);
-inventory.set("gear_dmg_gear_2", 0);
-inventory.set("gear_hp_gear_2", 0);
-inventory.set("gear_dmg_gear_3", 0);
-inventory.set("gear_hp_gear_3", 0);
-inventory.set("gear_vampire_gear", 0);
-inventory.set("gear_statue_gear", 0);
-inventory.set("gear_magnet_gear", 0);
-inventory.set("gear_steal_gear", 0);
-  
-inventory.set("armor_retro", 0);
-inventory.set("armor_v8", 0);
-inventory.set("armor_saloon", 0);
-inventory.set("armor_haunted",0);
-inventory.set("armor_virus", 0);
-
-inventory.set("weapon_retro", 0);
-inventory.set("weapon_v8", 0);
-inventory.set("weapon_saloon", 0);
-inventory.set("weapon_haunted", 0);
-inventory.set("weapon_virus", 0);
 
   const ABILITIES = {
   block: { cooldownMs: 12000, effectMs: 2400 },  
