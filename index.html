@@ -1445,9 +1445,8 @@ const enemyTypes = {
   'default': { speed: 30, pitch: 1.0, frequency: 2, sound: 'blip.wav' }
 };
 
-  // adjust these things as needed ill have to test em to see if they fit what i want
 
-  // want multiple rounds? just do comma may or may not be needed at the end {
+  // want multiple rounds? just do {
     //x: 507, y: 70, width: 64, height: 64,
     //encounter: [
       //[ { type: "Sniperbot" }, { type: "Sniperbot" } ], // round 1
@@ -1965,6 +1964,11 @@ prologueNext.addEventListener('click', () => {
       achievementsMap['played'].progress++;
       checkAchievements();
       updateAbilityButtonsUI();
+      showDialog([
+      { speaker: '8-Bit', text: "Ughhhh...", style: 'dialog' },
+      { speaker: '8-Bit', text: "I woke up in so much pain...", style: 'dialog' },
+      { speaker: '8-Bit', text: "I guess I gotta explore.", style: 'dialog' }
+    ]);
     });
   }
 });
@@ -4599,10 +4603,33 @@ function handleInteraction(object) {
     return;
   }
 
+      if (object.action === "open_door" && object.id === "cardoor") {
+  if (!gameFlags.carpass) {
+    showDialog([
+      { speaker: 'Bot', text: "Hey asshole! Fight us first!", style: 'npc' }
+    ]);
+    return;
+  }
+
   loadLevel(object.destLevel, object.destX, object.destY);
   draw();
   return;
 }
+
+  if (object.action === "farm") {
+  const plotId = object.id;
+  const stage = getPlotStage(plotId);
+
+  if (stage === 0) {
+    openFarmUI(plotId);
+  } else if (stage === 4) {
+    harvestPlot(plotId);
+  } else {
+    showTemporaryText("The plant is still growing!");
+  }
+  return;
+}
+
 
  if (object.action === 'shop') {
   window.openShop();
