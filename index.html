@@ -4616,20 +4616,6 @@ function handleInteraction(object) {
   return;
 }
 
-  if (object.action === "farm") {
-  const plotId = object.id;
-  const stage = getPlotStage(plotId);
-
-  if (stage === 0) {
-    openFarmUI(plotId);
-  } else if (stage === 4) {
-    harvestPlot(plotId);
-  } else {
-    showTemporaryText("The plant is still growing!");
-  }
-  return;
-}
-
 
  if (object.action === 'shop') {
   window.openShop();
